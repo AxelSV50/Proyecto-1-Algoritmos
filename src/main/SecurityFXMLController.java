@@ -104,7 +104,14 @@ public class SecurityFXMLController implements Initializable {
                 if (s.getAccess(null, infoUsers).equals("ADMIN")) {
 
                     //Aquí se carga el menu principal con acceso total
-
+                    tfUserAdmin.setText("");
+                    tfPasswordAdmin.setText("");
+                    tfShowPasswordAdmin.setText("");
+                    tfStudentID.setText("");
+                    tfPasswordStudent.setText("");
+                    tfShowPasswordStudent.setText("");
+                    txtErrorLogin.setVisible(false);
+                    loadPage("MainMenuFXML");
                 } else {
 
                     txtErrorLogin.setVisible(true);
@@ -119,7 +126,14 @@ public class SecurityFXMLController implements Initializable {
                 if (s.getAccess(null, infoUsers).equals("ADMIN")) {
 
                     //Aquí se carga el menu principal con acceso total
-
+                    tfUserAdmin.setText("");
+                    tfPasswordAdmin.setText("");
+                    tfShowPasswordAdmin.setText("");
+                    tfStudentID.setText("");
+                    tfPasswordStudent.setText("");
+                    tfShowPasswordStudent.setText("");
+                    txtErrorLogin.setVisible(false);
+                    loadPage("MainMenuFXML");
                 } else {
 
                     txtErrorLogin.setVisible(true);
@@ -142,7 +156,6 @@ public class SecurityFXMLController implements Initializable {
                 if (s.getAccess(infoUsers, null).equals("STUDENT")) {
 
                     //Aquí se carga el módulo 7
-
                 } else {
 
                     txtErrorLogin.setVisible(true);
@@ -158,7 +171,6 @@ public class SecurityFXMLController implements Initializable {
                 if (s.getAccess(infoUsers, null).equals("STUDENT")) {
 
                     //Aquí se carga el módulo 7
-
                 } else {
 
                     txtErrorLogin.setVisible(true);
@@ -228,17 +240,17 @@ public class SecurityFXMLController implements Initializable {
     }
 
     private void loadPage(String page) {
- 
+
         Parent root = null;
 
         try {
- 
+
             root = FXMLLoader.load(getClass().getResource(page + ".fxml"));
 
         } catch (IOException ex) {
             Logger.getLogger(SecurityFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.bp.setCenter(root);
+        this.bp.setRight(root);
 
     }
 }
