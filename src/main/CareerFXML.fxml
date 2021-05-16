@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CareerFXMLController">
+   <bottom>
+      <AnchorPane fx:id="ac" prefHeight="458.0" prefWidth="638.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
+         <children>
+            <Pane layoutX="28.0" layoutY="-2.0" prefHeight="33.0" prefWidth="631.0" style="-fx-background-color: #000445;">
+               <children>
+                  <Button fx:id="btnAddCareer" layoutX="14.0" layoutY="3.0" mnemonicParsing="false" onAction="#btnAddCareer" style="-fx-background-color: Transparent;" text="Agregar" textFill="#ffee00" />
+                  <Button fx:id="btnDeleteCareer" layoutX="112.0" layoutY="3.0" mnemonicParsing="false" onAction="#btnDeleteCareer" style="-fx-background-color: Transparent;" text="Suprimir" textFill="#ffee00" />
+                  <Button fx:id="btnModifyCareer" layoutX="211.0" layoutY="3.0" mnemonicParsing="false" onAction="#btnModifyCareer" style="-fx-background-color: Transparent;" text="Modificar" textFill="#ffee00" />
+                  <Button fx:id="btnShowCareer" layoutX="316.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnShowCareer" style="-fx-background-color: Transparent;" text="Mostrar" textFill="#ffee00" />
+                  <Button fx:id="btnBack" layoutX="563.0" layoutY="-6.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="43.0" prefWidth="54.0" style="-fx-background-color: Transparent;" text="🡆" textFill="#ffee00">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane fx:id="panelAddCareer" layoutX="127.0" layoutY="122.0" prefHeight="120.0" prefWidth="374.0" visible="false">
+               <children>
+                  <TextField fx:id="tfCareerId" layoutX="141.0" layoutY="36.0" prefHeight="25.0" prefWidth="140.0" />
+                  <Text layoutX="21.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de carrera :" wrappingWidth="129.6328125">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="41.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción :" wrappingWidth="89.6328125">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="tfDescription" layoutX="141.0" layoutY="81.0" prefHeight="25.0" prefWidth="140.0" />
+                  <Button fx:id="btnAdd" layoutX="307.0" layoutY="55.0" mnemonicParsing="false" onAction="#btnAdd" text="Guardar" />
+               </children>
+            </Pane>
+            <Text fx:id="txtTitle" layoutX="174.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
+               <font>
+                  <Font name="Calibri Light Italic" size="15.0" />
+               </font>
+            </Text>
+            <Pane layoutX="70.0" layoutY="140.0" prefHeight="119.0" prefWidth="458.0" visible="false">
+               <children>
+                  <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de carrera :" wrappingWidth="129.6328125">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="btnDelete" layoutX="364.0" layoutY="39.0" mnemonicParsing="false" onAction="#btnDelete" text="Eliminar" />
+                  <TextField fx:id="tfIdCareer" layoutX="144.0" layoutY="40.0" prefHeight="25.0" prefWidth="182.0" />
+               </children>
+            </Pane>
+            <Pane fx:id="panelModificar" layoutX="113.0" layoutY="132.0" prefHeight="120.0" prefWidth="406.0" visible="false">
+               <children>
+                  <TextField fx:id="tfIdCareerUpdate" layoutX="141.0" layoutY="36.0" prefHeight="25.0" prefWidth="140.0" />
+                  <Text layoutX="21.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de carrera :" wrappingWidth="129.6328125">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="41.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción :" wrappingWidth="89.6328125">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="tfDescriptionUpdate" layoutX="141.0" layoutY="81.0" prefHeight="25.0" prefWidth="140.0" />
+                  <Button fx:id="btnUpdate" layoutX="307.0" layoutY="55.0" mnemonicParsing="false" onAction="#btnUpdate" text="Actualizar" />
+               </children>
+            </Pane>
+            <TableView fx:id="tableCareer" layoutX="28.0" layoutY="51.0" prefHeight="323.0" prefWidth="542.0" visible="false">
+              <columns>
+                <TableColumn prefWidth="201.60003662109375" text="Identificador" />
+                <TableColumn prefWidth="340.7999267578125" text="Descripción" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>
