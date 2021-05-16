@@ -6,6 +6,7 @@
 package util;
 
 
+import domain.Career;
 import domain.CircularLinkedList;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -68,7 +69,12 @@ public class Utility {
                 String s2 = (String) b;
                 //return s1.compareTo(s2)==0; //OPCION 1
                 return s1.equalsIgnoreCase(s2); //OPCION 2
-
+            case "carrer":
+                
+                Career c1 = (Career)a;
+                Career c2 = (Career)b;
+                //return s1.compareTo(s2)==0; //OPCION 1
+                return c1.getId()== c2.getId(); //OPCION 2
         }
 
         return false; //en cualquier otro caso
