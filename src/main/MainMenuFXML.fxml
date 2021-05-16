@@ -17,11 +17,7 @@
                <children>
                   <Pane layoutX="539.0" prefHeight="463.0" prefWidth="110.0" style="-fx-background-color: #000445;">
                      <children>
-                        <ImageView fx:id="opcCarrer" fitHeight="30.0" fitWidth="35.0" layoutX="38.0" layoutY="34.0" onMouseClicked="#opcCarrer" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Images/book.png" />
-                           </image>
-                        </ImageView>
+                        <ImageView fx:id="opcCarrer" fitHeight="30.0" fitWidth="35.0" layoutX="38.0" layoutY="34.0" onMouseClicked="#opcCarrer" pickOnBounds="true" smooth="false" />
                         <ImageView fx:id="opcStudents" fitHeight="30.0" fitWidth="35.0" layoutX="40.0" layoutY="95.0" onMouseClicked="#opcStudents" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../Images/students.png" />
