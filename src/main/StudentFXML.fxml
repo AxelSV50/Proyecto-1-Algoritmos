@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.EstudentFXMLController">
+   <left>
+      <AnchorPane fx:id="displayPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="767.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="navPanel" layoutX="32.0" layoutY="-2.0" prefHeight="32.0" prefWidth="734.0" style="-fx-background-color: #000445;">
+               <children>
+                  <Button fx:id="btnShowStudent" layoutX="354.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnShowStudent" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Mostrar" textFill="#ffee00" />
+                  <Button fx:id="btnDelete" layoutX="132.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: transparent};" text="Suprimir" textFill="#ffee00" />
+                  <Button fx:id="btnAdd" layoutX="28.0" layoutY="6.0" mnemonicParsing="false" onAction="#btnAdd" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="Agregar" textFill="#ffee00" />
+                  <Button fx:id="btnModifyStudent" layoutX="239.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnModifyStudent" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Modificar" textFill="#ffee00" />
+                  <Button fx:id="btnBack" layoutX="681.0" layoutY="-8.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="50.0" prefWidth="66.0" style="-fx-background-color: transparent;" text="🡆" textFill="#ffee00">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane fx:id="addStudentPanel" layoutX="32.0" layoutY="103.0" prefHeight="269.0" prefWidth="641.0" visible="false">
+               <children>
+                  <Label layoutX="14.0" layoutY="9.0" prefHeight="25.0" prefWidth="59.0" text="Carné:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCarnet" layoutX="89.0" layoutY="9.0" />
+                  <Label layoutX="14.0" layoutY="48.0" prefHeight="17.0" prefWidth="61.0" text="Cedula:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="13.0" layoutY="83.0" text="Nombre:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtStudentId" layoutX="89.0" layoutY="44.0" />
+                  <TextField layoutX="89.0" layoutY="79.0" />
+                  <Label layoutX="14.0" layoutY="118.0" prefHeight="17.0" prefWidth="75.0" text="Apellidos:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtLastName" layoutX="89.0" layoutY="114.0" />
+                  <Label layoutX="266.0" layoutY="13.0" text="Fecha de Nacimiento:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="266.0" layoutY="48.0" text="Telefono:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="266.0" layoutY="83.0" text="Email:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="266.0" layoutY="118.0" text="Dirrección:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtBirthDay" layoutX="432.0" layoutY="9.0" />
+                  <TextField fx:id="txtCellphone" layoutX="432.0" layoutY="44.0" />
+                  <TextField fx:id="txtEmail" layoutX="432.0" layoutY="79.0" />
+                  <TextField fx:id="txtAdrress" layoutX="432.0" layoutY="114.0" />
+                  <Button fx:id="btnAddStudent" layoutX="172.0" layoutY="200.0" mnemonicParsing="false" onAction="#btnAddStudent" text="Agregar" />
+                  <Button fx:id="btnCancel" layoutX="334.0" layoutY="200.0" mnemonicParsing="false" text="Cancelar" />
+                  <ComboBox fx:id="jcbCarreras" layoutX="431.0" layoutY="160.0" onAction="#jcbCarreras" prefWidth="150.0" />
+               </children>
+            </Pane>
+            <Pane layoutX="96.0" layoutY="133.0" prefHeight="139.0" prefWidth="409.0" visible="false">
+               <children>
+                  <Label layoutX="29.0" layoutY="26.0" prefHeight="17.0" prefWidth="53.0" text="Carné:">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtDeleteStudent" layoutX="182.0" layoutY="22.0" />
+                  <Button fx:id="btnDeleteStudent" layoutX="92.0" layoutY="91.0" mnemonicParsing="false" onAction="#btnDeleteStudent" text="Eliminar" />
+                  <Button fx:id="btnCancel" layoutX="230.0" layoutY="91.0" mnemonicParsing="false" onAction="#btnCancel" text="Cancelar" />
+               </children>
+            </Pane>
+            <Pane fx:id="modifyPanel" layoutX="46.0" layoutY="38.0" prefHeight="341.0" prefWidth="673.0" visible="false">
+               <children>
+                  <Label layoutX="37.0" layoutY="26.0" prefHeight="25.0" prefWidth="58.0" text="Carné:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtIdModify" layoutX="126.0" layoutY="26.0" />
+                  <Button layoutX="262.0" layoutY="253.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="67.0" text="Modificar" />
+                  <Button layoutX="408.0" layoutY="253.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="67.0" text="Cancelar" />
+                  <Button layoutX="110.0" layoutY="253.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="73.0" text="Buscar" />
+                  <Label layoutX="37.0" layoutY="67.0" text="Cedula:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="37.0" layoutY="105.0" text="Nombre:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="37.0" layoutY="144.0" text="Apellidos:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="315.0" layoutY="30.0" text="Fecha de Nacimiento:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="315.0" layoutY="67.0" text="Teléfono:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="315.0" layoutY="105.0" text="Email:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="315.0" layoutY="144.0" text="Dirección:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtStudentIdModify" layoutX="126.0" layoutY="63.0" />
+                  <TextField fx:id="txtNameModify" layoutX="126.0" layoutY="101.0" />
+                  <TextField fx:id="txtLastNameModify" layoutX="126.0" layoutY="140.0" />
+                  <TextField fx:id="txtBirthDayModify" layoutX="492.0" layoutY="26.0" />
+                  <TextField fx:id="txtPhoneModify" layoutX="492.0" layoutY="63.0" />
+                  <TextField fx:id="txtEmailModify" layoutX="492.0" layoutY="101.0" />
+                  <TextField fx:id="txtAdrressModify" layoutX="492.0" layoutY="140.0" />
+               </children>
+            </Pane>
+            <Pane fx:id="dsly" layoutX="1.0" layoutY="56.0" prefHeight="341.0" prefWidth="765.0" visible="false">
+               <children>
+                  <TableView prefHeight="341.0" prefWidth="765.0">
+                    <columns>
+                      <TableColumn prefWidth="37.0" text="ID" />
+                      <TableColumn prefWidth="66.0" text="Carné" />
+                        <TableColumn prefWidth="81.0" text="Apellido" />
+                        <TableColumn prefWidth="85.0" text="Nombre" />
+                        <TableColumn prefWidth="128.0" text="Fecha de Nacimiento" />
+                        <TableColumn prefWidth="120.0" text="Teléfono" />
+                        <TableColumn prefWidth="125.0" text="Email" />
+                        <TableColumn prefWidth="122.0" text="Dirrección" />
+                    </columns>
+                  </TableView>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>
