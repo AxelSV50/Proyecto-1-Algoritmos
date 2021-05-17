@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package files;
+package data;
 
 import domain.CircularLinkedList;
 import domain.Security;
@@ -17,7 +17,7 @@ import java.io.FileWriter;
  *
  * @author Usuario
  */
-public class FileManagement {
+public class FileManagementUsers {
 
     private static String nameFileAdmin = "Administration.txt";
     private static String nameFileStudents = "Students.txt";

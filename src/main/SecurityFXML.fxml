@@ -17,7 +17,7 @@
                <children>
                   <TextField fx:id="tfStudentID" layoutX="141.0" layoutY="36.0" prefHeight="25.0" prefWidth="140.0" />
                   <PasswordField fx:id="tfPasswordStudent" layoutX="141.0" layoutY="67.0" prefHeight="25.0" prefWidth="140.0" />
-                  <Text layoutX="21.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número de carné:" wrappingWidth="129.6328125">
+                  <Text layoutX="25.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número de carné:" wrappingWidth="115.6328125">
                      <font>
                         <Font name="Calibri Light Italic" size="15.0" />
                      </font>
@@ -54,7 +54,7 @@
                <children>
                   <TextField fx:id="tfUserAdmin" layoutX="141.0" layoutY="36.0" prefHeight="25.0" prefWidth="140.0" />
                   <PasswordField fx:id="tfPasswordAdmin" layoutX="141.0" layoutY="67.0" prefHeight="25.0" prefWidth="140.0" />
-                  <Text layoutX="51.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario:" wrappingWidth="129.6328125">
+                  <Text layoutX="51.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario:" wrappingWidth="65.6328125">
                      <font>
                         <Font name="Calibri Light Italic" size="15.0" />
                      </font>

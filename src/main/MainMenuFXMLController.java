@@ -73,22 +73,6 @@ public class MainMenuFXMLController implements Initializable {
         bp.setVisible(false);
     }
 
-    private void loadPage(String page) {
-
-        Parent root = null;
-
-        try {
-
-            root = FXMLLoader.load(getClass().getResource(page + ".fxml"));
-
-        } catch (IOException ex) {
-            Logger.getLogger(SecurityFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.bp.setRight(root);
-
-    }
-
-
     @FXML
     private void opcCareer(MouseEvent event) {
         
@@ -115,8 +99,18 @@ public class MainMenuFXMLController implements Initializable {
     private void opcEnrollment(MouseEvent event) {
     }
 
+    private void loadPage(String page) {
 
+        Parent root = null;
 
+        try {
 
+            root = FXMLLoader.load(getClass().getResource(page + ".fxml"));
+
+        } catch (IOException ex) {
+            Logger.getLogger(SecurityFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.bp.setRight(root);
+     }
    
 }

@@ -7,7 +7,7 @@ package main;
 
 import domain.CircularLinkedList;
 import domain.Security;
-import files.FileManagement;
+import data.FileManagementUsers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -98,7 +98,7 @@ public class SecurityFXMLController implements Initializable {
             if (!(tfUserAdmin.textProperty().getValue().equals("")
                     || tfPasswordAdmin.textProperty().getValue().equals("")) && tfPasswordAdmin.isVisible()) {
 
-                infoUsers = FileManagement.getDataLogin(FileManagement.getNameFileAdmin());
+                infoUsers = FileManagementUsers.getDataLogin(FileManagementUsers.getNameFileAdmin());
                 Security s = new Security(tfUserAdmin.textProperty().getValue(), tfPasswordAdmin.textProperty().getValue());
 
                 if (s.getAccess(null, infoUsers).equals("ADMIN")) {
@@ -120,7 +120,7 @@ public class SecurityFXMLController implements Initializable {
             } else if (!(tfUserAdmin.textProperty().getValue().equals("")
                     || tfShowPasswordAdmin.textProperty().getValue().equals("")) && tfShowPasswordAdmin.isVisible()) {
 
-                infoUsers = FileManagement.getDataLogin(FileManagement.getNameFileAdmin());
+                infoUsers = FileManagementUsers.getDataLogin(FileManagementUsers.getNameFileAdmin());
                 Security s = new Security(tfUserAdmin.textProperty().getValue(), tfShowPasswordAdmin.textProperty().getValue());
 
                 if (s.getAccess(null, infoUsers).equals("ADMIN")) {
@@ -150,7 +150,7 @@ public class SecurityFXMLController implements Initializable {
             if (!(tfStudentID.textProperty().getValue().equals("")
                     || tfPasswordStudent.textProperty().getValue().equals("")) && tfPasswordStudent.isVisible()) {
 
-                infoUsers = FileManagement.getDataLogin(FileManagement.getNameFileStudents());
+                infoUsers = FileManagementUsers.getDataLogin(FileManagementUsers.getNameFileStudents());
                 Security s = new Security(tfStudentID.textProperty().getValue(), tfPasswordStudent.textProperty().getValue());
 
                 if (s.getAccess(infoUsers, null).equals("STUDENT")) {
@@ -165,7 +165,7 @@ public class SecurityFXMLController implements Initializable {
             } else if (!(tfStudentID.textProperty().getValue().equals("")
                     || tfShowPasswordStudent.textProperty().getValue().equals("")) && tfShowPasswordStudent.isVisible()) {
 
-                infoUsers = FileManagement.getDataLogin(FileManagement.getNameFileStudents());
+                infoUsers = FileManagementUsers.getDataLogin(FileManagementUsers.getNameFileStudents());
                 Security s = new Security(tfStudentID.textProperty().getValue(), tfShowPasswordStudent.textProperty().getValue());
 
                 if (s.getAccess(infoUsers, null).equals("STUDENT")) {

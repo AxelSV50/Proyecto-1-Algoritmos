@@ -3,32 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package files;
+package data;
 
+import domain.Career;
 import domain.DoublyLinkedList;
-import domain.Security;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author yeison
  */
-public class FileCareer {
-    private static String nameFileCareer = "Career.txt";
+public class FileManagementCareers {
+
+    private static String nameFileCareer = "Careers.txt";
 
     public static String getNameFileCareer() {
         return nameFileCareer;
     }
 
-    public static boolean add(int id, String  description, String fileName) {
+    public static boolean add(int id, String description) {
         try {
 
-            File f1 = new File(fileName);
+            File f1 = new File(nameFileCareer);
 
             if (!f1.exists()) {
                 f1.createNewFile();
@@ -45,12 +45,14 @@ public class FileCareer {
         }
         return true;
     }
-    public static DoublyLinkedList getCareer(String fileName) { 
-          DoublyLinkedList list = new DoublyLinkedList();
+
+    public static DoublyLinkedList getCareers() {
+
+        DoublyLinkedList list = new DoublyLinkedList();
 
         try {
 
-            File f1 = new File(fileName);
+            File f1 = new File(nameFileCareer);
             String array[];
 
             if (f1.exists()) {
@@ -59,14 +61,7 @@ public class FileCareer {
                 while ((line = br.readLine()) != null) {
                     array = line.split(",");//la ',' se designó para separar los elementos del fichero
 
-                    if (fileName.equals(nameFileCareer)) {
-                        
-                        list.add(array[0] + "," + array[1]);
-                        
-                    } else {
-                        
-                        list.add(array[0] + "," + array[9]);
-                    }
+                    list.add(new Career(Integer.parseInt(array[0]), array[1]));
                 }
                 br.close();
             } else {
@@ -75,6 +70,39 @@ public class FileCareer {
             System.out.println(ex.getMessage());
         }
         return list;
-       
+
+    }
+
+    public static boolean overwriteCareersFile(DoublyLinkedList list) {
+        try {
+
+            File f1 = new File(nameFileCareer);
+            if (f1.exists()) {
+                f1.delete();
+            }
+            f1.createNewFile();
+
+            //Abre un flujo de escritua a el fichero
+            FileWriter fw = new FileWriter(f1, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            if (!list.isEmpty()) {
+                for (int i = 1; i <= list.size(); i++) {
+
+                    if (list.getNode(i) != null) {
+                        
+                        Career c = (Career) list.getNode(i).data;
+                        bw.write(c.getId() + "," + c.getDescription() + "\n");
+                    }
+                }
+                bw.close();
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return true;
     }
 }

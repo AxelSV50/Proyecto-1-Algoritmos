@@ -69,7 +69,7 @@ public class Utility {
                 String s2 = (String) b;
                 //return s1.compareTo(s2)==0; //OPCION 1
                 return s1.equalsIgnoreCase(s2); //OPCION 2
-            case "carrer":
+            case "career":
                 
                 Career c1 = (Career)a;
                 Career c2 = (Career)b;
@@ -86,6 +86,9 @@ public class Utility {
         }
         if (a instanceof String && b instanceof String) {
             return "string";
+        }
+        if (a instanceof Career && b instanceof Career) {
+            return "career";
         }
         return "unknown"; //desconocido
     }

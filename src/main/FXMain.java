@@ -5,9 +5,7 @@
  */
 package main;
 
-import domain.Student;
 import java.io.IOException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -24,7 +22,7 @@ public class FXMain extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-     
+      
         try {
             Parent root = FXMLLoader.load(getClass().getResource("SecurityFXML.fxml"));
             Scene scene = new Scene(root);
@@ -36,7 +34,6 @@ public class FXMain extends Application {
         } catch (IOException ex) {
             Logger.getLogger(FXMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-  
     }
 
     /**
