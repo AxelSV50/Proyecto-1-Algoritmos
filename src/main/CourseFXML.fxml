@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.EstudentFXMLController">
+   <left>
+      <AnchorPane fx:id="displayPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="727.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="navPanel" layoutX="32.0" layoutY="-2.0" prefHeight="32.0" prefWidth="696.0" style="-fx-background-color: #000445;">
+               <children>
+                  <Button fx:id="btnAdd" layoutX="30.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnAdd" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="Agregar" textFill="#ffee00" />
+                  <Button fx:id="btnDelete" layoutX="132.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: transparent};" text="Suprimir" textFill="#ffee00" />
+                  <Button fx:id="btnModify" layoutX="239.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnModify" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Modificar" textFill="#ffee00" />
+                  <Button fx:id="btnShowCourse" layoutX="354.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnShowCourse" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Mostrar" textFill="#ffee00" />
+                  <Button fx:id="btnBack" layoutX="635.0" layoutY="-8.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="50.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="🡆" textFill="#ffee00">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane fx:id="deletePanel" layoutX="195.0" layoutY="143.0" prefHeight="167.0" prefWidth="409.0" visible="false">
+               <children>
+                  <Label layoutX="91.0" layoutY="68.0" prefHeight="17.0" prefWidth="89.0" text="Id del Curso:">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtDeleteCourse" layoutX="212.0" layoutY="64.0" />
+                  <Button fx:id="btnDeleteCourse" layoutX="106.0" layoutY="128.0" mnemonicParsing="false" onAction="#btnDeleteCourse" text="Eliminar" />
+                  <Button fx:id="btnCancel" layoutX="272.0" layoutY="128.0" mnemonicParsing="false" text="Cancelar" />
+                  <Label layoutX="129.0" layoutY="14.0" text="Digite el ID del Curso">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="addPanel" layoutX="89.0" layoutY="82.0" prefHeight="220.0" prefWidth="592.0" visible="false">
+               <children>
+                  <Label layoutX="14.0" layoutY="61.0" prefHeight="25.0" prefWidth="69.0" text="ID Curso:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtIdCourse" layoutX="89.0" layoutY="61.0" />
+                  <Label layoutX="15.0" layoutY="102.0" prefHeight="17.0" prefWidth="67.0" text="Nombre:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtNameCourse" layoutX="89.0" layoutY="98.0" />
+                  <Label layoutX="284.0" layoutY="102.0" text="Créditos:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="279.0" layoutY="65.0" text="ID Carrera:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCredits" layoutX="380.0" layoutY="98.0" />
+                  <TextField fx:id="txtIdCareer" layoutX="380.0" layoutY="61.0" />
+                  <Button fx:id="btnAddCourse" layoutX="163.0" layoutY="171.0" mnemonicParsing="false" onAction="#btnAddCourse" text="Agregar" />
+                  <Button fx:id="btnCancel" layoutX="342.0" layoutY="171.0" mnemonicParsing="false" onAction="#btnCancel" text="Cancelar" />
+                  <Label layoutX="204.0" layoutY="8.0" prefHeight="23.0" prefWidth="225.0" text="Digite la información del curso">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="modifyPanel" layoutX="48.0" layoutY="76.0" prefHeight="231.0" prefWidth="673.0" visible="false">
+               <children>
+                  <Label layoutX="22.0" layoutY="67.0" prefHeight="25.0" prefWidth="100.0" text="Id del Curso:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtIdCourseModify" layoutX="126.0" layoutY="67.0" />
+                  <Button fx:id="btnModifyCourse" layoutX="275.0" layoutY="185.0" mnemonicParsing="false" onAction="#btnModifyCourse" prefHeight="32.0" prefWidth="67.0" text="Modificar" />
+                  <Button fx:id="btnCancel" layoutX="425.0" layoutY="185.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="67.0" text="Cancelar" />
+                  <Button fx:id="btnSeacrhCourse" layoutX="117.0" layoutY="185.0" mnemonicParsing="false" onAction="#btnSeacrhCourse" prefHeight="32.0" prefWidth="73.0" text="Buscar" />
+                  <Label layoutX="22.0" layoutY="120.0" text="Nombre:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="315.0" layoutY="120.0" text="Créditos:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="315.0" layoutY="71.0" text="Id de la Carrera:">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="315.0" layoutY="144.0">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtNameModify" layoutX="126.0" layoutY="116.0" />
+                  <TextField fx:id="txtCreditsModify" layoutX="447.0" layoutY="116.0" />
+                  <TextField fx:id="txtIdCareerModify" layoutX="447.0" layoutY="67.0" />
+                  <Label layoutX="272.0" layoutY="14.0" text="Modifique los datos">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="dsly" layoutX="200.0" layoutY="30.0" prefHeight="367.0" prefWidth="387.0" visible="false">
+               <children>
+                  <TableView prefHeight="368.0" prefWidth="387.0">
+                    <columns>
+                      <TableColumn prefWidth="78.0" text="ID Curso" />
+                        <TableColumn prefWidth="93.0" text="ID Carrera" />
+                        <TableColumn prefWidth="126.0" text="Nombre" />
+                        <TableColumn prefWidth="97.0" text="Créditos" />
+                    </columns>
+                  </TableView>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>
