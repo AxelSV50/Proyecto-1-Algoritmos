@@ -77,6 +77,7 @@ public class MainMenuFXMLController implements Initializable {
 
     @FXML
     private void opcStudents(MouseEvent event) {
+        
         loadPage("StudentFXML");
     }
 

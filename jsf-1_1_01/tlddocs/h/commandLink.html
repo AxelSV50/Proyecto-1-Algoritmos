@@ -1,0 +1,400 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:tld="http://java.sun.com/xml/ns/j2ee">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>commandLink
+          (jsf-ri-1_1)
+        </title>
+<meta content="$title" name="keywords">
+<link title="Style" href="../stylesheet.css" type="text/css" rel="stylesheet">
+</head>
+<script>
+            function asd()
+            {
+            parent.document.title="commandLink (jsf-ri-1_1)";
+            }
+          </script>
+<body onload="asd();" bgcolor="white">
+<a name="navbar_top"></a>
+<table cellspacing="0" cellpadding="1" width="100%" border="0">
+<tr>
+<td CLASS="NavBarCell1" BGCOLOR="#EEEEFF" COLSPAN="3"><a NAME="navbar_top_firstrow"></a>
+<table CELLSPACING="3" CELLPADDING="0" BORDER="0">
+<tr VALIGN="top" ALIGN="center">
+<td CLASS="NavBarCell1" BGCOLOR="#EEEEFF">    &nbsp;<a href="../overview-summary.html"><font CLASS="NavBarFont1"><b>Overview</b></font></a>&nbsp;</td><td CLASS="NavBarCell1" BGCOLOR="#EEEEFF">    &nbsp;<a href="tld-summary.html"><font CLASS="NavBarFont1"><b>Library</b></font></a>&nbsp;</td><td CLASS="NavBarCell1Rev" BGCOLOR="#FFFFFF"> &nbsp;<font CLASS="NavBarFont1Rev">&nbsp;Tag&nbsp;</font>&nbsp;</td><td CLASS="NavBarCell1" BGCOLOR="#EEEEFF">    &nbsp;<a HREF="../help-doc.html"><font CLASS="NavBarFont1"><b>Help</b></font></a>&nbsp;</td>
+</tr>
+</table>
+</td><td ROWSPAN="3" VALIGN="top" ALIGN="right"><em></em></td>
+</tr>
+<tr>
+<td CLASS="NavBarCell2" BGCOLOR="white"><font SIZE="-2"></font></td><td CLASS="NavBarCell2" BGCOLOR="white"><font SIZE="-2">
+                &nbsp;<a TARGET="_top" HREF="../index.html"><b>FRAMES</b></a>&nbsp;
+                &nbsp;<a href="commandLink.html" target="_top"><b>NO FRAMES</b></a>&nbsp;
+                <script></script>
+<noscript>
+<a TARGET="" HREF="../alltags-noframe.html"><b>All Tags</b></a>
+</noscript>
+</font></td>
+</tr>
+</table>
+<hr>
+<h2>
+<font size="-1">h</font>
+<br>
+            Tag commandLink</h2>
+<hr>
+      <p>Render an HTML "a" anchor element that acts like a
+      form submit button when clicked.</p><p>General Behaviour</p><p>Both the encode and decode behavior require the ability to get
+      the id/name for a hidden field whose value is set by the
+      JavaScript form submit.  This name must be constructed as
+      follows:</p><ul><li><p>Get the clientId for the form of which this component is a
+      child.</p></li><li><p>Append<code>NamingContainer.SEPARATOR_CHAR</code>.</p></li><li><p>Append a constant string that is the same for all command
+      link components in the tree.</p></li></ul><p>In the following text, this String is called
+      hiddenFieldName.</p><p>Decode Behavior</p><ul><p>Obtain the "clientId" property of the component.  Obtain the<code>Map</code> from the "requestParameterMap" property of the<code>ExternalContext</code>.  Derive hiddenFieldName as above.
+      Get the entry in the <code>Map</code> under the key that is the
+      hiddenFieldName.  If the there is no entry, or the entry is the
+      empty String, or the entry is not equal to the value of the
+      "clientId" property, return immediately.  If there is an entry,
+      and its value is equal to the value of the "clientId" property,
+      create a new <code>javax.faces.event.ActionEvent</code> instance
+      around the component and call <code>queueActionEvent()</code> on
+      the component, passing the event.</p></ul><p>Encode Behavior</p><ul><p>Render "#" as the value of the "href" attribute. Render the current 
+      value of the component as the link text if it is specified. Render 
+      javascript that is functionally equivalent to the following as the value 
+      of the "onclick" attribute:</p><p><code>document.forms['CLIENT_ID']['hiddenFieldName'].value='CLIENT_ID';
+      document.forms['CLIENT_ID']['PARAM1_NAME'].value='PARAM1_VALUE';
+      document.forms['CLIENT_ID']['PARAM2_NAME'].value='PARAM2_VALUE';
+      return false;</code></p><p>document.forms['CLIENT_ID'].submit()" where hiddenFieldName isas described above, CLIENT_ID is the clientId of the UICommand
+      component, PARAM*_NAME and PARAM*_VALUE are the names and values,
+      respectively, of any nested UIParameter children.  The name and
+      the value must be URLEncoded.  If the "styleClass" attribute is
+      specified, render its value as the value of the "class" attribute.
+      Render any non-UIParameter children as normal inside of the "a"
+      element.  These will appear as the link text.  Allow the form
+      renderer to output a single "input" element (for the entire page,
+      regardless of how many command link components are in the page) of
+      "type" "hidden" whose "name" is the value of hiddenFieldName, and
+      which must not have a "value" attribute.  Multiple occurrences of
+      command link components in the tree should not cause multiple
+      hiddenFieldName hidden fields.  Allow the form renderer to output
+      an "input" element of "type" "hidden" for each of the nested
+      UIParameter children, taking the name property (but not the value)
+      from each one in turn.</p></ul>
+    <br>
+<p></p>
+<hr>
+<table width="100%" cellspacing="0" cellpadding="3" border="1">
+<tr class="TableHeadingColor" bgcolor="#CCCCFF">
+<td colspan="2"><font size="+2"><b>Tag Information</b></font></td>
+</tr>
+<tr>
+<td>Tag Class</td><td>com.sun.faces.taglib.html_basic.CommandLinkTag</td>
+</tr>
+<tr>
+<td>TagExtraInfo Class</td><td>com.sun.faces.taglib.FacesTagExtraInfo</td>
+</tr>
+<tr>
+<td>Body Content</td><td>JSP</td>
+</tr>
+<tr>
+<td>Display Name</td><td><i>None</i></td>
+</tr>
+</table>
+<br>
+<p></p>
+<table width="100%" cellspacing="0" cellpadding="3" border="1">
+<tr class="TableHeadingColor" bgcolor="#CCCCFF">
+<td colspan="5"><font size="+2"><b>Attributes</b></font></td>
+</tr>
+<tr>
+<td><b>Name</b></td><td><b>Required</b></td><td><b>Request-time</b></td><td><b>Type</b></td><td><b>Description</b></td>
+</tr>
+<tr valign="top">
+<td>action</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          MethodBinding representing the application action to invoke when
+          this component is activated by the user.  The expression must
+          evaluate to a public method that takes no parameters, and returns
+          a String (the logical outcome) which is passed to the
+          NavigationHandler for this application.
+      </td>
+</tr>
+<tr valign="top">
+<td>actionListener</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          MethodBinding representing an action listener method that will be
+          notified when this component is activated by the user.  The
+          expression must evaluate to a public method that takes an
+          ActionEvent parameter, with a return type of void.
+      </td>
+</tr>
+<tr valign="top">
+<td>id</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          The component identifier for this component.  This value must be
+          unique within the closest parent component that is a naming
+          container.
+      </td>
+</tr>
+<tr valign="top">
+<td>immediate</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Flag indicating that, if this component is activated by the user,
+          notifications should be delivered to interested listeners and actions
+          immediately (that is, during Apply Request Values phase) rather than
+          waiting until Invoke Application phase.
+      </td>
+</tr>
+<tr valign="top">
+<td>rendered</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Flag indicating whether or not this component should be rendered
+          (during Render Response Phase), or processed on any subsequent
+          form submit.
+      </td>
+</tr>
+<tr valign="top">
+<td>value</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          The current value of this component.
+      </td>
+</tr>
+<tr valign="top">
+<td>accesskey</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Access key that, when pressed, transfers focus
+          to this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>charset</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          The character encoding of the resource designated
+          by this hyperlink.
+      </td>
+</tr>
+<tr valign="top">
+<td>coords</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          The position and shape of the hot spot on the screen
+          (for use in client-side image maps).
+      </td>
+</tr>
+<tr valign="top">
+<td>dir</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Direction indication for text that does not inherit directionality.
+          Valid values are "LTR" (left-to-right) and "RTL" (right-to-left).
+      </td>
+</tr>
+<tr valign="top">
+<td>hreflang</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          The language code of the resource designated
+          by this hyperlink.
+      </td>
+</tr>
+<tr valign="top">
+<td>lang</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Code describing the language used in the generated markup
+          for this component.
+      </td>
+</tr>
+<tr valign="top">
+<td>onblur</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when this element loses focus.
+      </td>
+</tr>
+<tr valign="top">
+<td>ondblclick</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a pointer button is
+          double clicked over this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>onfocus</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when this element receives focus.
+      </td>
+</tr>
+<tr valign="top">
+<td>onkeydown</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a key is
+          pressed down over this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>onkeypress</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a key is
+          pressed and released over this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>onkeyup</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a key is
+          released over this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>onmousedown</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a pointer button is
+          pressed down over this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>onmousemove</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a pointer button is
+          moved within this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>onmouseout</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a pointer button is
+          moved away from this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>onmouseover</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a pointer button is
+          moved onto this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>onmouseup</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Javascript code executed when a pointer button is
+          released over this element.
+      </td>
+</tr>
+<tr valign="top">
+<td>rel</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          The relationship from the current document
+          to the anchor specified by this hyperlink.
+          The value of this attribute is a space-separated
+          list of link types.  
+      </td>
+</tr>
+<tr valign="top">
+<td>rev</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          A reverse link from the anchor specified
+          by this hyperlink to the current document.
+          The value of this attribute is a space-separated
+          list of link types.  
+      </td>
+</tr>
+<tr valign="top">
+<td>shape</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          The shape of the hot spot on the screen
+          (for use in client-side image maps).  Valid
+          values are:  default (entire region); rect
+          (rectangular region); circle (circular region);
+          and poly (polygonal region).
+      </td>
+</tr>
+<tr valign="top">
+<td>style</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          CSS style(s) to be applied when this component is rendered.
+      </td>
+</tr>
+<tr valign="top">
+<td>styleClass</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Space-separated list of CSS style class(es) to be applied when
+          this element is rendered.  This value must be passed through
+          as the "class" attribute on generated markup.
+      </td>
+</tr>
+<tr valign="top">
+<td>tabindex</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Position of this element in the tabbing order
+          for the current document.  This value must be
+          an integer between 0 and 32767.
+      </td>
+</tr>
+<tr valign="top">
+<td>target</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Name of a frame where the resource
+          retrieved via this hyperlink is to
+          be displayed.
+      </td>
+</tr>
+<tr valign="top">
+<td>title</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          Advisory title information about markup elements generated
+          for this component.
+      </td>
+</tr>
+<tr valign="top">
+<td>type</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+      
+          The content type of the resource designated
+          by this hyperlink.
+      </td>
+</tr>
+<tr valign="top">
+<td>binding</td><td>false</td><td>false</td><td><code>java.lang.String</code></td><td>
+         The value binding expression linking this component to a property in a backing bean
+      </td>
+</tr>
+</table>
+<br>
+<p></p>
+<table width="100%" cellspacing="0" cellpadding="3" border="1">
+<tr class="TableHeadingColor" bgcolor="#CCCCFF">
+<td colspan="5"><font size="+2"><b>Variables</b></font></td>
+</tr>
+<td colspan="2"><i>No Variables Defined.</i></td>
+</table>
+<br>
+<p></p>
+<a name="navbar_bottom"></a>
+<table cellspacing="0" cellpadding="1" width="100%" border="0">
+<tr>
+<td CLASS="NavBarCell1" BGCOLOR="#EEEEFF" COLSPAN="3"><a NAME="navbar_bottom_firstrow"></a>
+<table CELLSPACING="3" CELLPADDING="0" BORDER="0">
+<tr VALIGN="top" ALIGN="center">
+<td CLASS="NavBarCell1" BGCOLOR="#EEEEFF">    &nbsp;<a href="../overview-summary.html"><font CLASS="NavBarFont1"><b>Overview</b></font></a>&nbsp;</td><td CLASS="NavBarCell1" BGCOLOR="#EEEEFF">    &nbsp;<a href="tld-summary.html"><font CLASS="NavBarFont1"><b>Library</b></font></a>&nbsp;</td><td CLASS="NavBarCell1Rev" BGCOLOR="#FFFFFF"> &nbsp;<font CLASS="NavBarFont1Rev">&nbsp;Tag&nbsp;</font>&nbsp;</td><td CLASS="NavBarCell1" BGCOLOR="#EEEEFF">    &nbsp;<a HREF="../help-doc.html"><font CLASS="NavBarFont1"><b>Help</b></font></a>&nbsp;</td>
+</tr>
+</table>
+</td><td ROWSPAN="3" VALIGN="top" ALIGN="right"><em></em></td>
+</tr>
+<tr>
+<td CLASS="NavBarCell2" BGCOLOR="white"><font SIZE="-2"></font></td><td CLASS="NavBarCell2" BGCOLOR="white"><font SIZE="-2">
+                &nbsp;<a TARGET="_top" HREF="../index.html"><b>FRAMES</b></a>&nbsp;
+                &nbsp;<a href="commandLink.html" target="_top"><b>NO FRAMES</b></a>&nbsp;
+                <script></script>
+<noscript>
+<a TARGET="" HREF="../alltags-noframe.html"><b>All Tags</b></a>
+</noscript>
+</font></td>
+</tr>
+</table>
+<hr>
+<small><i>
+            Output Generated by 
+            <a target="_blank" href="http://taglibrarydoc.dev.java.net/">Tag Library Documentation Generator</a>.
+            Java, JSP, and JavaServer Pages are trademarks or 
+            registered trademarks of Sun Microsystems, Inc. in the US and other
+            countries.  Copyright 2002-4 Sun Microsystems, Inc.
+            4150 Network Circle
+            Santa Clara, CA 95054, U.S.A.
+            All Rights Reserved. 
+            </i></small>
+</body>
+</html>
