@@ -10,24 +10,24 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CareerFXMLController">
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CareerFXMLController">
    <bottom>
-      <AnchorPane fx:id="ac" prefHeight="470.0" prefWidth="659.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="ac" prefHeight="512.0" prefWidth="762.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
          <children>
-            <Pane layoutX="28.0" layoutY="-2.0" prefHeight="33.0" prefWidth="631.0" style="-fx-background-color: #000445;">
+            <Pane layoutX="27.0" layoutY="-2.0" prefHeight="33.0" prefWidth="743.0" style="-fx-background-color: #000445;">
                <children>
-                  <Button fx:id="btnAddCareer" layoutX="14.0" layoutY="3.0" mnemonicParsing="false" onAction="#btnAddCareer" style="-fx-background-color: Transparent;" text="Agregar" textFill="#ffee00" />
-                  <Button fx:id="btnDeleteCareer" layoutX="112.0" layoutY="3.0" mnemonicParsing="false" onAction="#btnDeleteCareer" style="-fx-background-color: Transparent;" text="Suprimir" textFill="#ffee00" />
-                  <Button fx:id="btnModifyCareer" layoutX="211.0" layoutY="3.0" mnemonicParsing="false" onAction="#btnModifyCareer" style="-fx-background-color: Transparent;" text="Modificar" textFill="#ffee00" />
-                  <Button fx:id="btnShowCareer" layoutX="316.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnShowCareer" style="-fx-background-color: Transparent;" text="Mostrar" textFill="#ffee00" />
-                  <Button fx:id="btnBack" layoutX="563.0" layoutY="-6.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="43.0" prefWidth="54.0" style="-fx-background-color: Transparent;" text="🡆" textFill="#ffee00">
+                  <Button fx:id="btnAddCareer" layoutX="33.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnAddCareer" prefHeight="17.0" prefWidth="59.0" style="-fx-background-color: Transparent;" text="Agregar" textFill="#ffee00" />
+                  <Button fx:id="btnDeleteCareer" layoutX="140.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnDeleteCareer" style="-fx-background-color: Transparent;" text="Suprimir" textFill="#ffee00" />
+                  <Button fx:id="btnModifyCareer" layoutX="241.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnModifyCareer" style="-fx-background-color: Transparent;" text="Modificar" textFill="#ffee00" />
+                  <Button fx:id="btnShowCareer" layoutX="360.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnShowCareer" style="-fx-background-color: Transparent;" text="Mostrar" textFill="#ffee00" />
+                  <Button fx:id="btnBack" layoutX="682.0" layoutY="-6.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="43.0" prefWidth="54.0" style="-fx-background-color: Transparent;" text="🡆" textFill="#ffee00">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
                </children>
             </Pane>
-            <Pane fx:id="panelAddCareer" layoutX="158.0" layoutY="142.0" prefHeight="120.0" prefWidth="374.0" visible="false">
+            <Pane fx:id="panelAddCareer" layoutX="213.0" layoutY="137.0" prefHeight="120.0" prefWidth="374.0" visible="false">
                <children>
                   <TextField fx:id="tfAddCareerId" layoutX="141.0" layoutY="36.0" onKeyPressed="#tfAddCareerId" prefHeight="25.0" prefWidth="140.0" />
                   <Text layoutX="21.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de carrera :" wrappingWidth="129.6328125">
@@ -44,7 +44,7 @@
                   <Button fx:id="btnAdd" layoutX="307.0" layoutY="55.0" mnemonicParsing="false" onAction="#btnAdd" text="Guardar" />
                </children>
             </Pane>
-            <Pane fx:id="panelDeleteCareer" layoutX="101.0" layoutY="160.0" prefHeight="119.0" prefWidth="458.0" visible="false">
+            <Pane fx:id="panelDeleteCareer" layoutX="156.0" layoutY="155.0" prefHeight="119.0" prefWidth="458.0" visible="false">
                <children>
                   <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de carrera :" wrappingWidth="129.6328125">
                      <font>
@@ -55,7 +55,7 @@
                   <TextField fx:id="tfRemoveId" layoutX="144.0" layoutY="40.0" onKeyPressed="#tfRemoveId" prefHeight="25.0" prefWidth="182.0" />
                </children>
             </Pane>
-            <Pane fx:id="panelModificar" layoutX="160.0" layoutY="241.0" prefHeight="169.0" prefWidth="406.0" visible="false">
+            <Pane fx:id="panelModificar" layoutX="215.0" layoutY="236.0" prefHeight="169.0" prefWidth="406.0">
                <children>
                   <TextField fx:id="tfIdCareerUpdate" disable="true" layoutX="141.0" layoutY="36.0" onKeyPressed="#tfIdCareerUpdate" prefHeight="25.0" prefWidth="140.0" />
                   <Text layoutX="21.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de carrera :" wrappingWidth="129.6328125">
@@ -78,34 +78,34 @@
                   <Button fx:id="btnUpdate" disable="true" layoutX="124.0" layoutY="130.0" mnemonicParsing="false" onAction="#btnUpdate" text="Actualizar" />
                </children>
             </Pane>
-            <TableView fx:id="tableCareer" layoutX="76.0" layoutY="118.0" prefHeight="265.0" prefWidth="542.0" visible="false">
+            <TableView fx:id="tableCareer" layoutX="131.0" layoutY="113.0" prefHeight="331.0" prefWidth="542.0" visible="false">
               <columns>
                 <TableColumn fx:id="colIdCareer" prefWidth="201.60003662109375" text="Identificador" />
                 <TableColumn fx:id="colDescriptionCareer" prefWidth="340.7999267578125" text="Descripción" />
               </columns>
             </TableView>
-            <Text fx:id="txtTitle" layoutX="241.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+            <Text fx:id="txtTitle" layoutX="296.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de carreras" textAlignment="CENTER">
                <font>
                   <Font name="Candara Light Italic" size="30.0" />
                </font>
             </Text>
-            <Text fx:id="txtError" fill="RED" layoutX="204.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
+            <Text fx:id="txtError" fill="RED" layoutX="259.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
                <font>
                   <Font name="Calibri Light Italic" size="12.0" />
                </font>
             </Text>
-            <Text fx:id="txtAdded" fill="#009a39" layoutX="204.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
+            <Text fx:id="txtAdded" fill="#009a39" layoutX="259.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
                <font>
                   <Font name="Calibri Light Italic" size="12.0" />
                </font>
             </Text>
-            <TextField fx:id="tfSearchCarrerUpdate" layoutX="299.0" layoutY="190.0" onKeyPressed="#tfSearchCarrerUpdate" prefHeight="25.0" prefWidth="140.0" visible="false" />
-            <Text fx:id="txtCareerSearchUpdate" layoutX="176.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de carrera :" visible="false" wrappingWidth="129.6328125">
+            <TextField fx:id="tfSearchCarrerUpdate" layoutX="354.0" layoutY="185.0" onKeyPressed="#tfSearchCarrerUpdate" prefHeight="25.0" prefWidth="140.0" />
+            <Text fx:id="txtCareerSearchUpdate" layoutX="231.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de carrera :" wrappingWidth="129.6328125">
                <font>
                   <Font name="Calibri Light Italic" size="15.0" />
                </font>
             </Text>
-            <Button fx:id="btnSearchCarrerUpdate" layoutX="456.0" layoutY="190.0" mnemonicParsing="false" onAction="#btnSearchCarrerUpdate" text="🔎" visible="false" />
+            <Button fx:id="btnSearchCarrerUpdate" layoutX="511.0" layoutY="185.0" mnemonicParsing="false" onAction="#btnSearchCarrerUpdate" text="🔎" />
          </children>
       </AnchorPane>
    </bottom>

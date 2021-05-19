@@ -107,6 +107,26 @@ public class CareerFXMLController implements Initializable {
         careersList = FileManagementCareers.getCareers();
         colDescriptionCareer.setCellValueFactory(new PropertyValueFactory<Career, String>("description"));
         colIdCareer.setCellValueFactory(new PropertyValueFactory<Career, String>("id"));
+        
+        cleanAll();
+        tableCareer.setVisible(true);
+        txtTitle.setText("Lista de carreras");
+
+        ObservableList<Career> tableContent = FXCollections.observableArrayList();
+
+        if (!careersList.isEmpty()) {
+
+            try {
+                for (int i = 1; i <= careersList.size(); i++) {
+
+                    Career a = (Career) careersList.getNode(i).data;
+                    tableContent.add(a);
+                }
+            } catch (ListException ex) {
+                Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        tableCareer.setItems(tableContent);
     }
 
     @FXML
