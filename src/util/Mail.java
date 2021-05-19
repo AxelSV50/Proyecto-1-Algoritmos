@@ -41,7 +41,6 @@ public class Mail {
         props.setProperty("mail.smtp.auth", "true");
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         Session session = Session.getDefaultInstance(props, null);
-//            session.setDebug(true);
 
         // Se compone la parte del texto
         BodyPart texto = new MimeBodyPart();
