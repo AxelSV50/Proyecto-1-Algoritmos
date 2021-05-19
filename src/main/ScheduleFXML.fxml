@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.ScheduleFXMLController">
+   <bottom>
+      <AnchorPane fx:id="ap" prefHeight="460.0" prefWidth="662.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="navPane" layoutX="33.0" prefHeight="29.0" prefWidth="629.0" style="-fx-background-color: #000445;">
+               <children>
+                  <Button fx:id="btnBack" layoutX="576.0" layoutY="-10.0" mnemonicParsing="false" onAction="#btnBack" style="-fx-background-color: transparent;" text="🡆" textFill="#ffee00">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane fx:id="paneTable" layoutX="11.0" layoutY="48.0" prefHeight="361.0" prefWidth="638.0">
+               <children>
+                  <TableView fx:id="tableSchedule" prefHeight="360.0" prefWidth="638.0">
+                    <columns>
+                      <TableColumn fx:id="colHorario1" prefWidth="280.0" text="Curso" />
+                      <TableColumn fx:id="colHorario1" prefWidth="184.0" text="Horario Opción 1" />
+                        <TableColumn fx:id="colHorario2" prefWidth="173.0" text="Horario Opción 2" />
+                    </columns>
+                  </TableView>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>
