@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package main.career;
 
+import main.*;
 import data.FileManagementCareers;
 import domain.Career;
 import domain.DoublyLinkedList;
@@ -31,6 +32,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import main.security.SecurityFXMLController;
 
 /**
  * FXML Controller class

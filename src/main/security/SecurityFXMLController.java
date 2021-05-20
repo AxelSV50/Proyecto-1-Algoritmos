@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package main.security;
 
 import domain.CircularLinkedList;
 import domain.Security;
@@ -244,7 +244,7 @@ public class SecurityFXMLController implements Initializable {
 
         try {
 
-            root = FXMLLoader.load(getClass().getResource(page + ".fxml"));
+            root = FXMLLoader.load(getClass().getResource("/main/menu/"+page+".fxml"));
 
         } catch (IOException ex) {
             Logger.getLogger(SecurityFXMLController.class.getName()).log(Level.SEVERE, null, ex);

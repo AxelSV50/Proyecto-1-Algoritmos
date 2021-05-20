@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package main.course;
 
+import main.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;

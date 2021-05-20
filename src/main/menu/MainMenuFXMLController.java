@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package main.menu;
 
+import main.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import main.security.SecurityFXMLController;
 
 /**
  * FXML Controller class
@@ -72,13 +74,13 @@ public class MainMenuFXMLController implements Initializable {
     @FXML
     private void opcCareer(MouseEvent event) {
         
-        loadPage("CareerFXML");
+        loadPage("/main/career/CareerFXML");
     }
 
     @FXML
     private void opcStudents(MouseEvent event) {
         
-        loadPage("StudentFXML");
+        loadPage("/main/student/StudentFXML");
     }
 
     @FXML
