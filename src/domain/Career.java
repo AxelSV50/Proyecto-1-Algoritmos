@@ -19,6 +19,7 @@ public class Career {
         this.description = description;
     }
 
+
     public int getId() {
         return id;
     }

@@ -28,29 +28,29 @@
                   </Button>
                </children>
             </Pane>
-            <Pane fx:id="addStudentPanel" layoutX="62.0" layoutY="157.0" prefHeight="324.0" prefWidth="641.0" visible="false">
+            <Pane fx:id="addStudentPanel" layoutX="62.0" layoutY="157.0" prefHeight="324.0" prefWidth="641.0">
                <children>
                   <Label layoutX="14.0" layoutY="9.0" prefHeight="25.0" prefWidth="59.0" text="Carné:">
                      <font>
                         <Font name="Calibri Light Italic" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtCarnet" layoutX="95.0" layoutY="9.0" />
-                  <TextField fx:id="txtStudentId" layoutX="95.0" layoutY="44.0" />
-                  <TextField layoutX="95.0" layoutY="79.0" />
-                  <TextField fx:id="txtLastName" layoutX="95.0" layoutY="114.0" />
+                  <TextField fx:id="tfAddCarnet" layoutX="95.0" layoutY="9.0" onKeyPressed="#tfAddCarnet" />
+                  <TextField fx:id="tfAddId" layoutX="95.0" layoutY="44.0" onKeyPressed="#tfAddId" />
+                  <TextField fx:id="tfAddNameStudent" layoutX="95.0" layoutY="79.0" />
+                  <TextField fx:id="tfAddLastName" layoutX="95.0" layoutY="114.0" />
                   <Label layoutX="266.0" layoutY="48.0">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtCellphone" layoutX="432.0" layoutY="44.0" />
-                  <TextField fx:id="txtEmail" layoutX="95.0" layoutY="150.0" />
-                  <TextField fx:id="txtAdrress" layoutX="432.0" layoutY="79.0" />
+                  <TextField fx:id="tfAddPhoneNumber" layoutX="432.0" layoutY="44.0" onKeyPressed="#tfAddPhoneNumber" />
+                  <TextField fx:id="tfAddEmail" layoutX="95.0" layoutY="150.0" />
+                  <TextField fx:id="tfAddAddress" layoutX="432.0" layoutY="79.0" />
                   <Button fx:id="btnAddStudent" layoutX="237.0" layoutY="249.0" mnemonicParsing="false" onAction="#btnAddStudent" text="Agregar" />
                   <Button fx:id="btnCancel" layoutX="314.0" layoutY="249.0" mnemonicParsing="false" text="Cancelar" />
-                  <ComboBox fx:id="jcbCarreras" layoutX="432.0" layoutY="114.0" onAction="#jcbCarreras" prefWidth="150.0" />
-                  <DatePicker layoutX="431.0" layoutY="9.0" prefHeight="25.0" prefWidth="151.0" />
+                  <ComboBox fx:id="cbCareers" layoutX="432.0" layoutY="114.0" prefWidth="150.0" />
+                  <DatePicker fx:id="dpAddBirthday" editable="false" layoutX="431.0" layoutY="9.0" prefHeight="25.0" prefWidth="151.0" />
                   <Label layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="59.0" text="Cédula:">
                      <font>
                         <Font name="Calibri Light Italic" size="15.0" />
@@ -91,9 +91,15 @@
                         <Font name="Calibri Light Italic" size="15.0" />
                      </font>
                   </Label>
+                  <TextField fx:id="tfAddPassword" layoutX="432.0" layoutY="150.0" />
+                  <Label layoutX="266.0" layoutY="150.0" prefHeight="25.0" prefWidth="133.0" text="Contraseña:">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
-            <Pane layoutX="178.0" layoutY="157.0" prefHeight="139.0" prefWidth="409.0" visible="false">
+            <Pane fx:id="panelDelete" layoutX="178.0" layoutY="157.0" prefHeight="139.0" prefWidth="409.0" visible="false">
                <children>
                   <Pane fx:id="panelDeleteCareer" layoutX="-24.0" layoutY="-12.0" prefHeight="119.0" prefWidth="458.0">
                      <children>
@@ -177,12 +183,22 @@
                         <Font name="Calibri Light Italic" size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="comboBoxStudentModify" disable="true" layoutX="478.0" layoutY="261.0" prefWidth="150.0" />
+                  <ComboBox fx:id="comboBoxStudentModify" layoutX="478.0" layoutY="261.0" prefWidth="150.0" />
                </children>
             </Pane>
             <Text fx:id="txtTitle" layoutX="257.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                <font>
                   <Font name="Candara Light Italic" size="30.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtError" fill="RED" layoutX="227.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
+               <font>
+                  <Font name="Calibri Light Italic" size="12.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtSuccess" fill="#00611f" layoutX="227.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
+               <font>
+                  <Font name="Calibri Light Italic" size="12.0" />
                </font>
             </Text>
          </children>

@@ -4,19 +4,20 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="1028.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.student.StudentsTableController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="1103.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.student.StudentsTableController">
    <children>
-      <TableView prefHeight="489.0" prefWidth="1028.0">
+      <TableView fx:id="studentsTable" prefHeight="489.0" prefWidth="1103.0">
          <columns>
-            <TableColumn prefWidth="112.0" text="ID" />
-            <TableColumn minWidth="0.0" prefWidth="88.0" text="Carné" />
-            <TableColumn prefWidth="101.0" text="Nombre" />
-            <TableColumn prefWidth="91.0" text="Apellido" />
-            <TableColumn prefWidth="105.0" text="F. Nacimiento" />
-            <TableColumn prefWidth="106.0" text="Teléfono" />
-            <TableColumn prefWidth="145.0" text="Email" />
-            <TableColumn prefWidth="151.0" text="Dirrección" />
-            <TableColumn prefWidth="128.0" text="Carrera" />
+            <TableColumn fx:id="colId" prefWidth="112.0" text="ID" />
+            <TableColumn fx:id="colStudentId" minWidth="0.0" prefWidth="88.0" text="Carné" />
+            <TableColumn fx:id="colName" prefWidth="101.0" text="Nombre" />
+            <TableColumn fx:id="colLastName" prefWidth="91.0" text="Apellido" />
+            <TableColumn fx:id="colBirthday" prefWidth="105.0" text="F. Nacimiento" />
+            <TableColumn fx:id="colPhoneNumber" prefWidth="106.0" text="Teléfono" />
+            <TableColumn fx:id="colEmail" prefWidth="145.0" text="Email" />
+            <TableColumn fx:id="colAddress" prefWidth="151.0" text="Dirección" />
+            <TableColumn fx:id="colCareer" prefWidth="128.0" text="Carrera" />
+            <TableColumn fx:id="colIdCarrer" prefWidth="75.0" text="ID Carrera" />
          </columns>
       </TableView>
    </children>

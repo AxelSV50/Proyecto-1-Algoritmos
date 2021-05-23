@@ -20,11 +20,8 @@ import java.io.FileWriter;
 public class FileManagementCareers {
 
     private static String nameFileCareer = "Careers.txt";
-
-    public static String getNameFileCareer() {
-        return nameFileCareer;
-    }
-
+    
+    
     public static boolean add(int id, String description) {
         try {
 

@@ -9,14 +9,14 @@ package domain;
  *
  * @author yeison
  */
-public class Courses {
+public class Course {
 
  private String id;
  private String name;
   private int credits;
  private int careerID;
 
-    public Courses(String id, String name, int credits, int careerID) {
+    public Course(String id, String name, int credits, int careerID) {
         this.id = id;
         this.name = name;
         this.credits = credits;

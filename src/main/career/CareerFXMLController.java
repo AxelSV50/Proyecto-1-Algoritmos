@@ -98,7 +98,7 @@ public class CareerFXMLController implements Initializable {
     @FXML
     private Button btnUpdateCancel;
 
-    private DoublyLinkedList careersList = new DoublyLinkedList();
+    private DoublyLinkedList careersList = util.Utility.getCareersList();
 
     /**
      * Initializes the controller class.
@@ -106,10 +106,10 @@ public class CareerFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        careersList = FileManagementCareers.getCareers();
+        careersList = util.Utility.getCareersList();
         colDescriptionCareer.setCellValueFactory(new PropertyValueFactory<Career, String>("description"));
         colIdCareer.setCellValueFactory(new PropertyValueFactory<Career, String>("id"));
-        
+
         cleanAll();
         tableCareer.setVisible(true);
         txtTitle.setText("Lista de carreras");
@@ -201,7 +201,7 @@ public class CareerFXMLController implements Initializable {
                         FileManagementCareers.add(Integer.parseInt(tfAddCareerId.textProperty().getValue()),
                                 tfAddDescription.textProperty().getValue());
 
-                        careersList = FileManagementCareers.getCareers();
+                        careersList = util.Utility.getCareersList();
                         tfAddCareerId.setText("");
                         tfAddDescription.setText("");
                         txtAdded.setText("Agregado con éxito");
@@ -216,7 +216,7 @@ public class CareerFXMLController implements Initializable {
                     FileManagementCareers.add(Integer.parseInt(tfAddCareerId.textProperty().getValue()),
                             tfAddDescription.textProperty().getValue());
 
-                    careersList = FileManagementCareers.getCareers();
+                    careersList = util.Utility.getCareersList();
                     tfAddCareerId.setText("");
                     tfAddDescription.setText("");
                     txtAdded.setText("Agregado con éxito");

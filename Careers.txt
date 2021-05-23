@@ -1,3 +1,3 @@
-1,Turismo
-2,Inglés
-3,Informática
+1,Informática
+2,Turismo
+3,Agreonomía

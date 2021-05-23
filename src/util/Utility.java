@@ -5,9 +5,11 @@
  */
 package util;
 
-
 import domain.Career;
 import domain.CircularLinkedList;
+import domain.DoublyLinkedList;
+import domain.SinglyLinkedList;
+import domain.Student;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,12 +20,20 @@ import java.util.Date;
  */
 public class Utility {
 
-    private static CircularLinkedList list = new CircularLinkedList();
+    private static DoublyLinkedList careersList;
+    private static SinglyLinkedList studentsList;
 
-    public static CircularLinkedList getCircularLinkedList() {
-        return list;
+    //Tiene las carreras agregadas
+    public static DoublyLinkedList getCareersList() {
+        careersList = data.FileManagementCareers.getCareers();
+        return careersList;
     }
-    
+    //Tiene los estudiantes agregados
+    public static SinglyLinkedList getStudentsList() {
+        studentsList = data.FileManagementUsers.getStudentsList();
+        return studentsList;
+    }
+
     public static int random() {
         return 1 + (int) Math.floor(Math.random() * 99);
     }
@@ -33,7 +43,6 @@ public class Utility {
         return 1 + (int) Math.floor(Math.random() * bound);
     }
 
-    
     public static String format(double value) {
         return new DecimalFormat("###,###,###,###.##")
                 .format(value);
@@ -56,7 +65,6 @@ public class Utility {
     }
 
     public static boolean equals(Object a, Object b) {
-        
 
         switch (instanceOf(a, b)) {
 
@@ -70,11 +78,15 @@ public class Utility {
                 //return s1.compareTo(s2)==0; //OPCION 1
                 return s1.equalsIgnoreCase(s2); //OPCION 2
             case "career":
-                
-                Career c1 = (Career)a;
-                Career c2 = (Career)b;
+                Career c1 = (Career) a;
+                Career c2 = (Career) b;
                 //return s1.compareTo(s2)==0; //OPCION 1
-                return c1.getId()== c2.getId(); //OPCION 2
+                return c1.getId() == c2.getId(); //OPCION 2
+            case "student":
+                Student st1 = (Student) a;
+                Student st2 = (Student) b;
+                //return s1.compareTo(s2)==0; //OPCION 1
+                return st2.getId() == st1.getId() || st2.getEmail().equalsIgnoreCase(st1.getEmail()) || st2.getStudentID().equalsIgnoreCase(st1.getStudentID()) ; //OPCION 2
         }
 
         return false; //en cualquier otro caso
@@ -90,6 +102,9 @@ public class Utility {
         if (a instanceof Career && b instanceof Career) {
             return "career";
         }
+        if (a instanceof Student && b instanceof Student) {
+            return "student";
+        }
         return "unknown"; //desconocido
     }
 
@@ -103,6 +118,7 @@ public class Utility {
                 String s1 = (String) a;
                 String s2 = (String) b;
                 return s1.compareTo(s2) < 0;
+
         }
         return false; //en cualquier otro caso
     }
@@ -117,6 +133,10 @@ public class Utility {
                 String s1 = (String) a;
                 String s2 = (String) b;
                 return s1.compareTo(s2) > 0;
+            case "career":
+                Career c1 = (Career) a;
+                Career c2 = (Career) b;
+                return c1.getId() > c2.getId();
 
         }
         return false; //en cualquier otro caso

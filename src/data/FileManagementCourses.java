@@ -7,7 +7,7 @@ package data;
 
 import domain.CircularDoublyLinkedList;
 import domain.CircularLinkedList;
-import domain.Courses;
+import domain.Course;
 import domain.Security;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -62,7 +62,7 @@ public class FileManagementCourses {
                 while ((line = br.readLine()) != null) {
                     array = line.split(",");//la '/' se designó para separar los elementos del fichero
 
-                    list.add(new Courses(array[0], array[1], Integer.parseInt(array[2]), Integer.parseInt(array[3])));
+                    list.add(new Course(array[0], array[1], Integer.parseInt(array[2]), Integer.parseInt(array[3])));
                 }
                 br.close();
             } else {
@@ -91,7 +91,7 @@ public static boolean overwriteCareersFile(CircularDoublyLinkedList list) {
 
                     if (list.getNode(i) != null) {
                         
-                        Courses c = (Courses) list.getNode(i).data;
+                        Course c = (Course) list.getNode(i).data;
                         bw.write(c.getId() + "," + c.getName() + "," + c.getCredits()+ "," +c.getCareerID()+ "\n");
                     }
                 }

@@ -37,7 +37,7 @@ public class Security {
 
             try {
       
-                if(adminList.contains(user+","+encrypt(password))){
+                if(adminList.contains(user+"~"+encrypt(password))){
                     
                     access = "ADMIN";
                 }
@@ -48,7 +48,7 @@ public class Security {
             
             try {
                 
-                if(studentList.contains(user+","+encrypt(password))){
+                if(studentList.contains(user+"~"+encrypt(password))){
                     
                     access = "STUDENT";
                 }
