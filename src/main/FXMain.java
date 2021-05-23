@@ -27,7 +27,7 @@ public class FXMain extends Application {
       
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/main/student/StudentFXML.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/main/career/CareerFXML.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setTitle("Proyecto No. 1 - 2021");
             primaryStage.setScene(scene);

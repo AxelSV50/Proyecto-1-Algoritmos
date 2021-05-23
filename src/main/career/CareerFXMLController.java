@@ -193,39 +193,51 @@ public class CareerFXMLController implements Initializable {
         if (!(tfAddCareerId.textProperty().getValue().equals("") || tfAddDescription.textProperty().getValue().equals(""))) {
 
             try {
+                
+//                try {
 
-                try {
-                    if (!careersList.contains(new Career(Integer.parseInt(tfAddCareerId.textProperty().getValue()), ""))) {
+                    //Pregunta si el código de carrera ya existe:
+                    if (careersList.isEmpty() || !careersList.contains(new Career(Integer.parseInt(tfAddCareerId.textProperty().getValue()), ""))) {
 
                         txtError.setText("");
+                        //Agrega la carrera al archivo 
                         FileManagementCareers.add(Integer.parseInt(tfAddCareerId.textProperty().getValue()),
                                 tfAddDescription.textProperty().getValue());
-
+                        //Actualiza la lista para que salga la carrera nueva
                         careersList = util.Utility.getCareersList();
+                        //Setter los textField
                         tfAddCareerId.setText("");
                         tfAddDescription.setText("");
+                        //Le dice al usuario que se agrego
                         txtAdded.setText("Agregado con éxito");
                     } else {
 
+                        //Si existe lanza este mensaje al usuario
                         txtError.setText("El código de carrera ya está en uso");
                         txtAdded.setText("");
 
                     }
-                } catch (ListException ex) {
-                    txtError.setText("");
-                    FileManagementCareers.add(Integer.parseInt(tfAddCareerId.textProperty().getValue()),
-                            tfAddDescription.textProperty().getValue());
-
-                    careersList = util.Utility.getCareersList();
-                    tfAddCareerId.setText("");
-                    tfAddDescription.setText("");
-                    txtAdded.setText("Agregado con éxito");
-                }
+                    
+//                } 
+//                catch (ListException ex) {
+//                    
+//                    txtError.setText("");
+//                    FileManagementCareers.add(Integer.parseInt(tfAddCareerId.textProperty().getValue()),
+//                            tfAddDescription.textProperty().getValue());
+//
+//                    careersList = util.Utility.getCareersList();
+//                    tfAddCareerId.setText("");
+//                    tfAddDescription.setText("");
+//                    txtAdded.setText("Agregado con éxito");
+//                }
 
             } catch (NumberFormatException e) {
 
                 txtError.setText("El código de carrera debe ser numérico");
                 txtAdded.setText("");
+                
+            }catch (ListException e) {
+
             }
 
         } else {
@@ -242,11 +254,13 @@ public class CareerFXMLController implements Initializable {
 
             try {
 
+                //Busca si el elemento está
                 Object element = new Career(Integer.parseInt(tfRemoveId.textProperty().getValue()), "");
 
                 if (careersList.contains(element)) {
 
                     careersList.remove(element);
+                    //Reescribe el archivo
                     FileManagementCareers.overwriteCareersFile(careersList);
                     tfRemoveId.setText("");
                     txtError.setText("");
@@ -263,6 +277,7 @@ public class CareerFXMLController implements Initializable {
                 txtError.setText("No hay carreras agregadas");
                 txtAdded.setText("");
                 tfRemoveId.setText("");
+                
             } catch (NumberFormatException ex) {
 
                 txtError.setText("El código de carrera debe ser numérico");

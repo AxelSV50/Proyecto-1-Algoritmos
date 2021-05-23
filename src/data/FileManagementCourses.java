@@ -37,7 +37,7 @@ public class FileManagementCourses {
             //Abre un flujo de escritua a el fichero
             FileWriter fw = new FileWriter(f1, true);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(id + "," + name + "," + credits + "," + careerID + "\n");
+            bw.write(id + "~" + name + "~" + credits + "~" + careerID + "\n");
             bw.close();
 
         } catch (Exception e) {
@@ -47,32 +47,6 @@ public class FileManagementCourses {
         return true;
     }
 
-    public static CircularDoublyLinkedList getDataLogin(String fileName) {
-
-        CircularDoublyLinkedList list = new CircularDoublyLinkedList();
-
-        try {
-
-            File f1 = new File(fileName);
-            String array[];
-
-            if (f1.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(f1));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    array = line.split(",");//la '/' se designó para separar los elementos del fichero
-
-                    list.add(new Course(array[0], array[1], Integer.parseInt(array[2]), Integer.parseInt(array[3])));
-                }
-                br.close();
-            } else {
-            }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        return list;
-
-    }
 public static boolean overwriteCareersFile(CircularDoublyLinkedList list) {
         try {
 
@@ -92,7 +66,7 @@ public static boolean overwriteCareersFile(CircularDoublyLinkedList list) {
                     if (list.getNode(i) != null) {
                         
                         Course c = (Course) list.getNode(i).data;
-                        bw.write(c.getId() + "," + c.getName() + "," + c.getCredits()+ "," +c.getCareerID()+ "\n");
+                        bw.write(c.getId() + "~" + c.getName() + "~" + c.getCredits()+ "~" +c.getCareerID()+ "\n");
                     }
                 }
                 bw.close();
