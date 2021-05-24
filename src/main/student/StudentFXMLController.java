@@ -5,6 +5,7 @@
  */
 package main.student;
 
+import data.FileManagementCareers;
 import data.FileManagementUsers;
 import domain.Career;
 import domain.DoublyLinkedList;
@@ -14,6 +15,7 @@ import domain.Student;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -134,13 +136,15 @@ public class StudentFXMLController implements Initializable {
 
     //Copiar esto
     private DoublyLinkedList careersList = util.Utility.getCareersList();
-    
+
     private SinglyLinkedList studentList = util.Utility.getStudentsList();
+    @FXML
+    private Button btnModify;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         txtTitle.setText("Agregar estudiante");
-        
+
         //Pasarle el nombre del comboBox
         initComboBox(cbCareers);
         initComboBox(comboBoxStudentModify);
@@ -171,9 +175,8 @@ public class StudentFXMLController implements Initializable {
         cbCareers.setItems(tableContent);
         cbCareers.setVisibleRowCount(3);
         //Descomentar esto
-        
-//      cbCareers.setPromptText("Seleccione");
 
+//      cbCareers.setPromptText("Seleccione");
         //Comentar esto
         if (cbCareers == comboBoxStudentModify) {
 
@@ -222,14 +225,12 @@ public class StudentFXMLController implements Initializable {
                 try {
 
                     //Se agrega el estudiante al archivo y a la lista:
-                    
-                    
                     String idCareer = cbCareers.getValue();
                     //Si el usuario no selecciona nada, el combo devuelve null
-                    
+
                     //Separa el id carrera, de su descripción
                     String[] array = idCareer.split("-");
-                    
+
                     Calendar c = new GregorianCalendar(dpAddBirthday.getValue().getYear(), dpAddBirthday.getValue().getMonthValue() - 1, dpAddBirthday.getValue().getDayOfMonth());
 
                     //Creo el estudiante a agregar
@@ -241,7 +242,7 @@ public class StudentFXMLController implements Initializable {
 
                         FileManagementUsers.add(a.toString(), tfAddPassword.getText(), FileManagementUsers.getNameFileStudents());
                         studentList.add(a);
-                        
+
                         //Se envía el correo de bienvenida:
                         try {
                             util.Mail.sendWelcomeMessage(a, new Career(Integer.parseInt(array[0]), array[1]));
@@ -299,6 +300,38 @@ public class StudentFXMLController implements Initializable {
 
     @FXML
     private void btnDeleteStudent(ActionEvent event) {
+
+        studentList = FileManagementUsers.getStudentsList();
+
+        if (!tfDeleteStudent.getText().equals("")) {
+
+            try {
+                Student a = new Student(0, tfDeleteStudent.getText(), "", "", new Date(), "", "", "", 0);
+
+                if (studentList.contains(a)) {
+
+                    studentList.remove(a);
+                    FileManagementUsers.overwriteStudentsFile(studentList);
+                    studentList = FileManagementUsers.getStudentsList();
+                    txtSuccess.setText("Eliminado correctamente");
+                    txtError.setText("");
+                    tfDeleteStudent.setText("");
+
+                } else {
+                    txtSuccess.setText("");
+                    txtError.setText("Estudiante no agregado");
+                }
+            } catch (ListException ex) {
+
+                txtError.setText("No hay estudiantes agregados");
+                txtSuccess.setText("");
+
+            }
+        } else {
+
+            txtError.setText("Debe rellenar el recuadro");
+            txtSuccess.setText("");
+        }
     }
 
     @FXML
@@ -310,19 +343,98 @@ public class StudentFXMLController implements Initializable {
     }
 
     @FXML
-    private void tfRemoveId(KeyEvent event) {
-    }
-
-    @FXML
     private void tfSearchCarrerUpdate(KeyEvent event) {
     }
 
     @FXML
     private void btnSearchStudentUpdate(ActionEvent event) {
+
+        if (!(tfSearchStudentUpdate.getText().equals(""))) {
+
+            txtSuccess.setText("");
+            txtError.setText("");
+            studentList = FileManagementUsers.getStudentsList();
+            try {
+
+                Student element = new Student(0, tfSearchStudentUpdate.getText(), "", "", new Date(), "", "", "", 0);
+
+                if (studentList.contains(element)) {
+
+                    Student c = (Student) studentList.getNode(studentList.indexOf(element)).data;
+
+                    tfStudentIdModify.setText(c.getId() + "");
+                    tfIdModify.setText(c.getStudentID() + "");
+                    tfLastNameModify.setText(c.getLastname());
+                    tfEmailModify.setText(c.getEmail());
+                    tfNameModify.setText(c.getFirstname());
+                    tfPhoneModify.setText(c.getPhoneNumber());
+                    tfAdrressModify.setText(c.getAddress());
+                    comboBoxStudentModify.setValue(c.getCareerID() + "-" + c.getCareerDescription());
+                    datePickerBirthdayModify.getEditor().setText(c.getFormatedDate());
+
+                    tfSearchStudentUpdate.setDisable(true);
+                    tfIdModify.setDisable(false);
+                    tfStudentIdModify.setDisable(false);
+                    tfLastNameModify.setDisable(false);
+                    tfEmailModify.setDisable(false);
+                    tfNameModify.setDisable(false);
+                    tfPhoneModify.setDisable(false);
+                    tfAdrressModify.setDisable(false);
+                    btnSearchStudentUpdate.setDisable(true);
+                    btnCancelModify.setDisable(false);
+                    comboBoxStudentModify.setDisable(false);
+                    btnModify.setDisable(false);
+                    datePickerBirthdayModify.setDisable(false);
+
+                } else {
+
+                    txtError.setText("Estudiante no encontrado");
+                    txtSuccess.setText("");
+                }
+
+            } catch (ListException ex) {
+
+                txtError.setText("No hay estudiantes agregados");
+                txtSuccess.setText("");
+
+            }
+        } else {
+
+            txtError.setText("Debe rellenar todos los recuadros");
+            txtSuccess.setText("");
+
+        }
+
     }
 
     @FXML
     private void btnCancelModify(ActionEvent event) {
+        txtSuccess.setText("");
+        txtError.setText("");
+        tfSearchStudentUpdate.setText("");
+        tfIdModify.setText("");
+        tfStudentIdModify.setText("");
+        tfLastNameModify.setText("");
+        tfEmailModify.setText("");
+        tfNameModify.setText("");
+        tfPhoneModify.setText("");
+        tfAdrressModify.setText("");
+        comboBoxStudentModify.setValue("");
+        datePickerBirthdayModify.getEditor().setText("");
+
+        tfSearchStudentUpdate.setDisable(false);
+        tfIdModify.setDisable(true);
+        tfStudentIdModify.setDisable(true);
+        tfLastNameModify.setDisable(true);
+        tfEmailModify.setDisable(true);
+        tfNameModify.setDisable(true);
+        tfPhoneModify.setDisable(true);
+        tfAdrressModify.setDisable(true);
+        btnSearchStudentUpdate.setDisable(false);
+        btnCancelModify.setDisable(true);
+        comboBoxStudentModify.setDisable(true);
+        btnModify.setDisable(true);
+        datePickerBirthdayModify.setDisable(true);
 
     }
 
@@ -416,6 +528,150 @@ public class StudentFXMLController implements Initializable {
     private void tfAddCarnet(KeyEvent event) {
 
         txtSuccess.setText("");
+    }
+
+    @FXML
+    private void tfDeleteStudent(KeyEvent event) {
+
+        txtSuccess.setText("");
+    }
+
+    @FXML
+    private void btnCancel(ActionEvent event) {
+
+        tfAddAddress.setText("");
+        tfAddCarnet.setText("");
+        tfAddLastName.setText("");
+        tfAddNameStudent.setText("");
+        tfAddPassword.setText("");
+        tfAddId.setText("");
+        tfAddPhoneNumber.setText("");
+        tfAddEmail.setText("");
+        txtSuccess.setText("");
+        txtError.setText("");
+        dpAddBirthday.setValue(null);
+
+    }
+
+    @FXML
+    private void btnModify(ActionEvent event) {
+
+        if (!(tfIdModify.getText().equals("") || tfStudentIdModify.getText().equals("")
+                || tfLastNameModify.getText().equals("")
+                || tfNameModify.getText().equals("") || tfPhoneModify.getText().equals("")
+                || tfEmailModify.getText().equals("") || tfAdrressModify.getText().equals("")
+                || comboBoxStudentModify.getValue() == null)) {
+
+            try {
+
+                Student oldElement = new Student(Integer.parseInt(tfStudentIdModify.getText()), tfSearchStudentUpdate.getText(), "", "", new Date(), "", "", "", 0);
+                Calendar c = null;
+
+                if (datePickerBirthdayModify.getValue() != null) {
+
+                    c = new GregorianCalendar(datePickerBirthdayModify.getValue().getYear(), datePickerBirthdayModify.getValue().getMonthValue() - 1, datePickerBirthdayModify.getValue().getDayOfMonth());
+                } else {
+
+                    String array[] = datePickerBirthdayModify.getEditor().getText().split("/");
+                    c = new GregorianCalendar(Integer.parseInt(array[2]), Integer.parseInt(array[1]) - 1, Integer.parseInt(array[0]));
+                }
+
+                String array[] = comboBoxStudentModify.getValue().split("-");
+                Student newElement = new Student(Integer.parseInt(tfStudentIdModify.getText()), tfIdModify.getText(), tfLastNameModify.getText(),
+                        tfNameModify.getText(), c.getTime(), tfPhoneModify.getText(), tfEmailModify.getText(), tfAdrressModify.getText(), Integer.parseInt(array[0]));
+
+                if (!studentList.contains(newElement)) {
+
+                    studentList.modify(studentList.indexOf(oldElement), newElement);
+                    FileManagementUsers.overwriteStudentsFile(studentList);
+                    txtError.setText("");
+                    tfSearchStudentUpdate.setText("");
+                    tfIdModify.setText("");
+                    tfStudentIdModify.setText("");
+                    tfLastNameModify.setText("");
+                    tfEmailModify.setText("");
+                    tfNameModify.setText("");
+                    tfPhoneModify.setText("");
+                    tfAdrressModify.setText("");
+                    comboBoxStudentModify.setValue("");
+                    datePickerBirthdayModify.getEditor().setText("");
+
+                    tfSearchStudentUpdate.setDisable(false);
+                    tfIdModify.setDisable(true);
+                    tfStudentIdModify.setDisable(true);
+                    tfLastNameModify.setDisable(true);
+                    tfEmailModify.setDisable(true);
+                    tfNameModify.setDisable(true);
+                    tfPhoneModify.setDisable(true);
+                    tfAdrressModify.setDisable(true);
+                    btnSearchStudentUpdate.setDisable(false);
+                    btnCancelModify.setDisable(true);
+                    comboBoxStudentModify.setDisable(true);
+                    btnModify.setDisable(true);
+                    datePickerBirthdayModify.setDisable(true);
+
+                    txtSuccess.setText("Estudiante modificado correctamente");
+
+                } else {
+
+                    if (tfSearchStudentUpdate.textProperty().getValue().equals(tfIdModify.textProperty().getValue())
+                            && studentList.countEqualObjects(oldElement, (Student) studentList.getNode(studentList.indexOf(newElement)).data) == 0) {
+
+                        studentList.modify(studentList.indexOf(oldElement), newElement);
+                        FileManagementUsers.overwriteStudentsFile(studentList);
+                        txtError.setText("");
+
+                        tfSearchStudentUpdate.setText("");
+                        tfIdModify.setText("");
+                        tfStudentIdModify.setText("");
+                        tfLastNameModify.setText("");
+                        tfEmailModify.setText("");
+                        tfNameModify.setText("");
+                        tfPhoneModify.setText("");
+                        tfAdrressModify.setText("");
+                        comboBoxStudentModify.setValue("");
+                        datePickerBirthdayModify.getEditor().setText("");
+
+                        tfSearchStudentUpdate.setDisable(false);
+                        tfIdModify.setDisable(true);
+                        tfStudentIdModify.setDisable(true);
+                        tfLastNameModify.setDisable(true);
+                        tfEmailModify.setDisable(true);
+                        tfNameModify.setDisable(true);
+                        tfPhoneModify.setDisable(true);
+                        tfAdrressModify.setDisable(true);
+                        btnSearchStudentUpdate.setDisable(false);
+                        btnCancelModify.setDisable(true);
+                        comboBoxStudentModify.setDisable(true);
+                        btnModify.setDisable(true);
+                        datePickerBirthdayModify.setDisable(true);
+                        txtSuccess.setText("Estudiante modificado correctamente");
+
+                    } else {
+
+                        txtError.setText("Cédula y/o carné ya en uso");
+                        txtSuccess.setText("");
+                    }
+                }
+
+            } catch (ListException ex) {
+
+                txtError.setText("No hay estudiantes agregados");
+                txtSuccess.setText("");
+            }
+        } else {
+
+            txtError.setText("Debe rellenar todos los recuadros");
+            txtSuccess.setText("");
+        }
+
+    }
+
+    @FXML
+    private void tfSearchStudentUpdate(ActionEvent event) {
+
+        txtSuccess.setText("");
+
     }
 
 }

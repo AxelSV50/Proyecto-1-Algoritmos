@@ -6,7 +6,9 @@
 package util;
 
 import domain.Career;
+import domain.CircularDoublyLinkedList;
 import domain.CircularLinkedList;
+import domain.Course;
 import domain.DoublyLinkedList;
 import domain.SinglyLinkedList;
 import domain.Student;
@@ -22,6 +24,7 @@ public class Utility {
 
     private static DoublyLinkedList careersList;
     private static SinglyLinkedList studentsList;
+    private static CircularDoublyLinkedList coursesList;
 
     //Tiene las carreras agregadas
     public static DoublyLinkedList getCareersList() {
@@ -32,6 +35,11 @@ public class Utility {
     public static SinglyLinkedList getStudentsList() {
         studentsList = data.FileManagementUsers.getStudentsList();
         return studentsList;
+    }
+
+    public static CircularDoublyLinkedList getCoursesList() {
+        coursesList = data.FileManagementCourses.getCoursesList();
+        return coursesList;
     }
 
     public static int random() {
@@ -86,7 +94,12 @@ public class Utility {
                 Student st1 = (Student) a;
                 Student st2 = (Student) b;
                 //return s1.compareTo(s2)==0; //OPCION 1
-                return st2.getId() == st1.getId() || st2.getEmail().equalsIgnoreCase(st1.getEmail()) || st2.getStudentID().equalsIgnoreCase(st1.getStudentID()) ; //OPCION 2
+                return st2.getId() == st1.getId() || st2.getEmail().equalsIgnoreCase(st1.getEmail()) || st2.getStudentID().equalsIgnoreCase(st1.getStudentID()); //OPCION 2
+            case "course":
+                Course co1 = (Course) a;
+                Course co2 = (Course) b;
+                //return s1.compareTo(s2)==0; //OPCION 1
+                return co1.getId().equalsIgnoreCase(co2.getId()); //OPCION 2
         }
 
         return false; //en cualquier otro caso
@@ -104,6 +117,9 @@ public class Utility {
         }
         if (a instanceof Student && b instanceof Student) {
             return "student";
+        }
+         if (a instanceof Course && b instanceof Course) {
+            return "course";
         }
         return "unknown"; //desconocido
     }
@@ -139,6 +155,28 @@ public class Utility {
                 return c1.getId() > c2.getId();
 
         }
+        return false; //en cualquier otro caso
+    }
+    public static boolean equals2(Object a, Object b) {
+
+        switch (instanceOf(a, b)) {
+
+            case "integer":
+                Integer x = (Integer) a;
+                Integer y = (Integer) b;
+                return x.equals(y);
+            case "string":
+                String s1 = (String) a;
+                String s2 = (String) b;
+                //return s1.compareTo(s2)==0; //OPCION 1
+                return s1.equalsIgnoreCase(s2); //OPCION 2
+            case "student":
+                Student st1 = (Student) a;
+                Student st2 = (Student) b;
+                //return s1.compareTo(s2)==0; //OPCION 1
+                return st2.getId() == st1.getId(); //OPCION 2
+        }
+
         return false; //en cualquier otro caso
     }
 

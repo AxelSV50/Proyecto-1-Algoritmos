@@ -262,8 +262,10 @@ public class CareerFXMLController implements Initializable {
                     careersList.remove(element);
                     //Reescribe el archivo
                     FileManagementCareers.overwriteCareersFile(careersList);
+                    //Settea los tf
                     tfRemoveId.setText("");
                     txtError.setText("");
+                    //Mensaje que logró eliminarlo
                     txtAdded.setText("Carrera eliminada correctamente");
 
                 } else {

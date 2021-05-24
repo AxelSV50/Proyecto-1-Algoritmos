@@ -11,16 +11,19 @@ package domain;
  */
 public class Course {
 
- private String id;
- private String name;
-  private int credits;
- private int careerID;
+    private String id;
+    private String name;
+    private int credits;
+    private int careerID;
+    private String descriptionCarreer;
 
     public Course(String id, String name, int credits, int careerID) {
         this.id = id;
         this.name = name;
         this.credits = credits;
         this.careerID = careerID;
+        this.descriptionCarreer = getDescription();
+
     }
 
     public String getId() {
@@ -55,9 +58,36 @@ public class Course {
         this.careerID = careerID;
     }
 
+    public String getDescriptionCarreer() {
+        return descriptionCarreer;
+    }
+
+    private String getDescription() {
+
+        DoublyLinkedList list = util.Utility.getCareersList();
+        int index;
+        String description = null;
+        try {
+            if (list.contains(new Career(careerID, ""))) {
+
+                index = list.indexOf(new Career(careerID, ""));
+                Career c = (Career) list.getNode(index).data;
+                description = c.getDescription();
+            }
+
+        } catch (ListException ex) {
+        }
+
+        return description;
+    }
+
+    public void setDescriptionCarreer(String descriptionCarreer) {
+        this.descriptionCarreer = descriptionCarreer;
+    }
+
     @Override
     public String toString() {
-        return  id + "," + name + "," + credits + "," + careerID;
+        return id + "," + name + "," + credits + "," + careerID;
     }
- 
+
 }

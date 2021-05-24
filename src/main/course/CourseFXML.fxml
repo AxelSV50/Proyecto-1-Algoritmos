@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -9,130 +9,131 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.course.CourseFXMLController">
-   <left>
-      <AnchorPane fx:id="displayPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="727.0" BorderPane.alignment="CENTER">
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.course.CourseFXMLController">
+   <right>
+      <AnchorPane fx:id="ac" prefHeight="519.0" prefWidth="770.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="navPanel" layoutX="32.0" layoutY="-2.0" prefHeight="32.0" prefWidth="696.0" style="-fx-background-color: #000445;">
+            <Pane layoutX="18.0" layoutY="-5.0" prefHeight="34.0" prefWidth="752.0" style="-fx-background-color: #000445;">
                <children>
-                  <Button fx:id="btnAdd" layoutX="30.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnAdd" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="Agregar" textFill="#ffee00" />
-                  <Button fx:id="btnDelete" layoutX="132.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: transparent};" text="Suprimir" textFill="#ffee00" />
-                  <Button fx:id="btnModify" layoutX="239.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnModify" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Modificar" textFill="#ffee00" />
-                  <Button fx:id="btnShowCourse" layoutX="354.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnShowCourse" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Mostrar" textFill="#ffee00" />
-                  <Button fx:id="btnBack" layoutX="635.0" layoutY="-8.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="50.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="🡆" textFill="#ffee00">
+                  <Button fx:id="btnAddCourse" layoutX="48.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnAddCourse" prefHeight="17.0" prefWidth="59.0" style="-fx-background-color: Transparent;" text="Agregar" textFill="#ffee00" />
+                  <Button fx:id="btnDeleteCourse" layoutX="138.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnDeleteCourse" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: Transparent;" text="Suprimir" textFill="#ffee00" />
+                  <Button fx:id="btnModifyCourse" layoutX="240.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnModifyCourse" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: Transparent;" text="Modificar" textFill="#ffee00" />
+                  <Button fx:id="btnShowCourse" layoutX="353.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnShowCourse" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: Transparent;" text="Mostrar" textFill="#ffee00" />
+                  <Button fx:id="btnBack" layoutX="702.0" layoutY="-4.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="43.0" prefWidth="54.0" style="-fx-background-color: Transparent;" text="🡆" textFill="#ffee00">
                      <font>
-                        <Font size="23.0" />
+                        <Font size="18.0" />
                      </font>
                   </Button>
                </children>
             </Pane>
-            <Pane fx:id="deletePanel" layoutX="195.0" layoutY="143.0" prefHeight="167.0" prefWidth="409.0" visible="false">
+            <Pane fx:id="panelAddCourse" layoutX="185.0" layoutY="159.0" prefHeight="294.0" prefWidth="455.0" visible="false">
                <children>
-                  <Label layoutX="91.0" layoutY="68.0" prefHeight="17.0" prefWidth="89.0" text="Id del Curso:">
+                  <TextField fx:id="tfAddCourseId" layoutX="141.0" layoutY="36.0" onKeyPressed="#tfAddCourseId" prefHeight="25.0" prefWidth="140.0" />
+                  <Text layoutX="21.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sigla del curso :" wrappingWidth="129.6328125">
                      <font>
-                        <Font name="Arial Bold" size="14.0" />
+                        <Font name="Calibri Light Italic" size="15.0" />
                      </font>
-                  </Label>
-                  <TextField fx:id="txtDeleteCourse" layoutX="212.0" layoutY="64.0" />
-                  <Button fx:id="btnDeleteCourse" layoutX="106.0" layoutY="128.0" mnemonicParsing="false" onAction="#btnDeleteCourse" text="Eliminar" />
-                  <Button fx:id="btnCancel" layoutX="272.0" layoutY="128.0" mnemonicParsing="false" text="Cancelar" />
-                  <Label layoutX="129.0" layoutY="14.0" text="Digite el ID del Curso">
+                  </Text>
+                  <Text layoutX="51.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:" wrappingWidth="89.6328125">
                      <font>
-                        <Font name="Arial Bold" size="15.0" />
+                        <Font name="Calibri Light Italic" size="15.0" />
                      </font>
-                  </Label>
+                  </Text>
+                  <TextField fx:id="tfAddNameCourse" layoutX="141.0" layoutY="81.0" onKeyPressed="#tfAddNameCourse" prefHeight="25.0" prefWidth="139.0" />
+                  <Button fx:id="btnAdd" layoutX="141.0" layoutY="237.0" mnemonicParsing="false" onAction="#btnAdd" text="Agregar" />
+                  <Text layoutX="51.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Créditos:" wrappingWidth="89.6328125">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="51.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carrera :" wrappingWidth="89.6328125">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="tfAddCreditsCourse" layoutX="141.0" layoutY="127.0" onKeyPressed="#tfAddCreditsCourse" prefHeight="25.0" prefWidth="139.0" />
+                  <ComboBox fx:id="comboBoxCourseAdd" layoutX="141.0" layoutY="172.0" prefHeight="25.0" prefWidth="140.0" />
+                  <Button layoutX="221.0" layoutY="237.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Cancerlar" />
                </children>
             </Pane>
-            <Pane fx:id="addPanel" layoutX="89.0" layoutY="82.0" prefHeight="220.0" prefWidth="592.0" visible="false">
+            <Text fx:id="txtTitle" layoutX="296.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de cursos" textAlignment="CENTER">
+               <font>
+                  <Font name="Candara Light Italic" size="30.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtAdded" fill="#009a39" layoutX="268.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
+               <font>
+                  <Font name="Calibri Light Italic" size="12.0" />
+               </font>
+            </Text>
+            <Pane fx:id="panelDeleteCourse" layoutX="206.0" layoutY="181.0" prefHeight="120.0" prefWidth="374.0" visible="false">
                <children>
-                  <Label layoutX="14.0" layoutY="61.0" prefHeight="25.0" prefWidth="69.0" text="ID Curso:">
+                  <Text layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código del curso :" wrappingWidth="129.6328125">
                      <font>
-                        <Font name="Arial Bold" size="15.0" />
+                        <Font name="Calibri Light Italic" size="15.0" />
                      </font>
-                  </Label>
-                  <TextField fx:id="txtIdCourse" layoutX="89.0" layoutY="61.0" />
-                  <Label layoutX="15.0" layoutY="102.0" prefHeight="17.0" prefWidth="67.0" text="Nombre:">
-                     <font>
-                        <Font name="Arial Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtNameCourse" layoutX="89.0" layoutY="98.0" />
-                  <Label layoutX="284.0" layoutY="102.0" text="Créditos:">
-                     <font>
-                        <Font name="Arial Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="279.0" layoutY="65.0" text="ID Carrera:">
-                     <font>
-                        <Font name="Arial Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtCredits" layoutX="380.0" layoutY="98.0" />
-                  <TextField fx:id="txtIdCareer" layoutX="380.0" layoutY="61.0" />
-                  <Button fx:id="btnAddCourse" layoutX="163.0" layoutY="171.0" mnemonicParsing="false" onAction="#btnAddCourse" text="Agregar" />
-                  <Button fx:id="btnCancel" layoutX="342.0" layoutY="171.0" mnemonicParsing="false" onAction="#btnCancel" text="Cancelar" />
-                  <Label layoutX="204.0" layoutY="8.0" prefHeight="23.0" prefWidth="225.0" text="Digite la información del curso">
-                     <font>
-                        <Font name="Arial Bold" size="15.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane fx:id="modifyPanel" layoutX="48.0" layoutY="76.0" prefHeight="231.0" prefWidth="673.0" visible="false">
+                  </Text>
+                  <TextField fx:id="tfRemoveId" layoutX="131.0" layoutY="38.0" onKeyPressed="#tfRemoveId" prefHeight="25.0" prefWidth="182.0" />
+                  <Button fx:id="btnDelete" layoutX="331.0" layoutY="38.0" mnemonicParsing="false" onAction="#btnDelete" text="Eliminar" />
+               </children></Pane>
+            <Text fx:id="txtError" fill="RED" layoutX="259.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="251.6328125">
+               <font>
+                  <Font name="Calibri Light Italic" size="12.0" />
+               </font>
+            </Text>
+            <TableView fx:id="courseTable" layoutX="64.0" layoutY="124.0" prefHeight="326.0" prefWidth="673.0" visible="false">
+              <columns>
+                <TableColumn fx:id="colIdCourse" prefWidth="143.0" text="Sigla" />
+                <TableColumn fx:id="colNameCourse" prefWidth="242.0" text="Nombre" />
+                  <TableColumn fx:id="colCreditsCourse" prefWidth="72.0" text="Créditos" />
+                  <TableColumn fx:id="colDescriptionCarreer" prefWidth="214.0" text="Descripcion de la carrera" />
+              </columns>
+            </TableView>
+            <Pane fx:id="panelModifyCourse" layoutX="138.0" layoutY="108.0" prefHeight="374.0" prefWidth="511.0" visible="false">
                <children>
-                  <Label layoutX="22.0" layoutY="67.0" prefHeight="25.0" prefWidth="100.0" text="Id del Curso:">
+                  <TextField fx:id="tfSiglaModify" disable="true" layoutX="195.0" layoutY="148.0" prefHeight="25.0" prefWidth="140.0" />
+                  <Text layoutX="75.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sigla del curso :" wrappingWidth="129.6328125">
                      <font>
-                        <Font name="Arial Bold" size="15.0" />
+                        <Font name="Calibri Light Italic" size="15.0" />
                      </font>
-                  </Label>
-                  <TextField fx:id="txtIdCourseModify" layoutX="126.0" layoutY="67.0" />
-                  <Button fx:id="btnModifyCourse" layoutX="275.0" layoutY="185.0" mnemonicParsing="false" onAction="#btnModifyCourse" prefHeight="32.0" prefWidth="67.0" text="Modificar" />
-                  <Button fx:id="btnCancel" layoutX="425.0" layoutY="185.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="67.0" text="Cancelar" />
-                  <Button fx:id="btnSeacrhCourse" layoutX="117.0" layoutY="185.0" mnemonicParsing="false" onAction="#btnSeacrhCourse" prefHeight="32.0" prefWidth="73.0" text="Buscar" />
-                  <Label layoutX="22.0" layoutY="120.0" text="Nombre:">
+                  </Text>
+                  <Text layoutX="105.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:" wrappingWidth="89.6328125">
                      <font>
-                        <Font name="Arial Bold" size="15.0" />
+                        <Font name="Calibri Light Italic" size="15.0" />
                      </font>
-                  </Label>
-                  <Label layoutX="315.0" layoutY="120.0" text="Créditos:">
+                  </Text>
+                  <TextField fx:id="tfNameCourseModify" disable="true" layoutX="195.0" layoutY="193.0" onKeyPressed="#tfNameCourseModify" prefHeight="25.0" prefWidth="139.0" />
+                  <Button fx:id="btnUpdate" disable="true" layoutX="180.0" layoutY="341.0" mnemonicParsing="false" onAction="#btnUpdate" text="Actualizar" />
+                  <Text layoutX="105.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Créditos:" wrappingWidth="89.6328125">
                      <font>
-                        <Font name="Arial Bold" size="15.0" />
+                        <Font name="Calibri Light Italic" size="15.0" />
                      </font>
-                  </Label>
-                  <Label layoutX="315.0" layoutY="71.0" text="Id de la Carrera:">
+                  </Text>
+                  <Text layoutX="105.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carrera :" wrappingWidth="89.6328125">
                      <font>
-                        <Font name="Arial Bold" size="15.0" />
+                        <Font name="Calibri Light Italic" size="15.0" />
                      </font>
-                  </Label>
-                  <Label layoutX="315.0" layoutY="144.0">
+                  </Text>
+                  <TextField fx:id="tfModifyCreditsCourse" disable="true" layoutX="195.0" layoutY="239.0" onKeyPressed="#tfModifyCreditsCourse" prefHeight="25.0" prefWidth="139.0" />
+                  <ComboBox fx:id="comboBoxCourseModify" disable="true" layoutX="195.0" layoutY="284.0" prefHeight="25.0" prefWidth="140.0" />
+                  <Button fx:id="btnCancelModify" disable="true" layoutX="281.0" layoutY="341.0" mnemonicParsing="false" onAction="#btnCancelModify" prefHeight="25.0" prefWidth="66.0" text="Cancelar" />
+                  <Text layoutX="200.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevos datos:" underline="true" wrappingWidth="129.6328125">
                      <font>
-                        <Font name="Arial Bold" size="15.0" />
+                        <Font name="Cambria Bold Italic" size="15.0" />
                      </font>
-                  </Label>
-                  <TextField fx:id="txtNameModify" layoutX="126.0" layoutY="116.0" />
-                  <TextField fx:id="txtCreditsModify" layoutX="447.0" layoutY="116.0" />
-                  <TextField fx:id="txtIdCareerModify" layoutX="447.0" layoutY="67.0" />
-                  <Label layoutX="272.0" layoutY="14.0" text="Modifique los datos">
+                  </Text>
+                  <TextField fx:id="tfSearchCourserUpdate" layoutX="195.0" layoutY="62.0" onKeyPressed="#tfSearchCarrerUpdate" prefHeight="25.0" prefWidth="140.0" />
+                  <Text layoutX="92.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sigla del curso:" wrappingWidth="95.6328125">
                      <font>
-                        <Font name="Arial Bold" size="15.0" />
+                        <Font name="Calibri Light Italic" size="15.0" />
                      </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane fx:id="dsly" layoutX="200.0" layoutY="30.0" prefHeight="367.0" prefWidth="387.0" visible="false">
-               <children>
-                  <TableView prefHeight="368.0" prefWidth="387.0">
-                    <columns>
-                      <TableColumn prefWidth="78.0" text="ID Curso" />
-                        <TableColumn prefWidth="93.0" text="ID Carrera" />
-                        <TableColumn prefWidth="126.0" text="Nombre" />
-                        <TableColumn prefWidth="97.0" text="Créditos" />
-                    </columns>
-                  </TableView>
+                  </Text>
+                  <Button fx:id="btnSearchCourseUpdate" layoutX="347.0" layoutY="62.0" mnemonicParsing="false" onAction="#btnSearchCourseUpdate" text="🔎" />
                </children>
             </Pane>
          </children>
       </AnchorPane>
-   </left>
+   </right>
 </BorderPane>

@@ -57,6 +57,26 @@ public class SinglyLinkedList implements List {
         return false; //indica q el elemento no existe
     }
 
+    public int countEqualObjects(Object element, Object e2) throws ListException {
+        if (isEmpty()) {
+            throw new ListException("SinglyLinkedList is empty");
+        }
+        Node aux = first;
+        int amount = 0;
+        
+        Student b = (Student) e2;
+        
+        while (aux != null) {
+            
+            Student a = (Student)aux.data;
+            if (util.Utility.equals2(aux.data, element) && !(a.getId()==b.getId())) {
+                amount++;
+            }
+            aux = aux.next;
+        }
+        return amount; 
+    }
+
     @Override
     public void add(Object element) {
         Node newNode = new Node(element);
@@ -274,7 +294,7 @@ public class SinglyLinkedList implements List {
             if (util.Utility.equals(aux.data, element)) {
 
                 if (prev != null) {
-                    
+
                     return prev.data;
                 }
                 return null;
@@ -323,8 +343,6 @@ public class SinglyLinkedList implements List {
         return null; //si llega aqui, no encontro el nodo
     }
 
- 
-    
     @Override
     public String toString() {
         String result = "SINGLY LINKED LIST\n";
@@ -335,6 +353,18 @@ public class SinglyLinkedList implements List {
             aux = aux.next;
         }
         return result;
+    }
+
+    public void modify(int index, Object element) throws ListException {
+        if (isEmpty()) {
+            throw new ListException("SinglyLinkedList is empty");
+        }
+
+        Node aux = getNode(index);
+
+        if (aux != null) {
+            aux.data = element;
+        }
     }
 
 }

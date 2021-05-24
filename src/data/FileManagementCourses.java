@@ -14,6 +14,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
@@ -47,7 +48,7 @@ public class FileManagementCourses {
         return true;
     }
 
-public static boolean overwriteCareersFile(CircularDoublyLinkedList list) {
+public static boolean overwriteCourseFile(CircularDoublyLinkedList list) {
         try {
 
             File f1 = new File(nameFileCourses);
@@ -78,6 +79,33 @@ public static boolean overwriteCareersFile(CircularDoublyLinkedList list) {
             e.printStackTrace();
         }
         return true;
+    }
+ public static CircularDoublyLinkedList getCoursesList() {
+
+      CircularDoublyLinkedList list = new CircularDoublyLinkedList();
+
+        try {
+
+            File f1 = new File(nameFileCourses);
+            String array[];
+  
+
+            if (f1.exists()) {
+                BufferedReader br = new BufferedReader(new FileReader(f1));
+                String line;
+                while ((line = br.readLine()) != null) {
+
+                    array = line.split("~");//la '~' se designó para separar los elementos del fichero
+                    
+                    list.add(new Course(array[0], array[1], Integer.parseInt(array[2]), Integer.parseInt(array[3])));
+                }
+                br.close();
+
+            }
+        } catch (IOException | NumberFormatException ex) {
+        }
+        return list;
+
     }
 }
 

@@ -1,3 +1,2 @@
 1,Informática
-2,Turismo
-3,Agronomía
+4,Turismo

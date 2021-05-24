@@ -73,13 +73,13 @@ public class MainMenuFXMLController implements Initializable {
 
     @FXML
     private void opcCareer(MouseEvent event) {
-        
+
         loadPage("/main/career/CareerFXML");
     }
 
     @FXML
     private void opcStudents(MouseEvent event) {
-        
+
         loadPage("/main/student/StudentFXML");
     }
 
@@ -93,6 +93,9 @@ public class MainMenuFXMLController implements Initializable {
 
     @FXML
     private void opcCourse(MouseEvent event) {
+
+        loadPage("/main/course/CourseFXML");
+
     }
 
     @FXML
@@ -111,6 +114,6 @@ public class MainMenuFXMLController implements Initializable {
             Logger.getLogger(SecurityFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.bp.setRight(root);
-     }
-   
+    }
+
 }

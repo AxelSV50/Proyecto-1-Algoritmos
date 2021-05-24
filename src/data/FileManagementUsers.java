@@ -77,7 +77,7 @@ public class FileManagementUsers {
 
                     array = line.split("~");//la '~' se designó para separar los elementos del fichero
                     array2 = array[4].split("/");
-                    Calendar c = new GregorianCalendar(Integer.parseInt(array2[2]), Integer.parseInt(array2[1]), Integer.parseInt(array2[0]));
+                    Calendar c = new GregorianCalendar(Integer.parseInt(array2[2]), Integer.parseInt(array2[1])-1, Integer.parseInt(array2[0]));
                     list.add(new Student(Integer.parseInt(array[1]), array[0], array[2], array[3], c.getTime(), array[5], array[6], array[7], Integer.parseInt(array[8])));
                 }
                 br.close();
@@ -110,7 +110,7 @@ public class FileManagementUsers {
 
                     } else {
 
-                        list.add(array[0] + "~" + array[8]);
+                        list.add(array[0] + "~" + array[9]);
                     }
                 }
                 br.close();
@@ -121,5 +121,39 @@ public class FileManagementUsers {
         }
         return list;
     }
+   public static boolean overwriteStudentsFile(SinglyLinkedList list) {
+        try {
 
+            File f1 = new File(nameFileStudents);
+            CircularLinkedList list2 = getDataLogin(nameFileStudents);
+            
+            if (f1.exists()) {
+                f1.delete();
+            }
+            f1.createNewFile();
+
+            //Abre un flujo de escritua a el fichero
+            FileWriter fw = new FileWriter(f1, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            if (!list.isEmpty()) {
+                for (int i = 1; i <= list.size(); i++) {
+
+                    if (list.getNode(i) != null && list2.getNode(i) != null) {
+                        
+                        Student c = (Student) list.getNode(i).data;
+                        String array[] = list2.getNode(i).data.toString().split("~");
+                        bw.write(c.toString()+"~"+array[1]+"\n");
+                    }
+                }
+                bw.close();
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return true;
+    }
 }
