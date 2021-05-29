@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -21,7 +22,7 @@ import javafx.scene.layout.Pane;
 /**
  * FXML Controller class
  *
- * @author valer
+ * @author Valeria
  */
 public class ScheduleFXMLController implements Initializable {
 
@@ -34,13 +35,27 @@ public class ScheduleFXMLController implements Initializable {
     @FXML
     private Button btnBack;
     @FXML
-    private Pane paneTable;
+    private TableView<?> tableCourse;
     @FXML
-    private TableView<?> tableSchedule;
+    private TableColumn<?, ?> colIDCourse;
     @FXML
-    private TableColumn<?, ?> colHorario1;
+    private TableColumn<?, ?> colPeriodCourse;
     @FXML
-    private TableColumn<?, ?> colHorario2;
+    private TableColumn<?, ?> colScheduleCourse1;
+    @FXML
+    private TableColumn<?, ?> colScheduleCourse2;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private TextField txtFieldDaySchedule1;
+    @FXML
+    private TextField txtFieldHourSchedule1;
+    @FXML
+    private TextField txtFieldDaySchedule2;
+    @FXML
+    private TextField txtFieldHourSchedule2;
+    @FXML
+    private Button btnAdd;
 
     /**
      * Initializes the controller class.
@@ -52,6 +67,14 @@ public class ScheduleFXMLController implements Initializable {
 
     @FXML
     private void btnBack(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnSave(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnAdd(ActionEvent event) {
     }
     
 }
