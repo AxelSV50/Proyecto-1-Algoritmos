@@ -45,7 +45,7 @@
                      </font>
                   </Label>
                   <TextField fx:id="tfAddPhoneNumber" layoutX="432.0" layoutY="44.0" onKeyPressed="#tfAddPhoneNumber" />
-                  <TextField fx:id="tfAddEmail" layoutX="95.0" layoutY="150.0" />
+                  <TextField fx:id="tfAddEmail" layoutX="95.0" layoutY="150.0" onKeyPressed="#tfAddEmail" />
                   <TextField fx:id="tfAddAddress" layoutX="432.0" layoutY="79.0" />
                   <Button fx:id="btnAddStudent" layoutX="237.0" layoutY="249.0" mnemonicParsing="false" onAction="#btnAddStudent" text="Agregar" />
                   <Button fx:id="btnCancel" layoutX="314.0" layoutY="249.0" mnemonicParsing="false" onAction="#btnCancel" text="Cancelar" />
@@ -133,7 +133,7 @@
                   <TextField fx:id="tfNameModify" disable="true" layoutX="136.0" layoutY="221.0" />
                   <TextField fx:id="tfLastNameModify" disable="true" layoutX="136.0" layoutY="260.0" />
                   <TextField fx:id="tfPhoneModify" disable="true" layoutX="479.0" layoutY="184.0" />
-                  <TextField fx:id="tfEmailModify" disable="true" layoutX="136.0" layoutY="301.0" />
+                  <TextField fx:id="tfEmailModify" disable="true" layoutX="136.0" layoutY="301.0" onKeyPressed="#tfEmailModify" />
                   <TextField fx:id="tfAdrressModify" disable="true" layoutX="479.0" layoutY="223.0" />
                   <Text layoutX="293.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevos datos:" underline="true" wrappingWidth="129.6328125">
                      <font>

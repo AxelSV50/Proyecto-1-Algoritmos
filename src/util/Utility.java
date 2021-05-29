@@ -7,7 +7,6 @@ package util;
 
 import domain.Career;
 import domain.CircularDoublyLinkedList;
-import domain.CircularLinkedList;
 import domain.Course;
 import domain.DoublyLinkedList;
 import domain.SinglyLinkedList;

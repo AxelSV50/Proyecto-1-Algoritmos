@@ -449,15 +449,12 @@ public class CircularDoublyLinkedList implements List {
 
         Node aux = getNode(index);
         Course a = (Course)aux.data;
-        
-        System.out.println(a.toString());
-        
+                
         if (aux != null) {
             aux.data = element;
         }
         a = (Course)aux.data;
         
-        System.out.println(a.toString());
     }
 
 }

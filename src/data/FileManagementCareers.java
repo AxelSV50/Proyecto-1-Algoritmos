@@ -33,6 +33,7 @@ public class FileManagementCareers {
             //Abre un flujo de escritua a el fichero
             FileWriter fw = new FileWriter(f1, true);
             BufferedWriter bw = new BufferedWriter(fw);
+            //Escribe los parámetros
             bw.write(id + "," + description + "\n");
             bw.close();
 

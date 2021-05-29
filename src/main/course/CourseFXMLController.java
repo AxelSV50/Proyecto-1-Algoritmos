@@ -11,10 +11,15 @@ import domain.CircularDoublyLinkedList;
 import domain.Course;
 import domain.DoublyLinkedList;
 import domain.ListException;
+import domain.Student;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +35,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import main.career.CareerFXMLController;
 import main.student.StudentFXMLController;
 
@@ -75,15 +81,15 @@ public class CourseFXMLController implements Initializable {
     @FXML
     private Button btnDelete;
     @FXML
-    private TableView<Course> courseTable;
+    private TableView<List<String>> courseTable;
     @FXML
-    private TableColumn<Course, String> colIdCourse;
+    private TableColumn<List<String>, String> colIdCourse;
     @FXML
-    private TableColumn<Course, String> colNameCourse;
+    private TableColumn<List<String>, String> colNameCourse;
     @FXML
-    private TableColumn<Course, Integer> colCreditsCourse;
+    private TableColumn<List<String>, String> colCreditsCourse;
     @FXML
-    private TableColumn<Course, String> colDescriptionCarreer;
+    private TableColumn<List<String>, String> colDescriptionCarreer;
     @FXML
     private AnchorPane ac;
     @FXML
@@ -119,22 +125,60 @@ public class CourseFXMLController implements Initializable {
         initComboBox(comboBoxCourseAdd);
         initComboBox(comboBoxCourseModify);
 
-        colIdCourse.setCellValueFactory(new PropertyValueFactory<Course, String>("id"));
-        colNameCourse.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
-        colCreditsCourse.setCellValueFactory(new PropertyValueFactory<Course, Integer>("credits"));
-        colDescriptionCarreer.setCellValueFactory(new PropertyValueFactory<Course, String>("descriptionCarreer"));
+        colIdCourse.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(0)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colNameCourse.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(1)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colCreditsCourse.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(2)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colDescriptionCarreer.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
 
         cleanAll();
         courseTable.setVisible(true);
         txtTitle.setText("Lista de cursos");
-        ObservableList<Course> tableContent = FXCollections.observableArrayList();
+        initTable();
+
+    }
+
+    private void initTable() {
+        ObservableList<List<String>> tableContent = FXCollections.observableArrayList();
+
         if (!courseList.isEmpty()) {
 
             try {
                 for (int i = 1; i <= courseList.size(); i++) {
 
+                    List<String> arrayList = new ArrayList<>();
+
                     Course a = (Course) courseList.getNode(i).data;
-                    tableContent.add(a);
+
+                    int index = careersList.indexOf(new Career(a.getCareerID(), ""));
+                    Career c = (Career) careersList.getNode(index).data;
+
+                    //Agregamos todos los datos al arrayList
+                    arrayList.add(a.getId());
+                    arrayList.add(a.getName());
+                    arrayList.add(a.getCredits() + "");
+                    arrayList.add(c.getDescription());
+
+                    tableContent.add(arrayList);
                 }
             } catch (ListException ex) {
                 Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -297,20 +341,7 @@ public class CourseFXMLController implements Initializable {
         cleanAll();
         courseTable.setVisible(true);
         txtTitle.setText("Lista de cursos");
-        ObservableList<Course> tableContent = FXCollections.observableArrayList();
-        if (!courseList.isEmpty()) {
-
-            try {
-                for (int i = 1; i <= courseList.size(); i++) {
-
-                    Course a = (Course) courseList.getNode(i).data;
-                    tableContent.add(a);
-                }
-            } catch (ListException ex) {
-                Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        courseTable.setItems(tableContent);
+        initTable();
     }
 
     private void cleanAll() {
@@ -399,56 +430,26 @@ public class CourseFXMLController implements Initializable {
             try {
 
                 String array[] = comboBoxCourseModify.getValue().split("-");
-                Object newElelement = new Course(tfSiglaModify.getText(), tfNameCourseModify.getText(), Integer.parseInt(tfModifyCreditsCourse.getText()), Integer.parseInt(array[0]));
+                Object newElement = new Course(tfSiglaModify.getText(), tfNameCourseModify.getText(), Integer.parseInt(tfModifyCreditsCourse.getText()), Integer.parseInt(array[0]));
 
-                Object oldElement = new Course(tfSearchCourserUpdate.getText(), "", 0, 0);
+                Object oldElement = new Course(tfSiglaModify.getText(), "", 0, 0);
 
-                if (!courseList.contains(newElelement)) {
-
-                    courseList.modify(courseList.indexOf(oldElement), newElelement);
-                    FileManagementCourses.overwriteCourseFile(courseList);
-                    txtError.setText("");
-                    tfSiglaModify.setText("");
-                    tfNameCourseModify.setText("");
-                    tfModifyCreditsCourse.setText("");
-                    comboBoxCourseModify.setValue("");
-                    tfSiglaModify.setDisable(true);
-                    tfNameCourseModify.setDisable(true);
-                    btnUpdate.setDisable(true);
-                    tfSearchCourserUpdate.setDisable(false);
-                    tfModifyCreditsCourse.setDisable(true);
-                    btnCancelModify.setDisable(true);
-                    btnSearchCourseUpdate.setDisable(false);
-                    comboBoxCourseModify.setDisable(true);
-                    txtAdded.setText("Curso modificado correctamente");
-                } else {
-
-                    if (tfSearchCourserUpdate.textProperty().getValue().equals(tfSiglaModify.textProperty().getValue())) {
-
-                        courseList.modify(courseList.indexOf(oldElement), newElelement);
-                        FileManagementCourses.overwriteCourseFile(courseList);
-                        txtError.setText("");
-                        tfSiglaModify.setText("");
-                        tfNameCourseModify.setText("");
-                        tfModifyCreditsCourse.setText("");
-                        comboBoxCourseModify.setValue("");
-                        tfSiglaModify.setDisable(true);
-                        tfNameCourseModify.setDisable(true);
-                        btnUpdate.setDisable(true);
-                        tfSearchCourserUpdate.setDisable(false);
-                        tfModifyCreditsCourse.setDisable(true);
-                        btnCancelModify.setDisable(true);
-                        btnSearchCourseUpdate.setDisable(false);
-                        comboBoxCourseModify.setDisable(true);
-                        txtAdded.setText("Curso modificado correctamente");
-
-                    } else {
-
-                        txtError.setText("La sigla del curso ya está en uso");
-                        txtAdded.setText("");
-                    }
-
-                }
+                courseList.modify(courseList.indexOf(oldElement), newElement);
+                FileManagementCourses.overwriteCourseFile(courseList);
+                txtError.setText("");
+                tfSiglaModify.setText("");
+                tfNameCourseModify.setText("");
+                tfModifyCreditsCourse.setText("");
+                comboBoxCourseModify.setValue("");
+                tfSiglaModify.setDisable(true);
+                tfNameCourseModify.setDisable(true);
+                btnUpdate.setDisable(true);
+                tfSearchCourserUpdate.setDisable(false);
+                tfModifyCreditsCourse.setDisable(true);
+                btnCancelModify.setDisable(true);
+                btnSearchCourseUpdate.setDisable(false);
+                comboBoxCourseModify.setDisable(true);
+                txtAdded.setText("Curso modificado correctamente");
 
             } catch (ListException ex) {
 
@@ -509,17 +510,19 @@ public class CourseFXMLController implements Initializable {
                 if (courseList.contains(element)) {
 
                     Course c = (Course) courseList.getNode(courseList.indexOf(element)).data;
+                    int index = careersList.indexOf(new Career(c.getCareerID(), ""));
+                    Career c2 = (Career) careersList.getNode(index).data;
 
                     tfSiglaModify.setText(c.getId());
                     tfNameCourseModify.setText(c.getName());
                     tfModifyCreditsCourse.setText(c.getCredits() + "");
-                    comboBoxCourseModify.setValue(c.getCareerID() + "-" + c.getDescriptionCarreer());
+                    comboBoxCourseModify.setValue(c.getCareerID() + "-" + c2.getDescription());
                     txtError.setText("");
                     txtAdded.setText("");
-                    tfSiglaModify.setDisable(false);
+                    tfSiglaModify.setDisable(true);
                     tfNameCourseModify.setDisable(false);
                     btnUpdate.setDisable(false);
-                    tfSearchCourserUpdate.setDisable(true);
+                    tfSearchCourserUpdate.setText("");
                     tfModifyCreditsCourse.setDisable(false);
                     btnCancelModify.setDisable(false);
                     btnSearchCourseUpdate.setDisable(true);

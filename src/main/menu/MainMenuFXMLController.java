@@ -5,6 +5,8 @@
  */
 package main.menu;
 
+import domain.CircularDoublyLinkedList;
+import domain.DoublyLinkedList;
 import main.*;
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -50,6 +53,8 @@ public class MainMenuFXMLController implements Initializable {
     @FXML
     private Button btnLogout;
 
+    private DoublyLinkedList careersList = util.Utility.getCareersList();
+    private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
     /**
      * Initializes the controller class.
      */
@@ -80,21 +85,66 @@ public class MainMenuFXMLController implements Initializable {
     @FXML
     private void opcStudents(MouseEvent event) {
 
-        loadPage("/main/student/StudentFXML");
+        careersList = util.Utility.getCareersList();
+
+        if (careersList.isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sección de estudiantes");
+            alert.setHeaderText("Debe ingresar al menos una carrera");
+            alert.showAndWait();
+
+        } else {
+
+            loadPage("/main/student/StudentFXML");
+
+        }
     }
 
     @FXML
     private void opcSchedule(MouseEvent event) {
+        
+        careersList = util.Utility.getCareersList();
+        courseList = util.Utility.getCoursesList();
+        
+        if (careersList.isEmpty() || courseList.isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sección de horarios");
+            alert.setHeaderText("Debe ingresar al menos una carrera\n y un curso.");
+            alert.showAndWait();
+            
+        } else {
+
+        }
     }
 
     @FXML
     private void opcReports(MouseEvent event) {
+
+        if (careersList.isEmpty()) {
+
+        } else {
+
+        }
     }
 
     @FXML
     private void opcCourse(MouseEvent event) {
+        careersList = util.Utility.getCareersList();
+        
+        if (careersList.isEmpty()) {
 
-        loadPage("/main/course/CourseFXML");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sección de cursos");
+            alert.setHeaderText("Debe ingresar al menos una carrera");
+            alert.showAndWait();
+
+        } else {
+
+            loadPage("/main/course/CourseFXML");
+
+        }
 
     }
 

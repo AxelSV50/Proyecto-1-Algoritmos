@@ -5,7 +5,6 @@
  */
 package main.student;
 
-import data.FileManagementCareers;
 import data.FileManagementUsers;
 import domain.Career;
 import domain.DoublyLinkedList;
@@ -136,8 +135,8 @@ public class StudentFXMLController implements Initializable {
 
     //Copiar esto
     private DoublyLinkedList careersList = util.Utility.getCareersList();
-
     private SinglyLinkedList studentList = util.Utility.getStudentsList();
+
     @FXML
     private Button btnModify;
 
@@ -174,10 +173,7 @@ public class StudentFXMLController implements Initializable {
 
         cbCareers.setItems(tableContent);
         cbCareers.setVisibleRowCount(3);
-        //Descomentar esto
 
-//      cbCareers.setPromptText("Seleccione");
-        //Comentar esto
         if (cbCareers == comboBoxStudentModify) {
 
             cbCareers.setValue("");
@@ -245,7 +241,7 @@ public class StudentFXMLController implements Initializable {
 
                         //Se envía el correo de bienvenida:
                         try {
-                            util.Mail.sendWelcomeMessage(a, new Career(Integer.parseInt(array[0]), array[1]));
+                            util.Mail.sendWelcomeMessage(a);
                             cleanAll();
                             addStudentPanel.setVisible(true);
                             txtTitle.setText("Agregar estudiante");
@@ -301,7 +297,7 @@ public class StudentFXMLController implements Initializable {
     @FXML
     private void btnDeleteStudent(ActionEvent event) {
 
-        studentList = FileManagementUsers.getStudentsList();
+        studentList = util.Utility.getStudentsList();
 
         if (!tfDeleteStudent.getText().equals("")) {
 
@@ -312,7 +308,7 @@ public class StudentFXMLController implements Initializable {
 
                     studentList.remove(a);
                     FileManagementUsers.overwriteStudentsFile(studentList);
-                    studentList = FileManagementUsers.getStudentsList();
+                    studentList = util.Utility.getStudentsList();
                     txtSuccess.setText("Eliminado correctamente");
                     txtError.setText("");
                     tfDeleteStudent.setText("");
@@ -353,34 +349,39 @@ public class StudentFXMLController implements Initializable {
 
             txtSuccess.setText("");
             txtError.setText("");
-            studentList = FileManagementUsers.getStudentsList();
+            studentList = util.Utility.getStudentsList();
             try {
 
                 Student element = new Student(0, tfSearchStudentUpdate.getText(), "", "", new Date(), "", "", "", 0);
 
                 if (studentList.contains(element)) {
 
-                    Student c = (Student) studentList.getNode(studentList.indexOf(element)).data;
+                    Student a = (Student) studentList.getNode(studentList.indexOf(element)).data;
 
-                    tfStudentIdModify.setText(c.getId() + "");
-                    tfIdModify.setText(c.getStudentID() + "");
-                    tfLastNameModify.setText(c.getLastname());
-                    tfEmailModify.setText(c.getEmail());
-                    tfNameModify.setText(c.getFirstname());
-                    tfPhoneModify.setText(c.getPhoneNumber());
-                    tfAdrressModify.setText(c.getAddress());
-                    comboBoxStudentModify.setValue(c.getCareerID() + "-" + c.getCareerDescription());
-                    datePickerBirthdayModify.getEditor().setText(c.getFormatedDate());
+                    tfStudentIdModify.setText(a.getId() + "");
+                    tfIdModify.setText(a.getStudentID() + "");
+                    tfLastNameModify.setText(a.getLastname());
+                    tfEmailModify.setText(a.getEmail());
+                    tfNameModify.setText(a.getFirstname());
+                    tfPhoneModify.setText(a.getPhoneNumber());
+                    tfAdrressModify.setText(a.getAddress());
 
-                    tfSearchStudentUpdate.setDisable(true);
-                    tfIdModify.setDisable(false);
-                    tfStudentIdModify.setDisable(false);
+                    int index = careersList.indexOf(new Career(a.getCareerID(), ""));
+                    Career c = (Career) careersList.getNode(index).data;
+
+                    comboBoxStudentModify.setValue(a.getCareerID() + "-" + c.getDescription());
+                    datePickerBirthdayModify.getEditor().setText(util.Utility.dateFormat(a.getBirthday()));
+
+                    tfSearchStudentUpdate.setDisable(false);
+                    tfSearchStudentUpdate.setText("");
+
+                    tfIdModify.setDisable(true);
+                    tfStudentIdModify.setDisable(true);
                     tfLastNameModify.setDisable(false);
                     tfEmailModify.setDisable(false);
                     tfNameModify.setDisable(false);
                     tfPhoneModify.setDisable(false);
                     tfAdrressModify.setDisable(false);
-                    btnSearchStudentUpdate.setDisable(true);
                     btnCancelModify.setDisable(false);
                     comboBoxStudentModify.setDisable(false);
                     btnModify.setDisable(false);
@@ -580,7 +581,28 @@ public class StudentFXMLController implements Initializable {
                 Student newElement = new Student(Integer.parseInt(tfStudentIdModify.getText()), tfIdModify.getText(), tfLastNameModify.getText(),
                         tfNameModify.getText(), c.getTime(), tfPhoneModify.getText(), tfEmailModify.getText(), tfAdrressModify.getText(), Integer.parseInt(array[0]));
 
-                if (!studentList.contains(newElement)) {
+                Student a = (Student) studentList.getNode(studentList.indexOf(oldElement)).data;
+
+                boolean validEmail = true;
+                int count = 0;
+
+                for (int i = 1; i <= studentList.size(); i++) {
+
+                    Student aux = (Student) studentList.getNode(i).data;
+
+                    if (aux.getEmail().equals(tfEmailModify.getText())) {
+
+                        count++;
+                    }
+                }
+
+                if (tfEmailModify.getText().equals(a.getEmail())) {
+                    count--;
+                }
+                
+                if (count == 0) {
+
+                    util.Mail.sendModifyMessage(newElement);
 
                     studentList.modify(studentList.indexOf(oldElement), newElement);
                     FileManagementUsers.overwriteStudentsFile(studentList);
@@ -612,51 +634,19 @@ public class StudentFXMLController implements Initializable {
 
                     txtSuccess.setText("Estudiante modificado correctamente");
 
-                } else {
-
-                    if (tfSearchStudentUpdate.textProperty().getValue().equals(tfIdModify.textProperty().getValue())
-                            && studentList.countEqualObjects(oldElement, (Student) studentList.getNode(studentList.indexOf(newElement)).data) == 0) {
-
-                        studentList.modify(studentList.indexOf(oldElement), newElement);
-                        FileManagementUsers.overwriteStudentsFile(studentList);
-                        txtError.setText("");
-
-                        tfSearchStudentUpdate.setText("");
-                        tfIdModify.setText("");
-                        tfStudentIdModify.setText("");
-                        tfLastNameModify.setText("");
-                        tfEmailModify.setText("");
-                        tfNameModify.setText("");
-                        tfPhoneModify.setText("");
-                        tfAdrressModify.setText("");
-                        comboBoxStudentModify.setValue("");
-                        datePickerBirthdayModify.getEditor().setText("");
-
-                        tfSearchStudentUpdate.setDisable(false);
-                        tfIdModify.setDisable(true);
-                        tfStudentIdModify.setDisable(true);
-                        tfLastNameModify.setDisable(true);
-                        tfEmailModify.setDisable(true);
-                        tfNameModify.setDisable(true);
-                        tfPhoneModify.setDisable(true);
-                        tfAdrressModify.setDisable(true);
-                        btnSearchStudentUpdate.setDisable(false);
-                        btnCancelModify.setDisable(true);
-                        comboBoxStudentModify.setDisable(true);
-                        btnModify.setDisable(true);
-                        datePickerBirthdayModify.setDisable(true);
-                        txtSuccess.setText("Estudiante modificado correctamente");
-
-                    } else {
-
-                        txtError.setText("Cédula y/o carné ya en uso");
-                        txtSuccess.setText("");
-                    }
+                }else{
+                    
+                    txtError.setText("El nuevo correo ya está en uso");
+                txtSuccess.setText("");
                 }
 
             } catch (ListException ex) {
 
                 txtError.setText("No hay estudiantes agregados");
+                txtSuccess.setText("");
+            } catch (MessagingException ex) {
+
+                txtError.setText("El correo no es válido");
                 txtSuccess.setText("");
             }
         } else {
@@ -672,6 +662,58 @@ public class StudentFXMLController implements Initializable {
 
         txtSuccess.setText("");
 
+    }
+
+    @FXML
+    private void tfAddEmail(KeyEvent event) {
+        
+         txtSuccess.setText("");
+
+        try {
+
+            char c = event.getText().charAt(0);
+
+            //isDigit permite sólo números, isAphabetic permite sólo letras
+            if (Character.isSpaceChar(c)) {
+
+                tfAddEmail.setEditable(false);
+
+            } else {
+
+                tfAddEmail.setEditable(true);
+            }
+
+        } catch (Exception e) {
+
+            tfAddEmail.setEditable(true);
+
+        }
+    }
+
+    @FXML
+    private void tfEmailModify(KeyEvent event) {
+        
+        txtSuccess.setText("");
+
+        try {
+
+            char c = event.getText().charAt(0);
+
+            //isDigit permite sólo números, isAphabetic permite sólo letras
+            if (Character.isSpaceChar(c)) {
+
+                tfEmailModify.setEditable(false);
+
+            } else {
+
+                tfEmailModify.setEditable(true);
+            }
+
+        } catch (Exception e) {
+
+            tfEmailModify.setEditable(true);
+
+        }
     }
 
 }

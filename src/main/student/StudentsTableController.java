@@ -6,22 +6,27 @@
 package main.student;
 
 import domain.Career;
+import domain.DoublyLinkedList;
 import domain.ListException;
 import domain.SinglyLinkedList;
 import domain.Student;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import main.career.CareerFXMLController;
-
 
 /**
  * FXML Controller class
@@ -31,62 +36,125 @@ import main.career.CareerFXMLController;
 public class StudentsTableController implements Initializable {
 
     @FXML
-    private TableView<Student> studentsTable;
+    private TableView<List<String>> studentsTable;
     @FXML
-    private TableColumn<Student, Integer> colId;
+    private TableColumn<List<String>, String> colId;
     @FXML
-    private TableColumn<Student, String> colStudentId;
+    private TableColumn<List<String>, String> colStudentId;
     @FXML
-    private TableColumn<Student, String> colName;
+    private TableColumn<List<String>, String> colName;
     @FXML
-    private TableColumn<Student, String> colLastName;
+    private TableColumn<List<String>, String> colLastName;
     @FXML
-    private TableColumn<Student, String> colBirthday;
+    private TableColumn<List<String>, String> colBirthday;
     @FXML
-    private TableColumn<Student, String> colPhoneNumber;
+    private TableColumn<List<String>, String> colPhoneNumber;
     @FXML
-    private TableColumn<Student, String> colEmail;
+    private TableColumn<List<String>, String> colEmail;
     @FXML
-    private TableColumn<Student, String> colAddress;
+    private TableColumn<List<String>, String> colAddress;
     @FXML
-    private TableColumn<Student, String> colCareer;
-    @FXML
-    private TableColumn<Student, Integer> colIdCarrer;
+    private TableColumn<List<String>, String> colCareer;
 
     private SinglyLinkedList studentList = util.Utility.getStudentsList();
+    private DoublyLinkedList careersList = util.Utility.getCareersList();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-         colAddress.setCellValueFactory(new PropertyValueFactory<Student, String>("address"));
-         colBirthday.setCellValueFactory(new PropertyValueFactory<Student, String>("formatedDate"));
-         colCareer.setCellValueFactory(new PropertyValueFactory<Student, String>("careerDescription"));
-         colEmail.setCellValueFactory(new PropertyValueFactory<Student, String>("email"));
-         colId.setCellValueFactory(new PropertyValueFactory<Student, Integer>("id"));
-         colLastName.setCellValueFactory(new PropertyValueFactory<Student, String>("lastname"));
-         colName.setCellValueFactory(new PropertyValueFactory<Student, String>("firstname"));
-         colPhoneNumber.setCellValueFactory(new PropertyValueFactory<Student, String>("phoneNumber"));
-         colStudentId.setCellValueFactory(new PropertyValueFactory<Student, String>("studentID"));
-         colIdCarrer.setCellValueFactory(new PropertyValueFactory<Student, Integer>("careerID"));
-         
-        ObservableList<Student> tableContent = FXCollections.observableArrayList();
+
+        colAddress.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(0)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colBirthday.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(1)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colCareer.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(2)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colEmail.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colId.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(4)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colLastName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(5)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(6)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colPhoneNumber.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(7)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        colStudentId.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(8)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        //Lista que guarda toda la infomación del archivo
+        ObservableList<List<String>> tableContent = FXCollections.observableArrayList();
 
         if (!studentList.isEmpty()) {
 
             try {
                 for (int i = 1; i <= studentList.size(); i++) {
 
+                    //La información de cada fila se guardará en listas
+                    List<String> arrayList = new ArrayList<>();
+                    //Se crea el estudiante que irá en la fila i apartir de los datos de studentsList
                     Student a = (Student) studentList.getNode(i).data;
-                    tableContent.add(a);
+                    //Se busca el índice de la carrera en la lista CareersList a la cual pertenece ese estudiante
+                    int index = careersList.indexOf(new Career(a.getCareerID(), ""));
+                    Career c = (Career) careersList.getNode(index).data;
+                    //Agregmos todos los datos al arrayList
+                    arrayList.add(a.getAddress());
+                    arrayList.add(util.Utility.dateFormat(a.getBirthday()));
+                    arrayList.add(c.getDescription());
+                    arrayList.add(a.getEmail());
+                    arrayList.add(a.getId() + "");
+                    arrayList.add(a.getLastname());
+                    arrayList.add(a.getFirstname());
+                    arrayList.add(a.getPhoneNumber());
+                    arrayList.add(a.getStudentID());
+
+                    tableContent.add(arrayList);
                 }
             } catch (ListException ex) {
                 Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        //Establecemos los datos 
         studentsTable.setItems(tableContent);
-    } 
-    
+    }
+
 }

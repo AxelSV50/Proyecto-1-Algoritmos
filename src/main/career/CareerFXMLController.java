@@ -8,8 +8,12 @@ package main.career;
 import main.*;
 import data.FileManagementCareers;
 import domain.Career;
+import domain.CircularDoublyLinkedList;
+import domain.Course;
 import domain.DoublyLinkedList;
 import domain.ListException;
+import domain.SinglyLinkedList;
+import domain.Student;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -67,12 +71,14 @@ public class CareerFXMLController implements Initializable {
     private TextField tfDescriptionUpdate;
     @FXML
     private Button btnUpdate;
+
     @FXML
     private TableView<Career> tableCareer;
     @FXML
     private TableColumn<Career, String> colIdCareer;
     @FXML
     private TableColumn<Career, String> colDescriptionCareer;
+
     @FXML
     private BorderPane bp;
     @FXML
@@ -99,6 +105,8 @@ public class CareerFXMLController implements Initializable {
     private Button btnUpdateCancel;
 
     private DoublyLinkedList careersList = util.Utility.getCareersList();
+    private SinglyLinkedList studentList = util.Utility.getStudentsList();
+    private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
 
     /**
      * Initializes the controller class.
@@ -107,6 +115,7 @@ public class CareerFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         careersList = util.Utility.getCareersList();
+
         colDescriptionCareer.setCellValueFactory(new PropertyValueFactory<Career, String>("description"));
         colIdCareer.setCellValueFactory(new PropertyValueFactory<Career, String>("id"));
 
@@ -163,7 +172,7 @@ public class CareerFXMLController implements Initializable {
         cleanAll();
         tableCareer.setVisible(true);
         txtTitle.setText("Lista de carreras");
-
+        careersList = util.Utility.getCareersList();
         ObservableList<Career> tableContent = FXCollections.observableArrayList();
 
         if (!careersList.isEmpty()) {
@@ -193,50 +202,36 @@ public class CareerFXMLController implements Initializable {
         if (!(tfAddCareerId.textProperty().getValue().equals("") || tfAddDescription.textProperty().getValue().equals(""))) {
 
             try {
+                careersList = util.Utility.getCareersList();
                 
-//                try {
+                //Pregunta si el código de carrera ya existe:
+                if (careersList.isEmpty() || !careersList.contains(new Career(Integer.parseInt(tfAddCareerId.textProperty().getValue()), ""))) {
 
-                    //Pregunta si el código de carrera ya existe:
-                    if (careersList.isEmpty() || !careersList.contains(new Career(Integer.parseInt(tfAddCareerId.textProperty().getValue()), ""))) {
+                    txtError.setText("");
+                    //Agrega la carrera al archivo 
+                    FileManagementCareers.add(Integer.parseInt(tfAddCareerId.textProperty().getValue()),
+                            tfAddDescription.textProperty().getValue());
+                    //Actualiza la lista para que salga la carrera nueva
+                    careersList = util.Utility.getCareersList();
+                    //Setter los textField
+                    tfAddCareerId.setText("");
+                    tfAddDescription.setText("");
+                    //Le dice al usuario que se agrego
+                    txtAdded.setText("Agregado con éxito");
+                } else {
 
-                        txtError.setText("");
-                        //Agrega la carrera al archivo 
-                        FileManagementCareers.add(Integer.parseInt(tfAddCareerId.textProperty().getValue()),
-                                tfAddDescription.textProperty().getValue());
-                        //Actualiza la lista para que salga la carrera nueva
-                        careersList = util.Utility.getCareersList();
-                        //Setter los textField
-                        tfAddCareerId.setText("");
-                        tfAddDescription.setText("");
-                        //Le dice al usuario que se agrego
-                        txtAdded.setText("Agregado con éxito");
-                    } else {
+                    //Si existe lanza este mensaje al usuario
+                    txtError.setText("El código de carrera ya está en uso");
+                    txtAdded.setText("");
 
-                        //Si existe lanza este mensaje al usuario
-                        txtError.setText("El código de carrera ya está en uso");
-                        txtAdded.setText("");
-
-                    }
-                    
-//                } 
-//                catch (ListException ex) {
-//                    
-//                    txtError.setText("");
-//                    FileManagementCareers.add(Integer.parseInt(tfAddCareerId.textProperty().getValue()),
-//                            tfAddDescription.textProperty().getValue());
-//
-//                    careersList = util.Utility.getCareersList();
-//                    tfAddCareerId.setText("");
-//                    tfAddDescription.setText("");
-//                    txtAdded.setText("Agregado con éxito");
-//                }
+                }
 
             } catch (NumberFormatException e) {
 
                 txtError.setText("El código de carrera debe ser numérico");
                 txtAdded.setText("");
-                
-            }catch (ListException e) {
+
+            } catch (ListException e) {
 
             }
 
@@ -254,19 +249,57 @@ public class CareerFXMLController implements Initializable {
 
             try {
 
-                //Busca si el elemento está
-                Object element = new Career(Integer.parseInt(tfRemoveId.textProperty().getValue()), "");
+                Career element = new Career(Integer.parseInt(tfRemoveId.textProperty().getValue()), "");
+                careersList = util.Utility.getCareersList();
 
                 if (careersList.contains(element)) {
 
-                    careersList.remove(element);
-                    //Reescribe el archivo
-                    FileManagementCareers.overwriteCareersFile(careersList);
-                    //Settea los tf
-                    tfRemoveId.setText("");
-                    txtError.setText("");
-                    //Mensaje que logró eliminarlo
-                    txtAdded.setText("Carrera eliminada correctamente");
+                    boolean delete = true;
+                    //Busca si la carrera ya tiene estudiantes
+
+                    try {
+                        for (int i = 1; i <= studentList.size(); i++) {
+
+                            Student aux = (Student) studentList.getNode(i).data;
+
+                            if (aux.getCareerID() == element.getId()) {
+
+                                delete = false;
+                                i = studentList.size();
+                            }
+                        }
+                    } catch (ListException e) {
+                    }
+
+                    try {
+                        //Busca si la carrera ya tiene cursos
+                        for (int i = 1; i <= courseList.size(); i++) {
+
+                            Course aux = (Course) courseList.getNode(i).data;
+
+                            if (aux.getCareerID() == element.getId()) {
+
+                                delete = false;
+                                i = courseList.size();
+                            }
+                        }
+                    } catch (ListException e) {
+                    }
+
+                    if (delete) {
+                        careersList.remove(element);
+                        //Reescribe el archivo
+                        FileManagementCareers.overwriteCareersFile(careersList);
+                        //Settea los tf
+                        tfRemoveId.setText("");
+                        txtError.setText("");
+                        //Mensaje que logró eliminarlo
+                        txtAdded.setText("Carrera eliminada correctamente");
+                    } else {
+
+                        txtError.setText("Imposible eliminar la carrera, ya tiene estudiantes y/o cursos asociados");
+                        txtAdded.setText("");
+                    }
 
                 } else {
 
@@ -279,7 +312,7 @@ public class CareerFXMLController implements Initializable {
                 txtError.setText("No hay carreras agregadas");
                 txtAdded.setText("");
                 tfRemoveId.setText("");
-                
+
             } catch (NumberFormatException ex) {
 
                 txtError.setText("El código de carrera debe ser numérico");
@@ -300,15 +333,15 @@ public class CareerFXMLController implements Initializable {
             try {
 
                 Object newElelement = new Career(Integer.parseInt(tfIdCareerUpdate.textProperty().getValue()), tfDescriptionUpdate.textProperty().getValue());
-                Object oldElement = new Career(Integer.parseInt(tfSearchCarrerUpdate.textProperty().getValue()), "");
-
-                if (!careersList.contains(newElelement)) {
+                Object oldElement = new Career(Integer.parseInt(tfIdCareerUpdate.textProperty().getValue()), "");
+                careersList = util.Utility.getCareersList();
+                
+                if (careersList.contains(newElelement)) {
 
                     careersList.modify(careersList.indexOf(oldElement), newElelement);
                     FileManagementCareers.overwriteCareersFile(careersList);
                     txtError.setText("");
                     tfIdCareerUpdate.setText("");
-                    tfSearchCarrerUpdate.setText("");
                     tfDescriptionUpdate.setText("");
                     tfIdCareerUpdate.setDisable(true);
                     tfDescriptionUpdate.setDisable(true);
@@ -316,29 +349,6 @@ public class CareerFXMLController implements Initializable {
                     btnUpdateCancel.setDisable(true);
                     tfSearchCarrerUpdate.setDisable(false);
                     txtAdded.setText("Carrera modificada correctamente");
-
-                } else {
-
-                    if (tfSearchCarrerUpdate.textProperty().getValue().equals(tfIdCareerUpdate.textProperty().getValue())) {
-
-                        careersList.modify(careersList.indexOf(oldElement), newElelement);
-                        FileManagementCareers.overwriteCareersFile(careersList);
-                        txtError.setText("");
-                        tfIdCareerUpdate.setText("");
-                        tfSearchCarrerUpdate.setText("");
-                        tfDescriptionUpdate.setText("");
-                        tfIdCareerUpdate.setDisable(true);
-                        tfDescriptionUpdate.setDisable(true);
-                        btnUpdate.setDisable(true);
-                        btnUpdateCancel.setDisable(true);
-                        tfSearchCarrerUpdate.setDisable(false);
-                        txtAdded.setText("Carrera modificada correctamente");
-
-                    } else {
-
-                        txtError.setText("EL código del curso ya está en uso");
-                        txtAdded.setText("");
-                    }
 
                 }
 
@@ -460,6 +470,7 @@ public class CareerFXMLController implements Initializable {
 
             try {
 
+                careersList = util.Utility.getCareersList();
                 Object element = new Career(Integer.parseInt(tfSearchCarrerUpdate.textProperty().getValue()), "");
 
                 if (careersList.contains(element)) {
@@ -470,11 +481,13 @@ public class CareerFXMLController implements Initializable {
                     tfDescriptionUpdate.setText(c.getDescription() + "");
                     txtError.setText("");
                     txtAdded.setText("");
-                    tfIdCareerUpdate.setDisable(false);
+                    tfIdCareerUpdate.setDisable(true);
                     tfDescriptionUpdate.setDisable(false);
                     btnUpdate.setDisable(false);
-                    tfSearchCarrerUpdate.setDisable(true);
+                    tfSearchCarrerUpdate.setDisable(false);
+                    tfSearchCarrerUpdate.setText("");
                     btnUpdateCancel.setDisable(false);
+
                 } else {
 
                     txtError.setText("Carrera no encontrada");

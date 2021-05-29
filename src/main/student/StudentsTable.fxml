@@ -16,8 +16,7 @@
             <TableColumn fx:id="colPhoneNumber" prefWidth="106.0" text="Teléfono" />
             <TableColumn fx:id="colEmail" prefWidth="145.0" text="Email" />
             <TableColumn fx:id="colAddress" prefWidth="151.0" text="Dirección" />
-            <TableColumn fx:id="colCareer" prefWidth="128.0" text="Carrera" />
-            <TableColumn fx:id="colIdCarrer" prefWidth="75.0" text="ID Carrera" />
+            <TableColumn fx:id="colCareer" prefWidth="203.0" text="Carrera" />
          </columns>
       </TableView>
    </children>
