@@ -14,7 +14,7 @@
    <bottom>
       <AnchorPane fx:id="ac" prefHeight="512.0" prefWidth="762.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
          <children>
-            <Pane layoutX="27.0" layoutY="-2.0" prefHeight="33.0" prefWidth="743.0" style="-fx-background-color: #000445;">
+            <Pane layoutY="-2.0" prefHeight="34.0" prefWidth="770.0" style="-fx-background-color: #000445;">
                <children>
                   <Button fx:id="btnAddCareer" layoutX="33.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnAddCareer" prefHeight="17.0" prefWidth="59.0" style="-fx-background-color: Transparent;" text="Agregar" textFill="#ffee00" />
                   <Button fx:id="btnDeleteCareer" layoutX="140.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnDeleteCareer" style="-fx-background-color: Transparent;" text="Suprimir" textFill="#ffee00" />

@@ -11,6 +11,7 @@ import domain.Course;
 import domain.DoublyLinkedList;
 import domain.SinglyLinkedList;
 import domain.Student;
+import domain.TimeTable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,12 +25,14 @@ public class Utility {
     private static DoublyLinkedList careersList;
     private static SinglyLinkedList studentsList;
     private static CircularDoublyLinkedList coursesList;
+    private static SinglyLinkedList timeTableList;
 
     //Tiene las carreras agregadas
     public static DoublyLinkedList getCareersList() {
         careersList = data.FileManagementCareers.getCareers();
         return careersList;
     }
+
     //Tiene los estudiantes agregados
     public static SinglyLinkedList getStudentsList() {
         studentsList = data.FileManagementUsers.getStudentsList();
@@ -39,6 +42,11 @@ public class Utility {
     public static CircularDoublyLinkedList getCoursesList() {
         coursesList = data.FileManagementCourses.getCoursesList();
         return coursesList;
+    }
+
+    public static SinglyLinkedList getTimeTableList() {
+        timeTableList = data.FileManagementTimeTable.getTimeTableList();
+        return timeTableList;
     }
 
     public static int random() {
@@ -99,10 +107,19 @@ public class Utility {
                 Course co2 = (Course) b;
                 //return s1.compareTo(s2)==0; //OPCION 1
                 return co1.getId().equalsIgnoreCase(co2.getId()); //OPCION 2
+
+            case "timeTable":
+                TimeTable t1 = (TimeTable) a;
+                TimeTable t2 = (TimeTable) b;
+                return t1.getSchedule1().equalsIgnoreCase(t2.getSchedule1())||t1.getSchedule2().equalsIgnoreCase(t2.getSchedule2())||
+                        t1.getSchedule1().equalsIgnoreCase(t2.getSchedule2())||t1.getSchedule2().equalsIgnoreCase(t2.getSchedule1());
+        }//revisar esta condicion
+                return false; //en cualquier otro caso
         }
 
-        return false; //en cualquier otro caso
-    }
+    
+
+    
 
     private static String instanceOf(Object a, Object b) {
         if (a instanceof Integer && b instanceof Integer) {
@@ -117,8 +134,11 @@ public class Utility {
         if (a instanceof Student && b instanceof Student) {
             return "student";
         }
-         if (a instanceof Course && b instanceof Course) {
+        if (a instanceof Course && b instanceof Course) {
             return "course";
+        }
+        if (a instanceof TimeTable && b instanceof TimeTable) {
+            return "timeTable";
         }
         return "unknown"; //desconocido
     }
@@ -156,6 +176,7 @@ public class Utility {
         }
         return false; //en cualquier otro caso
     }
+
     public static boolean equals2(Object a, Object b) {
 
         switch (instanceOf(a, b)) {
