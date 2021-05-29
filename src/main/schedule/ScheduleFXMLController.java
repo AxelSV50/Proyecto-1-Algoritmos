@@ -56,6 +56,8 @@ public class ScheduleFXMLController implements Initializable {
     private TextField txtFieldHourSchedule2;
     @FXML
     private Button btnAdd;
+    @FXML
+    private TextField txtFieldPeriodCourse;
 
     /**
      * Initializes the controller class.

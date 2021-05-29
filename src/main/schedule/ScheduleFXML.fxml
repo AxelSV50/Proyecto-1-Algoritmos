@@ -31,27 +31,33 @@
                   <TableColumn fx:id="colScheduleCourse2" prefWidth="156.0" text="Horario 2" />
               </columns>
             </TableView>
-            <Text layoutX="127.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Elija dos opciones de horario" textAlignment="CENTER" wrappingWidth="441.13671875">
+            <Text layoutX="127.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Elija el periodo y dos opciones de horario" textAlignment="CENTER" wrappingWidth="441.13671875">
                <font>
                   <Font name="Candara Light Italic" size="23.0" />
                </font>
             </Text>
-            <Text layoutX="218.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 1" wrappingWidth="86.13671875">
+            <Text layoutX="214.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 1" wrappingWidth="86.13671875">
                <font>
                   <Font name="Calibri Light" size="17.0" />
                </font>
             </Text>
             <Button fx:id="btnSave" layoutX="243.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnSave" prefHeight="35.0" prefWidth="73.0" text="Guardar" />
-            <TextField fx:id="txtFieldDaySchedule1" layoutX="301.0" layoutY="302.0" prefHeight="17.0" prefWidth="94.0" />
-            <TextField fx:id="txtFieldHourSchedule1" layoutX="403.0" layoutY="303.0" prefHeight="17.0" prefWidth="94.0" />
-            <TextField fx:id="txtFieldDaySchedule2" layoutX="302.0" layoutY="353.0" prefHeight="17.0" prefWidth="94.0" />
-            <TextField fx:id="txtFieldHourSchedule2" layoutX="403.0" layoutY="353.0" prefHeight="17.0" prefWidth="94.0" />
+            <TextField fx:id="txtFieldDaySchedule1" layoutX="301.0" layoutY="336.0" prefHeight="17.0" prefWidth="94.0" />
+            <TextField fx:id="txtFieldHourSchedule1" layoutX="403.0" layoutY="336.0" prefHeight="17.0" prefWidth="94.0" />
+            <TextField fx:id="txtFieldDaySchedule2" layoutX="301.0" layoutY="374.0" prefHeight="17.0" prefWidth="94.0" />
+            <TextField fx:id="txtFieldHourSchedule2" layoutX="403.0" layoutY="374.0" prefHeight="17.0" prefWidth="94.0" />
             <Button fx:id="btnAdd" layoutX="360.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnAdd" prefHeight="35.0" prefWidth="71.0" text="Agregar" />
-            <Text layoutX="218.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 2" wrappingWidth="86.13671875">
+            <Text layoutX="214.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 2" wrappingWidth="86.13671875">
                <font>
                   <Font name="Calibri Light" size="17.0" />
                </font>
             </Text>
+            <Text layoutX="214.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Periodo" wrappingWidth="86.13671875">
+               <font>
+                  <Font name="Calibri Light" size="17.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtFieldPeriodCourse" layoutX="301.0" layoutY="298.0" prefHeight="17.0" prefWidth="94.0" />
          </children>
       </AnchorPane>
    </bottom>
