@@ -159,6 +159,7 @@ public class CourseFXMLController implements Initializable {
     }
 
     private void initTable() {
+        
         ObservableList<List<String>> tableContent = FXCollections.observableArrayList();
 
         if (!courseList.isEmpty()) {
@@ -189,6 +190,7 @@ public class CourseFXMLController implements Initializable {
     }
 
     private void initComboBox(ComboBox<String> comboBox) {
+        
         ObservableList tableContent = FXCollections.observableArrayList();
 
         try {

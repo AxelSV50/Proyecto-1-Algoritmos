@@ -111,8 +111,7 @@ public class Utility {
             case "timeTable":
                 TimeTable t1 = (TimeTable) a;
                 TimeTable t2 = (TimeTable) b;
-                return t1.getSchedule1().equalsIgnoreCase(t2.getSchedule1())||t1.getSchedule2().equalsIgnoreCase(t2.getSchedule2())||
-                        t1.getSchedule1().equalsIgnoreCase(t2.getSchedule2())||t1.getSchedule2().equalsIgnoreCase(t2.getSchedule1());
+                return t1.getCourseID().equalsIgnoreCase(t2.getCourseID());
         }//revisar esta condicion
                 return false; //en cualquier otro caso
         }

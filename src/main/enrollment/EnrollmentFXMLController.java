@@ -186,9 +186,8 @@ public class EnrollmentFXMLController implements Initializable {
             }
         }
         studentsTable.setItems(studentsData);
-        
     }
-    
+
     @FXML
     private void btnBack(ActionEvent event) {
         
@@ -222,11 +221,9 @@ public class EnrollmentFXMLController implements Initializable {
      */
     private void setSelectedStudent() {
         final Student student = getSelectedStudentsTable();
-        positionStudent = studentsData.indexOf(student);
         
         if (student != null) {
 
-            // Pongo los textFields con los datos correspondientes
             studentEnrollment = student;
         }
         

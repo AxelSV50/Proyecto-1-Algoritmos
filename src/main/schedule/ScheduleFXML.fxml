@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.schedule.ScheduleFXMLController">
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.schedule.ScheduleFXMLController">
    <bottom>
       <AnchorPane fx:id="ac" prefHeight="512.0" prefWidth="762.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
          <children>
@@ -36,10 +36,10 @@
                <children>
                   <TableView fx:id="tableAsignSchedule" layoutX="55.0" layoutY="37.0" prefHeight="153.0" prefWidth="629.0">
                      <columns>
-                        <TableColumn prefWidth="135.0" text="Sigla" />
-                        <TableColumn prefWidth="207.0" text="Descripción" />
-                        <TableColumn prefWidth="67.0" text="Créditos" />
-                        <TableColumn prefWidth="219.0" text="Carrera" />
+                        <TableColumn fx:id="courseIDAsignCol" prefWidth="135.0" text="Sigla" />
+                        <TableColumn fx:id="courseDescripAsignCol" prefWidth="207.0" text="Nombre" />
+                        <TableColumn fx:id="courseCreditsAsignCol" prefWidth="67.0" text="Créditos" />
+                        <TableColumn fx:id="courseCareerAsign" prefWidth="219.0" text="Carrera" />
                      </columns>
                   </TableView>
                   <Text layoutX="298.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cursos sin horario" textAlignment="CENTER">
@@ -52,105 +52,105 @@
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="txtCourseSchedule" fill="#00540d" layoutX="179.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                  <Text fx:id="txtCourseSchedule" fill="#00540d" layoutX="157.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="165.0">
                      <font>
-                        <Font name="Cambria" size="13.0" />
+                        <Font name="Cambria" size="15.0" />
                      </font>
                   </Text>
-                  <Text layoutX="26.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 1:" textAlignment="CENTER" underline="true">
-                     <font>
-                        <Font name="Candara Light" size="14.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="391.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 2:" textAlignment="CENTER" underline="true">
+                  <Text layoutX="26.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 1:" textAlignment="CENTER" underline="true">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="27.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 1:" textAlignment="CENTER">
+                  <Text layoutX="391.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 2:" textAlignment="CENTER" underline="true">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="26.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 2:" textAlignment="CENTER">
+                  <Text layoutX="27.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 1:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbDay1Schedule1" layoutX="68.0" layoutY="247.0" prefHeight="25.0" prefWidth="55.0" />
-                  <ComboBox fx:id="cbDay2Schedule1" layoutX="68.0" layoutY="286.0" prefHeight="25.0" prefWidth="56.0" />
-                  <Text layoutX="128.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                  <Text layoutX="26.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 2:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbHour1Schedule1" layoutX="168.0" layoutY="247.0" onAction="#cbHour1Schedule1" prefHeight="25.0" prefWidth="71.0" />
-                  <Text layoutX="127.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                  <ComboBox fx:id="cbDay1Schedule1" layoutX="68.0" layoutY="258.0" prefHeight="25.0" prefWidth="55.0" />
+                  <ComboBox fx:id="cbDay2Schedule1" layoutX="68.0" layoutY="297.0" prefHeight="25.0" prefWidth="56.0" />
+                  <Text layoutX="128.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbHour2Schedule1" layoutX="168.0" layoutY="286.0" onAction="#cbHour2Schedule1" prefHeight="25.0" prefWidth="71.0" />
+                  <ComboBox fx:id="cbHour1Schedule1" layoutX="168.0" layoutY="258.0" onAction="#cbHour1Schedule1" prefHeight="25.0" prefWidth="71.0" />
+                  <Text layoutX="127.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbHour2Schedule1" layoutX="168.0" layoutY="297.0" onAction="#cbHour2Schedule1" prefHeight="25.0" prefWidth="71.0" />
                   <Button fx:id="btnSaveTimeTible" layoutX="292.0" layoutY="377.0" mnemonicParsing="false" onAction="#btnSaveTimeTible" text="Asignar" />
                   <Button fx:id="btnCancelTimeTible" layoutX="369.0" layoutY="377.0" mnemonicParsing="false" onAction="#btnCancelTimeTible" text="Cancelar" />
-                  <Text fx:id="txtError" fill="#c60000" layoutX="332.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true">
+                  <Text fx:id="txtError" fill="#c60000" layoutX="260.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true">
                      <font>
                         <Font name="Candara Light" size="13.0" />
                      </font>
                   </Text>
-                  <Text fx:id="txtSuccess" fill="#007215" layoutX="331.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true">
+                  <Text fx:id="txtSuccess" fill="#007215" layoutX="297.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true">
                      <font>
                         <Font name="Candara Light" size="13.0" />
                      </font>
                   </Text>
-                  <Text layoutX="247.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
+                  <Text layoutX="247.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbFinalHour1Schedule1" disable="true" layoutX="288.0" layoutY="248.0" prefHeight="25.0" prefWidth="72.0" />
-                  <Text layoutX="247.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
+                  <ComboBox fx:id="cbFinalHour1Schedule1" disable="true" layoutX="288.0" layoutY="259.0" prefHeight="25.0" prefWidth="72.0" />
+                  <Text layoutX="247.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbFinalHour2Schedule1" disable="true" layoutX="288.0" layoutY="287.0" prefHeight="25.0" prefWidth="72.0" />
-                  <Text layoutX="392.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 1:" textAlignment="CENTER">
+                  <ComboBox fx:id="cbFinalHour2Schedule1" disable="true" layoutX="288.0" layoutY="298.0" prefHeight="25.0" prefWidth="72.0" />
+                  <Text layoutX="392.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 1:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="391.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 2:" textAlignment="CENTER">
+                  <Text layoutX="391.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 2:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbDay1Schedule2" layoutX="433.0" layoutY="247.0" prefHeight="25.0" prefWidth="55.0" />
-                  <ComboBox fx:id="cbDay2Schedule2" layoutX="433.0" layoutY="286.0" prefHeight="25.0" prefWidth="56.0" />
-                  <Text layoutX="496.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                  <ComboBox fx:id="cbDay1Schedule2" layoutX="433.0" layoutY="258.0" prefHeight="25.0" prefWidth="55.0" />
+                  <ComboBox fx:id="cbDay2Schedule2" layoutX="433.0" layoutY="297.0" prefHeight="25.0" prefWidth="56.0" />
+                  <Text layoutX="496.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbHour1Schedule2" layoutX="536.0" layoutY="247.0" onAction="#cbHour1Schedule2" prefHeight="25.0" prefWidth="75.0" />
-                  <Text layoutX="495.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                  <ComboBox fx:id="cbHour1Schedule2" layoutX="536.0" layoutY="258.0" onAction="#cbHour1Schedule2" prefHeight="25.0" prefWidth="75.0" />
+                  <Text layoutX="495.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbHour2Schedule2" layoutX="536.0" layoutY="286.0" onAction="#cbHour2Schedule2" prefHeight="25.0" prefWidth="75.0" />
-                  <Text layoutX="618.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
+                  <ComboBox fx:id="cbHour2Schedule2" layoutX="536.0" layoutY="297.0" onAction="#cbHour2Schedule2" prefHeight="25.0" prefWidth="75.0" />
+                  <Text layoutX="618.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbFinalHour1Schedule2" disable="true" layoutX="649.0" layoutY="247.0" prefHeight="25.0" prefWidth="73.0" />
-                  <Text layoutX="618.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
+                  <ComboBox fx:id="cbFinalHour1Schedule2" disable="true" layoutX="649.0" layoutY="258.0" prefHeight="25.0" prefWidth="73.0" />
+                  <Text layoutX="618.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="cbFinalHour2Schedule2" disable="true" layoutX="649.0" layoutY="286.0" prefHeight="25.0" prefWidth="74.0" />
+                  <ComboBox fx:id="cbFinalHour2Schedule2" disable="true" layoutX="649.0" layoutY="297.0" prefHeight="25.0" prefWidth="74.0" />
                </children>
             </Pane>
             <Line endX="492.0" layoutX="278.0" layoutY="84.0" startX="-251.0" />
