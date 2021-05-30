@@ -32,7 +32,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -108,8 +110,29 @@ public class ScheduleFXMLController implements Initializable {
     @FXML
     private Pane paneDisplayAll;
     @FXML
-    private TableView<?> tableCoursesEnrollment;
-
+    private BorderPane bp;
+    @FXML
+    private ComboBox<String> cbPeriod;
+    @FXML
+    private TableView<List<String>> tableTime;
+    @FXML
+    private TableColumn<List<String>, String> timeTableIdCourseCol;
+    @FXML
+    private TableColumn<List<String>, String> timeTablePeriodCol;
+    @FXML
+    private TableColumn<List<String>, String> timeTableSchedule1Col;
+    @FXML
+    private TableColumn<List<String>, String> timeTableSchedule2Col;
+    @FXML
+    private Pane panelDeleteTimeTable;
+    @FXML
+    private TextField tfRemoveId;
+    @FXML
+    private Button btnDelete;
+    @FXML
+    private Text txtErrorDelete;
+    @FXML
+    private Text txtSuccessDelete;
     //Una vez que se precione una fila de la tabla de asignar horarios 
     //la información llega a esta variable, aquí está la información referente a ese curso seleccionado
     private List<String> selectedCourseData;
@@ -118,10 +141,6 @@ public class ScheduleFXMLController implements Initializable {
     private DoublyLinkedList careersList = util.Utility.getCareersList();
     private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
     private SinglyLinkedList timeTablelList = util.Utility.getTimeTableList();
-    @FXML
-    private BorderPane bp;
-    @FXML
-    private ComboBox<String >cbPeriod;
 
     /**
      * Initializes the controller class.
@@ -140,12 +159,15 @@ public class ScheduleFXMLController implements Initializable {
         cbPeriod.getItems().add("I-2021");
         cbPeriod.getItems().add("II-2021");
         initCourseTable();
+        initTimeTable();
     }
 
     private void cleanAll() {
 
         paneAddSchedule.setVisible(false);
         paneDisplayAll.setVisible(false);
+        panelDeleteTimeTable.setVisible(false);
+        tfRemoveId.setText("");
         txtCourseSchedule.setText("");
         cbDay1Schedule1.setValue(null);
         cbDay2Schedule1.setValue(null);
@@ -165,6 +187,57 @@ public class ScheduleFXMLController implements Initializable {
         cbFinalHour2Schedule2.setDisable(true);
         cbFinalHour1Schedule2.setDisable(true);
 
+    }
+
+    private void initTimeTable() {
+        timeTableIdCourseCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(0)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        timeTablePeriodCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(1)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        timeTableSchedule1Col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(2)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        timeTableSchedule2Col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        ObservableList<List<String>> tableContent = FXCollections.observableArrayList();
+
+        if (!timeTablelList.isEmpty()) {
+
+            try {
+                for (int i = 1; i <= timeTablelList.size(); i++) {
+
+                    List<String> arrayList = new ArrayList<>();
+
+                    TimeTable t = (TimeTable) timeTablelList.getNode(i).data;
+
+                    //Agregamos todos los datos al arrayList
+                    arrayList.add(t.getCourseID());
+                    arrayList.add(t.getPeriod());
+                    arrayList.add(t.getSchedule1());
+                    arrayList.add(t.getSchedule2());
+
+                    tableContent.add(arrayList);
+                }
+            } catch (ListException ex) {
+                Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        tableTime.setItems(tableContent);
     }
 
     private void initCourseTable() {
@@ -337,6 +410,7 @@ public class ScheduleFXMLController implements Initializable {
 
         cleanAll();
         initCourseTable();
+        txtTitle.setText("Mostar horarios");
         paneAddSchedule.setVisible(true);
     }
 
@@ -344,7 +418,8 @@ public class ScheduleFXMLController implements Initializable {
     private void display(ActionEvent event) {
 
         cleanAll();
-        initCourseTable();
+        initTimeTable();
+        txtTitle.setText("Lista de horarios");
         paneDisplayAll.setVisible(true);
     }
 
@@ -360,7 +435,7 @@ public class ScheduleFXMLController implements Initializable {
                     || cbHour1Schedule1.getValue() == null || cbHour1Schedule2.getValue() == null
                     || cbHour2Schedule2.getValue() == null || cbHour2Schedule1.getValue() == null
                     || cbFinalHour1Schedule1.getValue() == null || cbFinalHour1Schedule2.getValue() == null
-                    || cbFinalHour2Schedule1.getValue() == null || cbFinalHour2Schedule2.getValue() == null||cbPeriod.getValue()==null)) {
+                    || cbFinalHour2Schedule1.getValue() == null || cbFinalHour2Schedule2.getValue() == null || cbPeriod.getValue() == null)) {
 
                 boolean validSchedules = true;
 
@@ -412,23 +487,20 @@ public class ScheduleFXMLController implements Initializable {
                 }
 
                 if (validSchedules) {
-                    
-                    //Aquí se crean los objetos TimeTable que se van a agregar a la lista y archivos
-                    
-                     if (timeTablelList.isEmpty() || !timeTablelList.contains(new TimeTable(txtCourseSchedule.textProperty().getValue(), "", "",""))) {
-            
-                    //Si el usuario no selecciona nada, el combo devuelve null
 
-                    txtError.setText("");
-                    //Agrega la carrera al archivo 
-                         FileManagementTimeTable.add(txtCourseSchedule.textProperty().getValue(),(String)cbPeriod.getValue(),(String)cbDay1Schedule1.getValue()+" "+(String)cbHour1Schedule1.getValue()+"-"+(String)cbFinalHour1Schedule1.getValue()+" & "+(String)cbDay2Schedule1.getValue()+" "+(String)cbHour2Schedule1.getValue()+"-"+(String)cbFinalHour2Schedule1.getValue()
-                                 , (String)cbDay1Schedule2.getValue()+" "+(String)cbHour1Schedule2.getValue()+"-"+(String)cbFinalHour1Schedule2.getValue()+" & "+(String)cbDay2Schedule2.getValue()+" "+(String)cbHour2Schedule2.getValue()+"-"+(String)cbFinalHour2Schedule2.getValue() , FileManagementTimeTable.getNameFileTime());
-                    //Actualiza la lista para que salga la carrera nueva
-                    timeTablelList = util.Utility.getTimeTableList();
-                    
-                     }
-                    
-                    
+                    //Aquí se crean los objetos TimeTable que se van a agregar a la lista y archivos
+                    if (timeTablelList.isEmpty() || !timeTablelList.contains(new TimeTable(txtCourseSchedule.textProperty().getValue(), "", "", ""))) {
+
+                        //Si el usuario no selecciona nada, el combo devuelve null
+                        txtError.setText("");
+                        //Agrega la carrera al archivo 
+                        FileManagementTimeTable.add(txtCourseSchedule.textProperty().getValue(), (String) cbPeriod.getValue(), (String) cbDay1Schedule1.getValue() + " " + (String) cbHour1Schedule1.getValue() + "-" + (String) cbFinalHour1Schedule1.getValue() + " & " + (String) cbDay2Schedule1.getValue() + " " + (String) cbHour2Schedule1.getValue() + "-" + (String) cbFinalHour2Schedule1.getValue(),
+                                (String) cbDay1Schedule2.getValue() + " " + (String) cbHour1Schedule2.getValue() + "-" + (String) cbFinalHour1Schedule2.getValue() + " & " + (String) cbDay2Schedule2.getValue() + " " + (String) cbHour2Schedule2.getValue() + "-" + (String) cbFinalHour2Schedule2.getValue(), FileManagementTimeTable.getNameFileTime());
+                        //Actualiza la lista para que salga la carrera nueva
+                        timeTablelList = util.Utility.getTimeTableList();
+
+                    }
+
                     //Esto debe ir de último
                     selectedCourseData = null;
                     cleanAll();
@@ -452,7 +524,6 @@ public class ScheduleFXMLController implements Initializable {
             txtSuccess.setText("");
         }
 
-        
     }
 
     @FXML
@@ -510,10 +581,48 @@ public class ScheduleFXMLController implements Initializable {
     }
 
     @FXML
-    private void eliminatechedule(ActionEvent event
-    ) {
+    private void eliminatechedule(ActionEvent event) {
+   cleanAll();
+        panelDeleteTimeTable.setVisible(true);
+        txtTitle.setText("Elimina horario");
     }
+ @FXML
+    private void btnDelete(ActionEvent event) {
+        if (!tfRemoveId.textProperty().getValue().equals("")) {
 
+            try {
+
+                //Busca si el elemento está
+                Object element = new TimeTable(tfRemoveId.textProperty().getValue(), "", "", "");
+
+                if (timeTablelList.contains(element)) {
+
+                    timeTablelList.remove(element);
+                    //Reescribe el archivo
+                    FileManagementTimeTable.overwriteTimetableFile(timeTablelList);
+                    tfRemoveId.setText("");
+                    txtErrorDelete.setText("");
+                    txtSuccessDelete.setText("Horario eliminado correctamente");
+
+                } else {
+
+                    txtErrorDelete.setText("Horario no encontrado");
+                    txtSuccessDelete.setText("");
+                }
+
+            } catch (ListException ex) {
+
+                txtErrorDelete.setText("No hay horarios agregados");
+                txtSuccessDelete.setText("");
+                tfRemoveId.setText("");
+            }
+
+        } else {
+
+            txtErrorDelete.setText("Debe rellenar todos los recuadros");
+            txtSuccessDelete.setText("");
+        }
+    }
     private final ListChangeListener<List<String>> selectTableCourses
             = new ListChangeListener<List<String>>() {
         @Override
@@ -543,5 +652,11 @@ public class ScheduleFXMLController implements Initializable {
         }
 
     }
+
+    @FXML
+    private void tfRemoveId(KeyEvent event) {
+    }
+
+   
 
 }

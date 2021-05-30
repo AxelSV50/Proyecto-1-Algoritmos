@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.schedule.ScheduleFXMLController">
-   <bottom>
+   <center>
       <AnchorPane fx:id="ac" prefHeight="512.0" prefWidth="762.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
          <children>
             <Pane layoutX="2.0" layoutY="-2.0" prefHeight="34.0" prefWidth="776.0" style="-fx-background-color: #000445;">
@@ -27,7 +28,7 @@
                   <Button fx:id="eliminatechedule" layoutX="135.0" layoutY="3.0" mnemonicParsing="false" onAction="#eliminatechedule" style="-fx-background-color: #000445;" text="Eliminar" textFill="#ffee00" />
                </children>
             </Pane>
-            <Text fx:id="txtTitle" layoutX="286.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asignar horarios" textAlignment="CENTER">
+            <Text fx:id="txtTitle" layoutX="285.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mostrar horarios" textAlignment="CENTER" wrappingWidth="210.0426025390625">
                <font>
                   <Font name="Candara Light Italic" size="30.0" />
                </font>
@@ -162,23 +163,43 @@
             <Line endX="492.0" layoutX="278.0" layoutY="84.0" startX="-251.0" />
             <Pane fx:id="paneDisplayAll" layoutX="27.0" layoutY="83.0" prefHeight="430.0" prefWidth="745.0" visible="false">
                <children>
-                  <TableView fx:id="tableCoursesEnrollment" layoutX="58.0" layoutY="45.0" prefHeight="307.0" prefWidth="629.0">
+                  <TableView fx:id="tableTime" layoutX="36.0" layoutY="51.0" prefHeight="307.0" prefWidth="674.0">
                      <columns>
-                        <TableColumn prefWidth="121.0" text="Sigla" />
-                        <TableColumn prefWidth="147.0" text="Descripción" />
-                        <TableColumn prefWidth="56.0" text="Créditos" />
-                        <TableColumn prefWidth="158.0" text="Horario 1" />
-                        <TableColumn prefWidth="146.0" text="Horario 2" />
+                        <TableColumn fx:id="timeTableIdCourseCol" prefWidth="129.60001373291016" text="Sigla" />
+                        <TableColumn fx:id="timeTablePeriodCol" prefWidth="105.59996032714844" text="Periodo" />
+                        <TableColumn fx:id="timeTableSchedule1Col" prefWidth="224.79995727539062" text="Horario 1" />
+                        <TableColumn fx:id="timeTableSchedule2Col" prefWidth="219.199951171875" text="Horario 2" />
                      </columns>
                   </TableView>
-                  <Text layoutX="307.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de cursos" textAlignment="CENTER">
+                  <Text layoutX="307.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de horas" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="17.0" />
                      </font>
                   </Text>
                </children>
             </Pane>
+            <Pane fx:id="panelDeleteTimeTable" layoutX="212.0" layoutY="197.0" prefHeight="120.0" prefWidth="374.0" visible="false">
+               <children>
+                  <Text layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código del curso :" wrappingWidth="129.6328125">
+                     <font>
+                        <Font name="Calibri Light Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="tfRemoveId" layoutX="131.0" layoutY="38.0" onKeyPressed="#tfRemoveId" prefHeight="25.0" prefWidth="182.0" />
+                  <Button fx:id="btnDelete" layoutX="331.0" layoutY="38.0" mnemonicParsing="false" onAction="#btnDelete" text="Eliminar" />
+                  <Text fx:id="txtErrorDelete" fill="#c60000" layoutX="130.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true" wrappingWidth="203.39999389648438">
+                     <font>
+                        <Font name="Candara Light" size="13.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtSuccessDelete" fill="#007215" layoutX="127.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true" wrappingWidth="190.59994506835938">
+                     <font>
+                        <Font name="Candara Light" size="13.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
-   </bottom>
+   </center>
 </BorderPane>

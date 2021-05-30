@@ -45,7 +45,7 @@ public class FileManagementTimeTable {
         return true;
     }
 
-public static boolean overwriteCourseFile(SinglyLinkedList list) {
+public static boolean overwriteTimetableFile(SinglyLinkedList list) {
         try {
 
             File f1 = new File(nameFileTime);
