@@ -407,8 +407,14 @@ public class ScheduleFXMLController implements Initializable {
                 if (validSchedules) {
                     
                     //Aquí se crean los objetos TimeTable que se van a agregar a la lista y archivos
-                    //Esto debe ir de último
                     
+                    
+                    
+                    
+                    
+                    
+                    //Esto debe ir de último
+                    selectedCourseData = null;
                     cleanAll();
                     paneAddSchedule.setVisible(true);
                     txtError.setText("");
