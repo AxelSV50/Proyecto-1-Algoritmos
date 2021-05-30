@@ -121,6 +121,7 @@ public class CourseFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         courseList = util.Utility.getCoursesList();
         initComboBox(comboBoxCourseAdd);
         initComboBox(comboBoxCourseModify);

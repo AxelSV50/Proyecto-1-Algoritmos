@@ -1,63 +1,177 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.schedule.ScheduleFXMLController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.schedule.ScheduleFXMLController">
    <bottom>
-      <AnchorPane fx:id="ap" prefHeight="460.0" prefWidth="662.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="ac" prefHeight="512.0" prefWidth="762.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="navPane" layoutX="33.0" prefHeight="32.0" prefWidth="629.0" style="-fx-background-color: #000445;">
+            <Pane layoutX="27.0" layoutY="-2.0" prefHeight="33.0" prefWidth="743.0" style="-fx-background-color: #000445;">
                <children>
-                  <Button fx:id="btnBack" layoutX="576.0" layoutY="-10.0" mnemonicParsing="false" onAction="#btnBack" style="-fx-background-color: transparent;" text="🡆" textFill="#ffee00">
+                  <Button fx:id="btnBack" layoutX="682.0" layoutY="-6.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="43.0" prefWidth="54.0" style="-fx-background-color: Transparent;" text="🡆" textFill="#ffee00">
                      <font>
-                        <Font size="23.0" />
+                        <Font size="18.0" />
                      </font>
                   </Button>
+                  <Button fx:id="asignSchedule" layoutX="14.0" layoutY="2.0" mnemonicParsing="false" onAction="#asignSchedule" style="-fx-background-color: #000445;" text="Asignar horarios" textFill="#ffee00" />
+                  <Button fx:id="display" layoutX="209.0" layoutY="3.0" mnemonicParsing="false" onAction="#display" style="-fx-background-color: #000445;" text="Mostrar todo" textFill="#ffee00" />
+                  <Button fx:id="eliminatechedule" layoutX="135.0" layoutY="3.0" mnemonicParsing="false" onAction="#eliminatechedule" style="-fx-background-color: #000445;" text="Eliminar" textFill="#ffee00" />
                </children>
             </Pane>
-            <TableView fx:id="tableCourse" layoutX="14.0" layoutY="53.0" prefHeight="193.0" prefWidth="637.0">
-              <columns>
-                <TableColumn fx:id="colIDCourse" prefWidth="136.0" text="ID " />
-                  <TableColumn fx:id="colPeriodCourse" prefWidth="178.0" text="Periodo" />
-                  <TableColumn fx:id="colScheduleCourse1" prefWidth="166.0" text="Horario 1" />
-                  <TableColumn fx:id="colScheduleCourse2" prefWidth="156.0" text="Horario 2" />
-              </columns>
-            </TableView>
-            <Text layoutX="127.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Elija el periodo y dos opciones de horario" textAlignment="CENTER" wrappingWidth="441.13671875">
+            <Text fx:id="txtTitle" layoutX="286.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asignar horarios" textAlignment="CENTER">
                <font>
-                  <Font name="Candara Light Italic" size="23.0" />
+                  <Font name="Candara Light Italic" size="30.0" />
                </font>
             </Text>
-            <Text layoutX="214.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 1" wrappingWidth="86.13671875">
-               <font>
-                  <Font name="Calibri Light" size="17.0" />
-               </font>
-            </Text>
-            <Button fx:id="btnSave" layoutX="243.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnSave" prefHeight="35.0" prefWidth="73.0" text="Guardar" />
-            <TextField fx:id="txtFieldDaySchedule1" layoutX="301.0" layoutY="336.0" prefHeight="17.0" prefWidth="94.0" />
-            <TextField fx:id="txtFieldHourSchedule1" layoutX="403.0" layoutY="336.0" prefHeight="17.0" prefWidth="94.0" />
-            <TextField fx:id="txtFieldDaySchedule2" layoutX="301.0" layoutY="374.0" prefHeight="17.0" prefWidth="94.0" />
-            <TextField fx:id="txtFieldHourSchedule2" layoutX="403.0" layoutY="374.0" prefHeight="17.0" prefWidth="94.0" />
-            <Button fx:id="btnAdd" layoutX="360.0" layoutY="414.0" mnemonicParsing="false" onAction="#btnAdd" prefHeight="35.0" prefWidth="71.0" text="Agregar" />
-            <Text layoutX="214.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 2" wrappingWidth="86.13671875">
-               <font>
-                  <Font name="Calibri Light" size="17.0" />
-               </font>
-            </Text>
-            <Text layoutX="214.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Periodo" wrappingWidth="86.13671875">
-               <font>
-                  <Font name="Calibri Light" size="17.0" />
-               </font>
-            </Text>
-            <TextField fx:id="txtFieldPeriodCourse" layoutX="301.0" layoutY="298.0" prefHeight="17.0" prefWidth="94.0" />
+            <Pane fx:id="paneAddSchedule" layoutX="27.0" layoutY="84.0" prefHeight="427.0" prefWidth="743.0">
+               <children>
+                  <TableView fx:id="tableAsignSchedule" layoutX="55.0" layoutY="37.0" prefHeight="153.0" prefWidth="629.0">
+                     <columns>
+                        <TableColumn prefWidth="135.0" text="Sigla" />
+                        <TableColumn prefWidth="207.0" text="Descripción" />
+                        <TableColumn prefWidth="67.0" text="Créditos" />
+                        <TableColumn prefWidth="219.0" text="Carrera" />
+                     </columns>
+                  </TableView>
+                  <Text layoutX="298.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cursos sin horario" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="17.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="26.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Curso seleccionado:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtCourseSchedule" fill="#00540d" layoutX="179.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="13.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="26.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 1:" textAlignment="CENTER" underline="true">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="391.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horario 2:" textAlignment="CENTER" underline="true">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="27.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 1:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="26.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 2:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbDay1Schedule1" layoutX="68.0" layoutY="247.0" prefHeight="25.0" prefWidth="55.0" />
+                  <ComboBox fx:id="cbDay2Schedule1" layoutX="68.0" layoutY="286.0" prefHeight="25.0" prefWidth="56.0" />
+                  <Text layoutX="128.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbHour1Schedule1" layoutX="168.0" layoutY="247.0" onAction="#cbHour1Schedule1" prefHeight="25.0" prefWidth="71.0" />
+                  <Text layoutX="127.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbHour2Schedule1" layoutX="168.0" layoutY="286.0" onAction="#cbHour2Schedule1" prefHeight="25.0" prefWidth="71.0" />
+                  <Button fx:id="btnSaveTimeTible" layoutX="292.0" layoutY="377.0" mnemonicParsing="false" onAction="#btnSaveTimeTible" text="Asignar" />
+                  <Button fx:id="btnCancelTimeTible" layoutX="369.0" layoutY="377.0" mnemonicParsing="false" onAction="#btnCancelTimeTible" text="Cancelar" />
+                  <Text fx:id="txtError" fill="#c60000" layoutX="332.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true">
+                     <font>
+                        <Font name="Candara Light" size="13.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtSuccess" fill="#007215" layoutX="331.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true">
+                     <font>
+                        <Font name="Candara Light" size="13.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="247.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbFinalHour1Schedule1" disable="true" layoutX="288.0" layoutY="248.0" prefHeight="25.0" prefWidth="72.0" />
+                  <Text layoutX="247.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbFinalHour2Schedule1" disable="true" layoutX="288.0" layoutY="287.0" prefHeight="25.0" prefWidth="72.0" />
+                  <Text layoutX="392.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 1:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="391.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Día 2:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbDay1Schedule2" layoutX="433.0" layoutY="247.0" prefHeight="25.0" prefWidth="55.0" />
+                  <ComboBox fx:id="cbDay2Schedule2" layoutX="433.0" layoutY="286.0" prefHeight="25.0" prefWidth="56.0" />
+                  <Text layoutX="496.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbHour1Schedule2" layoutX="536.0" layoutY="247.0" onAction="#cbHour1Schedule2" prefHeight="25.0" prefWidth="75.0" />
+                  <Text layoutX="495.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbHour2Schedule2" layoutX="536.0" layoutY="286.0" onAction="#cbHour2Schedule2" prefHeight="25.0" prefWidth="75.0" />
+                  <Text layoutX="618.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbFinalHour1Schedule2" disable="true" layoutX="649.0" layoutY="247.0" prefHeight="25.0" prefWidth="73.0" />
+                  <Text layoutX="618.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Final:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbFinalHour2Schedule2" disable="true" layoutX="649.0" layoutY="286.0" prefHeight="25.0" prefWidth="74.0" />
+               </children>
+            </Pane>
+            <Line endX="492.0" layoutX="278.0" layoutY="84.0" startX="-251.0" />
+            <Pane fx:id="paneDisplayAll" layoutX="27.0" layoutY="83.0" prefHeight="430.0" prefWidth="745.0" visible="false">
+               <children>
+                  <TableView fx:id="tableCoursesEnrollment" layoutX="58.0" layoutY="45.0" prefHeight="307.0" prefWidth="629.0">
+                     <columns>
+                        <TableColumn prefWidth="121.0" text="Sigla" />
+                        <TableColumn prefWidth="147.0" text="Descripción" />
+                        <TableColumn prefWidth="56.0" text="Créditos" />
+                        <TableColumn prefWidth="158.0" text="Horario 1" />
+                        <TableColumn prefWidth="146.0" text="Horario 2" />
+                     </columns>
+                  </TableView>
+                  <Text layoutX="307.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de cursos" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="17.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
    </bottom>

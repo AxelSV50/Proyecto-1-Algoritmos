@@ -7,7 +7,7 @@ package main.menu;
 
 import domain.CircularDoublyLinkedList;
 import domain.DoublyLinkedList;
-import main.*;
+import domain.SinglyLinkedList;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,6 +55,7 @@ public class MainMenuFXMLController implements Initializable {
 
     private DoublyLinkedList careersList = util.Utility.getCareersList();
     private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
+    private SinglyLinkedList studentList = util.Utility.getStudentsList();
     /**
      * Initializes the controller class.
      */
@@ -103,19 +104,19 @@ public class MainMenuFXMLController implements Initializable {
 
     @FXML
     private void opcSchedule(MouseEvent event) {
-        
+
         careersList = util.Utility.getCareersList();
         courseList = util.Utility.getCoursesList();
-        
+
         if (careersList.isEmpty() || courseList.isEmpty()) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Sección de horarios");
             alert.setHeaderText("Debe ingresar al menos una carrera\n y un curso.");
             alert.showAndWait();
-            
-        } else {
 
+        } else {
+            loadPage("/main/schedule/ScheduleFXML");
         }
     }
 
@@ -132,7 +133,7 @@ public class MainMenuFXMLController implements Initializable {
     @FXML
     private void opcCourse(MouseEvent event) {
         careersList = util.Utility.getCareersList();
-        
+
         if (careersList.isEmpty()) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -150,6 +151,22 @@ public class MainMenuFXMLController implements Initializable {
 
     @FXML
     private void opcEnrollment(MouseEvent event) {
+
+        careersList = util.Utility.getCareersList();
+        courseList = util.Utility.getCoursesList();
+        studentList =util.Utility.getStudentsList();
+        
+        if (careersList.isEmpty() || courseList.isEmpty() || studentList.isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sección de matrícula");
+            alert.setHeaderText("Debe ingresar al menos una carrera,\n"
+                    + "un curso y un estudiante.");
+            alert.showAndWait();
+
+        } else {
+            loadPage("/main/enrollment/EnrollmentFXML");
+        }
     }
 
     private void loadPage(String page) {
