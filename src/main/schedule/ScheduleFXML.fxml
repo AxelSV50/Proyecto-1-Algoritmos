@@ -15,9 +15,9 @@
    <bottom>
       <AnchorPane fx:id="ac" prefHeight="512.0" prefWidth="762.0" style="-fx-background-color: #EDEDED;" BorderPane.alignment="CENTER">
          <children>
-            <Pane layoutX="27.0" layoutY="-2.0" prefHeight="33.0" prefWidth="743.0" style="-fx-background-color: #000445;">
+            <Pane layoutX="2.0" layoutY="-2.0" prefHeight="34.0" prefWidth="776.0" style="-fx-background-color: #000445;">
                <children>
-                  <Button fx:id="btnBack" layoutX="682.0" layoutY="-6.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="43.0" prefWidth="54.0" style="-fx-background-color: Transparent;" text="🡆" textFill="#ffee00">
+                  <Button fx:id="btnBack" layoutX="716.0" layoutY="-6.0" mnemonicParsing="false" onAction="#btnBack" prefHeight="43.0" prefWidth="54.0" style="-fx-background-color: Transparent;" text="🡆" textFill="#ffee00">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -151,6 +151,12 @@
                      </font>
                   </Text>
                   <ComboBox fx:id="cbFinalHour2Schedule2" disable="true" layoutX="649.0" layoutY="297.0" prefHeight="25.0" prefWidth="74.0" />
+                  <Text layoutX="488.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Periodo:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Candara Light" size="14.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cbPeriod" layoutX="550.0" layoutY="192.0" prefHeight="25.0" prefWidth="97.0" />
                </children>
             </Pane>
             <Line endX="492.0" layoutX="278.0" layoutY="84.0" startX="-251.0" />

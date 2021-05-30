@@ -5,6 +5,8 @@
  */
 package main.schedule;
 
+import data.FileManagementCourses;
+import data.FileManagementTimeTable;
 import domain.Career;
 import domain.CircularDoublyLinkedList;
 import domain.Course;
@@ -118,6 +120,8 @@ public class ScheduleFXMLController implements Initializable {
     private SinglyLinkedList timeTablelList = util.Utility.getTimeTableList();
     @FXML
     private BorderPane bp;
+    @FXML
+    private ComboBox<String >cbPeriod;
 
     /**
      * Initializes the controller class.
@@ -133,6 +137,8 @@ public class ScheduleFXMLController implements Initializable {
         initComobox(cbHour2Schedule1);
         initComobox(cbHour1Schedule2);
         initComobox(cbHour2Schedule2);
+        cbPeriod.getItems().add("I-2021");
+        cbPeriod.getItems().add("II-2021");
         initCourseTable();
     }
 
@@ -153,6 +159,7 @@ public class ScheduleFXMLController implements Initializable {
         cbFinalHour2Schedule1.setValue(null);
         cbFinalHour2Schedule2.setValue(null);
         cbFinalHour1Schedule2.setValue(null);
+        cbPeriod.setValue(null);
         cbFinalHour1Schedule1.setDisable(true);
         cbFinalHour2Schedule1.setDisable(true);
         cbFinalHour2Schedule2.setDisable(true);
@@ -342,7 +349,7 @@ public class ScheduleFXMLController implements Initializable {
     }
 
     @FXML
-    private void btnSaveTimeTible(ActionEvent event) {
+    private void btnSaveTimeTible(ActionEvent event) throws ListException {
 
         initCourseTable();
 
@@ -353,7 +360,7 @@ public class ScheduleFXMLController implements Initializable {
                     || cbHour1Schedule1.getValue() == null || cbHour1Schedule2.getValue() == null
                     || cbHour2Schedule2.getValue() == null || cbHour2Schedule1.getValue() == null
                     || cbFinalHour1Schedule1.getValue() == null || cbFinalHour1Schedule2.getValue() == null
-                    || cbFinalHour2Schedule1.getValue() == null || cbFinalHour2Schedule2.getValue() == null)) {
+                    || cbFinalHour2Schedule1.getValue() == null || cbFinalHour2Schedule2.getValue() == null||cbPeriod.getValue()==null)) {
 
                 boolean validSchedules = true;
 
@@ -408,14 +415,24 @@ public class ScheduleFXMLController implements Initializable {
                     
                     //Aquí se crean los objetos TimeTable que se van a agregar a la lista y archivos
                     
+                     if (timeTablelList.isEmpty() || !timeTablelList.contains(new TimeTable(txtCourseSchedule.textProperty().getValue(), "", "",""))) {
+            
+                    //Si el usuario no selecciona nada, el combo devuelve null
+
+                    txtError.setText("");
+                    //Agrega la carrera al archivo 
+                         FileManagementTimeTable.add(txtCourseSchedule.textProperty().getValue(),(String)cbPeriod.getValue(),(String)cbDay1Schedule1.getValue()+" "+(String)cbHour1Schedule1.getValue()+"-"+(String)cbFinalHour1Schedule1.getValue()+" & "+(String)cbDay2Schedule1.getValue()+" "+(String)cbHour2Schedule1.getValue()+"-"+(String)cbFinalHour2Schedule1.getValue()
+                                 , (String)cbDay1Schedule2.getValue()+" "+(String)cbHour1Schedule2.getValue()+"-"+(String)cbFinalHour1Schedule2.getValue()+" & "+(String)cbDay2Schedule2.getValue()+" "+(String)cbHour2Schedule2.getValue()+"-"+(String)cbFinalHour2Schedule2.getValue() , FileManagementTimeTable.getNameFileTime());
+                    //Actualiza la lista para que salga la carrera nueva
+                    timeTablelList = util.Utility.getTimeTableList();
                     
-                    
-                    
+                     }
                     
                     
                     //Esto debe ir de último
                     selectedCourseData = null;
                     cleanAll();
+                    initCourseTable();
                     paneAddSchedule.setVisible(true);
                     txtError.setText("");
                     txtSuccess.setText("Guardado con éxito");
@@ -435,11 +452,16 @@ public class ScheduleFXMLController implements Initializable {
             txtSuccess.setText("");
         }
 
+        
     }
 
     @FXML
     private void btnCancelTimeTible(ActionEvent event
     ) {
+        cleanAll();
+        initCourseTable();
+        paneAddSchedule.setVisible(true);
+        txtError.setText("");
     }
 
     @FXML

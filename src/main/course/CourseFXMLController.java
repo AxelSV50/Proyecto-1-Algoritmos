@@ -260,7 +260,7 @@ public class CourseFXMLController implements Initializable {
                 if (courseList.isEmpty() || !courseList.contains(new Course(tfAddCourseId.textProperty().getValue(), "", 0, 0))) {
                     String idCareer = comboBoxCourseAdd.getValue();
                     //Si el usuario no selecciona nada, el combo devuelve null
-
+                    
                     String[] array = idCareer.split("-");
                     txtError.setText("");
                     //Agrega la carrera al archivo 
