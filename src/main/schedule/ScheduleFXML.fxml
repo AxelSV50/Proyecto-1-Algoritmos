@@ -23,9 +23,9 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="asignSchedule" layoutX="14.0" layoutY="2.0" mnemonicParsing="false" onAction="#asignSchedule" style="-fx-background-color: #000445;" text="Asignar horarios" textFill="#ffee00" />
-                  <Button fx:id="display" layoutX="209.0" layoutY="3.0" mnemonicParsing="false" onAction="#display" style="-fx-background-color: #000445;" text="Mostrar todo" textFill="#ffee00" />
-                  <Button fx:id="eliminatechedule" layoutX="135.0" layoutY="3.0" mnemonicParsing="false" onAction="#eliminatechedule" style="-fx-background-color: #000445;" text="Eliminar" textFill="#ffee00" />
+                  <Button fx:id="asignSchedule" layoutX="52.0" layoutY="4.0" mnemonicParsing="false" onAction="#asignSchedule" style="-fx-background-color: #000445;" text="Asignar horarios" textFill="#ffee00" />
+                  <Button fx:id="display" layoutX="247.0" layoutY="5.0" mnemonicParsing="false" onAction="#display" style="-fx-background-color: #000445;" text="Mostrar todo" textFill="#ffee00" />
+                  <Button fx:id="eliminatechedule" layoutX="173.0" layoutY="5.0" mnemonicParsing="false" onAction="#eliminatechedule" style="-fx-background-color: #000445;" text="Eliminar" textFill="#ffee00" />
                </children>
             </Pane>
             <Text fx:id="txtTitle" layoutX="285.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mostrar horarios" textAlignment="CENTER" wrappingWidth="210.0426025390625">
@@ -33,7 +33,7 @@
                   <Font name="Candara Light Italic" size="30.0" />
                </font>
             </Text>
-            <Pane fx:id="paneAddSchedule" layoutX="27.0" layoutY="84.0" prefHeight="427.0" prefWidth="743.0">
+            <Pane fx:id="paneAddSchedule" layoutX="27.0" layoutY="84.0" prefHeight="427.0" prefWidth="743.0" visible="false">
                <children>
                   <TableView fx:id="tableAsignSchedule" layoutX="55.0" layoutY="37.0" prefHeight="153.0" prefWidth="629.0">
                      <columns>
@@ -161,17 +161,18 @@
                </children>
             </Pane>
             <Line endX="492.0" layoutX="278.0" layoutY="84.0" startX="-251.0" />
-            <Pane fx:id="paneDisplayAll" layoutX="27.0" layoutY="83.0" prefHeight="430.0" prefWidth="745.0" visible="false">
+            <Pane fx:id="paneDisplayAll" layoutX="27.0" layoutY="83.0" prefHeight="430.0" prefWidth="745.0">
                <children>
-                  <TableView fx:id="tableTime" layoutX="36.0" layoutY="51.0" prefHeight="307.0" prefWidth="674.0">
+                  <TableView fx:id="tableTime" layoutX="27.0" layoutY="52.0" prefHeight="307.0" prefWidth="692.0">
                      <columns>
-                        <TableColumn fx:id="timeTableIdCourseCol" prefWidth="129.60001373291016" text="Sigla" />
-                        <TableColumn fx:id="timeTablePeriodCol" prefWidth="105.59996032714844" text="Periodo" />
-                        <TableColumn fx:id="timeTableSchedule1Col" prefWidth="224.79995727539062" text="Horario 1" />
-                        <TableColumn fx:id="timeTableSchedule2Col" prefWidth="219.199951171875" text="Horario 2" />
+                        <TableColumn fx:id="timeTableIdCourseCol" prefWidth="115.0" text="Sigla" />
+                        <TableColumn fx:id="timeTablePeriodCol" prefWidth="74.0" text="Periodo" />
+                        <TableColumn fx:id="timeTableSchedule1Col" prefWidth="163.0" text="Horario 1" />
+                        <TableColumn fx:id="timeTableSchedule2Col" prefWidth="170.0" text="Horario 2" />
+                        <TableColumn fx:id="timeTableCareerCol" prefWidth="168.0" text="Carrera" />
                      </columns>
                   </TableView>
-                  <Text layoutX="307.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de horas" textAlignment="CENTER">
+                  <Text layoutX="307.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de horarios" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="17.0" />
                      </font>

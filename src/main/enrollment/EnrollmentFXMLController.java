@@ -6,21 +6,28 @@
 package main.enrollment;
 
 import domain.Career;
+import domain.CircularDoublyLinkedList;
+import domain.Course;
 import domain.DoublyLinkedList;
 import domain.ListException;
 import domain.SinglyLinkedList;
 import domain.Student;
+import domain.TimeTable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -32,7 +39,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import main.career.CareerFXMLController;
+import main.student.StudentFXMLController;
 
 /**
  * FXML Controller class
@@ -40,7 +49,7 @@ import main.career.CareerFXMLController;
  * @author Usuario
  */
 public class EnrollmentFXMLController implements Initializable {
-    
+
     @FXML
     private BorderPane bp;
     @FXML
@@ -55,18 +64,20 @@ public class EnrollmentFXMLController implements Initializable {
     private Text txtAdded;
     @FXML
     private Pane paneSelectStudent;
+
     @FXML
-    private TableView<Student> studentsTable;
-    
-    private int positionStudent;
+    private TableView<List<String>> studentsTable;
     @FXML
-    private TableColumn<Student, Integer> idStudentCol;
+    private TableColumn<List<String>, String> idStudentCol;
     @FXML
-    private TableColumn<Student, String> idCarneStudentCol;
+    private TableColumn<List<String>, String> idCarneStudentCol;
     @FXML
-    private TableColumn<Student, String> nameStudentCol;
+    private TableColumn<List<String>, String> nameStudentCol;
     @FXML
-    private TableColumn<Student, String> lastnameStudentCol;
+    private TableColumn<List<String>, String> lastnameStudentCol;
+    @FXML
+    private TableColumn<List<String>, String> careerStudentCol;
+
     @FXML
     private Button enrollment;
     @FXML
@@ -76,9 +87,33 @@ public class EnrollmentFXMLController implements Initializable {
     @FXML
     private Pane paneEnrollCourses;
     @FXML
-    private TableView<?> tableCoursesEnrollment;
+    private TableView<List<String>> tableCoursesEnrollment;
     @FXML
-    private TableView<?> tableAddedCoursesEnrollment;
+    private TableColumn<List<String>, String> courseIDEnrollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> courseNameErollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> courseCreditsEnrollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> courseScheduleEnrollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> courseEnrollemntSchedule2Col;
+    @FXML
+    private TableColumn<List<String>, String> coursePeriodEnrollmentCol;
+
+    @FXML
+    private TableView<List<String>> tableAddedCoursesEnrollment;
+    @FXML
+    private TableColumn<List<String>, String> courseIDAddedEnrollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> nameCourseAddedEnrollementCol;
+    @FXML
+    private TableColumn<List<String>, String> creditsAddedEnrollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> scheduleAddedEnrollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> periodAddedEnrollmentCol;
+
     @FXML
     private Text txtNameStudentEnroll;
     @FXML
@@ -95,8 +130,6 @@ public class EnrollmentFXMLController implements Initializable {
     private Button btnSaveEnrollemnt;
     @FXML
     private Button btnCancelEnrollemnt;
-    @FXML
-    private Button btnRemoveSelectedEnroll;
     @FXML
     private Pane paneEnrolledCourses;
     @FXML
@@ -137,17 +170,25 @@ public class EnrollmentFXMLController implements Initializable {
     private Text txtCareerSearchUpdate;
     @FXML
     private Button btnSearchStudentDeroll;
-    
-    private ObservableList<Student> studentsData;
-    
-    private SinglyLinkedList studentList = util.Utility.getStudentsList();
-    private DoublyLinkedList careersList = util.Utility.getCareersList();
-    
-    private Student studentEnrollment;
     @FXML
     private Text txtIDcourseEnroll;
     @FXML
     private Text txtTitle2;
+
+    private ObservableList<List<String>> studentsData;
+    private ObservableList<List<String>> coursesEnrollmentData;
+    private ObservableList<List<String>> coursesAddedData = FXCollections.observableArrayList();
+    ;
+
+    private SinglyLinkedList studentList = util.Utility.getStudentsList();
+    private DoublyLinkedList careersList = util.Utility.getCareersList();
+    private SinglyLinkedList timeTableList = util.Utility.getTimeTableList();
+    private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
+    private CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
+
+    private List<String> studentEnrollment;
+    private List<String> courseToEnroll;
+    private int courseEnrollmentPosition;
 
     /**
      * Initializes the controller class.
@@ -158,28 +199,151 @@ public class EnrollmentFXMLController implements Initializable {
 
         initStudentsTable();
         txtTitle.setVisible(true);
-        
+
     }
-    
+
+    private void initComboBox(ComboBox<String> cb) {
+
+        ObservableList opc = FXCollections.observableArrayList();
+        opc.addAll("Horario 1", "Horario 2");
+
+        cb.setItems(opc);
+        cb.setValue("Horario 1");
+    }
+
+    private void initCoursesEnrollmentTable() {
+
+        courseIDEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(0)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        courseNameErollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(1)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        courseCreditsEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(2)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        courseScheduleEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        courseEnrollemntSchedule2Col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(4)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        coursePeriodEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(5)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        final ObservableList<List<String>> coursesEnrollmentCell = tableCoursesEnrollment.getSelectionModel().getSelectedItems();
+        coursesEnrollmentCell.addListener(selectTableCoursesEnrollment);
+
+        coursesEnrollmentData = FXCollections.observableArrayList();
+
+        if (!timeTableList.isEmpty()) {
+
+            try {
+                for (int i = 1; i <= timeTableList.size(); i++) {
+
+                    //Obtenemos los datos del curso
+                    TimeTable t = (TimeTable) timeTableList.getNode(i).data;
+
+                    int indexCourse = courseList.indexOf(new Course(t.getCourseID(), "", 0, 0));
+                    Course c1 = (Course) courseList.getNode(indexCourse).data;
+                    int idCareer = Integer.parseInt(studentEnrollment.get(5));
+
+                    if (c1.getCareerID() == idCareer) {
+
+                        List<String> list = new ArrayList<>();
+
+                        list.add(t.getCourseID());
+                        list.add(c1.getName());
+                        list.add(c1.getCredits() + "");
+                        list.add(t.getSchedule1());
+                        list.add(t.getSchedule2());
+                        list.add(t.getPeriod());
+
+                        coursesEnrollmentData.add(list);
+                    }
+
+                }
+            } catch (ListException ex) {
+                Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        tableCoursesEnrollment.setItems(coursesEnrollmentData);
+    }
+
     private void initStudentsTable() {
-        
-        idStudentCol.setCellValueFactory(new PropertyValueFactory<Student, Integer>("id"));
-        idCarneStudentCol.setCellValueFactory(new PropertyValueFactory<Student, String>("studentID"));
-        nameStudentCol.setCellValueFactory(new PropertyValueFactory<Student, String>("firstname"));
-        lastnameStudentCol.setCellValueFactory(new PropertyValueFactory<Student, String>("lastname"));
-        
-        final ObservableList<Student> studentsTableCell = studentsTable.getSelectionModel().getSelectedItems();
+
+        idStudentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(0)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        idCarneStudentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(1)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        nameStudentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(2)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        lastnameStudentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        careerStudentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(4)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        final ObservableList<List<String>> studentsTableCell = studentsTable.getSelectionModel().getSelectedItems();
         studentsTableCell.addListener(selectTableStudents);
-        
+
         studentsData = FXCollections.observableArrayList();
-        
+
         if (!studentList.isEmpty()) {
-            
+
             try {
                 for (int i = 1; i <= studentList.size(); i++) {
-                    
+
                     Student a = (Student) studentList.getNode(i).data;
-                    studentsData.add(a);
+                    Career c = (Career) careersList.getNode(careersList.indexOf(new Career(a.getCareerID(), ""))).data;
+                    List<String> list = new ArrayList<>();
+
+                    list.add(a.getId() + "");
+                    list.add(a.getStudentID());
+                    list.add(a.getFirstname());
+                    list.add(a.getLastname());
+                    list.add(c.getDescription());
+                    list.add(a.getCareerID() + "");
+
+                    studentsData.add(list);
                 }
             } catch (ListException ex) {
                 Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -190,26 +354,44 @@ public class EnrollmentFXMLController implements Initializable {
 
     @FXML
     private void btnBack(ActionEvent event) {
-        
+
         bp.setVisible(false);
     }
-    
-    private final ListChangeListener<Student> selectTableStudents
-            = new ListChangeListener<Student>() {
+
+    private final ListChangeListener<List<String>> selectTableStudents
+            = new ListChangeListener<List<String>>() {
         @Override
-        public void onChanged(ListChangeListener.Change<? extends Student> c) {
+        public void onChanged(ListChangeListener.Change<? extends List<String>> c) {
             setSelectedStudent();
+        }
+    };
+    private final ListChangeListener<List<String>> selectTableCoursesEnrollment
+            = new ListChangeListener<List<String>>() {
+        @Override
+        public void onChanged(ListChangeListener.Change<? extends List<String>> c) {
+            setSelectedCourseEnrollment();
         }
     };
 
     /**
      * PARA SELECCIONAR UNA CELDA DE LA TABLA "tablaPersonas"
      */
-    public Student getSelectedStudentsTable() {
+    public List<String> getSelectedStudentsTable() {
         if (studentsTable != null) {
-            List<Student> tabla = studentsTable.getSelectionModel().getSelectedItems();
+            List<List<String>> tabla = studentsTable.getSelectionModel().getSelectedItems();
             if (tabla.size() == 1) {
-                final Student competicionSeleccionada = tabla.get(0);
+                final List<String> competicionSeleccionada = tabla.get(0);
+                return competicionSeleccionada;
+            }
+        }
+        return null;
+    }
+
+    public List<String> getSelectedCoursesEnrollmentTable() {
+        if (tableCoursesEnrollment != null) {
+            List<List<String>> table = tableCoursesEnrollment.getSelectionModel().getSelectedItems();
+            if (table.size() == 1) {
+                final List<String> competicionSeleccionada = table.get(0);
                 return competicionSeleccionada;
             }
         }
@@ -220,103 +402,220 @@ public class EnrollmentFXMLController implements Initializable {
      * Método para poner en los textFields la tupla que selccionemos
      */
     private void setSelectedStudent() {
-        final Student student = getSelectedStudentsTable();
-        
+        final List<String> student = getSelectedStudentsTable();
+
         if (student != null) {
 
             studentEnrollment = student;
         }
-        
+
     }
-    
+
+    private void setSelectedCourseEnrollment() {
+        final List<String> course = getSelectedCoursesEnrollmentTable();
+        courseEnrollmentPosition = coursesEnrollmentData.indexOf(course);
+
+        if (course != null) {
+
+            courseToEnroll = course;
+            txtIDcourseEnroll.setText(courseToEnroll.get(0));
+
+        }
+
+    }
+
     @FXML
     private void enrollment(ActionEvent event) {
-        
+
         cleanAll();
         paneSelectStudent.setVisible(true);
         studentEnrollment = null;
+        courseToEnroll = null;
         initStudentsTable();
         txtTitle.setVisible(true);
-        
+
     }
-    
+
     @FXML
     private void derollment(ActionEvent event) {
-        
+
         cleanAll();
         panelSearchStudentDeroll.setVisible(true);
         txtTitle2.setVisible(true);
     }
-    
+
     private void cleanAll() {
         paneSelectStudent.setVisible(false);
         panelSearchStudentDeroll.setVisible(false);
         paneEnrollCourses.setVisible(false);
         txtTitle.setVisible(false);
         txtTitle2.setVisible(false);
-        
+
     }
-    
+
     @FXML
     private void btnInitErollment(ActionEvent event) {
-        
+
         if (studentEnrollment != null) {
-            
-            paneEnrollCourses.setVisible(true);
-            
-            txtNameStudentEnroll.setText(studentEnrollment.getFirstname() + " " + studentEnrollment.getLastname());
-            idStudetEnroll.setText(studentEnrollment.getId() + "");
-            carneStudentEnroll.setText(studentEnrollment.getStudentID() + "");
-            
+
+            Career c = null;
+            boolean canEroll = false;
             try {
                 for (int i = 1; i <= careersList.size(); i++) {
-                    
-                    Career a = (Career) careersList.getNode(i).data;
-                    
-                    if (studentEnrollment.getCareerID() == a.getId()) {
-                        
-                        careerStudentEnroll.setText(a.getDescription());
+
+                    c = (Career) careersList.getNode(i).data;
+
+                    int idCareer = Integer.parseInt(studentEnrollment.get(5));
+                    if (idCareer == c.getId()) {
+
+                        for (int j = 1; j <= timeTableList.size(); j++) {
+
+                            TimeTable t = (TimeTable) timeTableList.getNode(j).data;
+                            int indexCourse = courseList.indexOf(new Course(t.getCourseID(), "", 0, 0));
+                            Course c1 = (Course) courseList.getNode(indexCourse).data;
+
+                            if (c.getId() == c1.getCareerID()) {
+                                canEroll = true;
+                                j = timeTableList.size() + 1;
+                            }
+                        }
                         i = careersList.size() + 1;
                     }
                 }
+
             } catch (ListException ex) {
-                Logger.getLogger(EnrollmentFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+
             }
+
+            if (canEroll) {
+
+                txtIDcourseEnroll.setText("");
+                initComboBox(cbScheduleCourse);
+                initCoursesEnrollmentTable();
+                paneEnrollCourses.setVisible(true);
+                careerStudentEnroll.setText(c.getDescription());
+                txtNameStudentEnroll.setText(studentEnrollment.get(2) + " " + studentEnrollment.get(3));
+                idStudetEnroll.setText(studentEnrollment.get(0) + "");
+                carneStudentEnroll.setText(studentEnrollment.get(1) + "");
+
+            } else {
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Matrícula");
+                alert.setHeaderText("El estudiante no puede realizar la matrícula \n"
+                        + "debido a que la carrera " + c.getDescription() + " no tiene \n"
+                        + "cursos con horarios asignados.");
+                alert.showAndWait();
+            }
+
         }
     }
-    
+
     @FXML
     private void btnSaveEnrollemnt(ActionEvent event) {
     }
-    
+
     @FXML
     private void btnCancelEnrollemnt(ActionEvent event) {
-        
+
         paneEnrollCourses.setVisible(false);
-        
+        courseToEnroll = null;
+        for (int i = 0; i < coursesAddedData.size(); i++) {
+            coursesAddedData.remove(i);
+        }
+        coursesAddedData.remove(0);
+
     }
-    
+
     @FXML
     private void btnBackEnrolledCourses(ActionEvent event) {
     }
-    
+
     @FXML
     private void btnDerollSelected(ActionEvent event) {
     }
-    
+
     @FXML
     private void btnCancelDeroll(ActionEvent event) {
     }
-    
+
     @FXML
     private void btnSaveDeroll(ActionEvent event) {
     }
-    
+
     @FXML
     private void tfSearchCarrerUpdate(KeyEvent event) {
     }
-    
+
     @FXML
     private void btnSearchStudentDeroll(ActionEvent event) {
     }
+
+    @FXML
+    private void btnAddCourse(ActionEvent event) {
+
+        if (courseToEnroll != null) {
+            
+            coursesAddedData.add(courseToEnroll);
+            initTableAddedCourses();
+            
+            if (courseEnrollmentPosition >= 0) {
+                coursesEnrollmentData.remove(courseEnrollmentPosition);
+
+                if (courseEnrollmentPosition < 0) {
+                    txtIDcourseEnroll.setText("");
+                    courseToEnroll = null;
+                }
+            }
+
+        } else if (!coursesEnrollmentData.isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Matrícula");
+            alert.setHeaderText("Debe Selecionar un curso para agregar.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Matrícula");
+            alert.setHeaderText("No hay cursos para agregar");
+            alert.showAndWait();
+        }
+    }
+
+    private void initTableAddedCourses() {
+
+        courseIDAddedEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(0)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        nameCourseAddedEnrollementCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(1)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        creditsAddedEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(2)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        scheduleAddedEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        periodAddedEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(4)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        tableAddedCoursesEnrollment.setItems(coursesAddedData);
+    }
+
 }

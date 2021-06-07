@@ -25,6 +25,7 @@ public class Utility {
     private static DoublyLinkedList careersList;
     private static SinglyLinkedList studentsList;
     private static CircularDoublyLinkedList coursesList;
+    private static CircularDoublyLinkedList enrollmentList;
     private static SinglyLinkedList timeTableList;
 
     //Tiene las carreras agregadas
@@ -47,6 +48,11 @@ public class Utility {
     public static SinglyLinkedList getTimeTableList() {
         timeTableList = data.FileManagementTimeTable.getTimeTableList();
         return timeTableList;
+    }
+
+    public static CircularDoublyLinkedList getEnrollmentList() {
+        enrollmentList = data.FileManagementEnrollemnt.getEnrollmentList();
+        return enrollmentList;
     }
 
     public static int random() {
@@ -113,12 +119,8 @@ public class Utility {
                 TimeTable t2 = (TimeTable) b;
                 return t1.getCourseID().equalsIgnoreCase(t2.getCourseID());
         }//revisar esta condicion
-                return false; //en cualquier otro caso
-        }
-
-    
-
-    
+        return false; //en cualquier otro caso
+    }
 
     private static String instanceOf(Object a, Object b) {
         if (a instanceof Integer && b instanceof Integer) {

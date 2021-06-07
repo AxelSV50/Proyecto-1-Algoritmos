@@ -5,9 +5,7 @@
  */
 package main;
 
-import domain.Student;
 import java.io.IOException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -28,7 +26,7 @@ public class FXMain extends Application {
 
         try {
             
-            Parent root = FXMLLoader.load(getClass().getResource("/main/schedule/ScheduleFXML.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/main/enrollment/EnrollmentFXML.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setTitle("Proyecto No. 1 - 2021");
             primaryStage.setScene(scene);

@@ -5,11 +5,21 @@
  */
 package main.menu;
 
+import com.sun.pdfview.PDFFile;
+import com.sun.pdfview.PDFPage;
 import domain.CircularDoublyLinkedList;
 import domain.DoublyLinkedList;
 import domain.SinglyLinkedList;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +35,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javax.imageio.ImageIO;
+import main.reports.ReportsFXMLController;
 import main.security.SecurityFXMLController;
 
 /**
@@ -48,14 +60,15 @@ public class MainMenuFXMLController implements Initializable {
     private ImageView opcEnrollment;
     @FXML
     private BorderPane bp;
+
+    private DoublyLinkedList careersList = util.Utility.getCareersList();
+    private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
+    private SinglyLinkedList studentList = util.Utility.getStudentsList();
     @FXML
     private AnchorPane anchorPaneMainMenu;
     @FXML
     private Button btnLogout;
 
-    private DoublyLinkedList careersList = util.Utility.getCareersList();
-    private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
-    private SinglyLinkedList studentList = util.Utility.getStudentsList();
     /**
      * Initializes the controller class.
      */
@@ -69,6 +82,7 @@ public class MainMenuFXMLController implements Initializable {
         opcEnrollment.setImage(new Image("/Images/pen.png"));
         opcCourse.setImage(new Image("/Images/conocimiento.png"));
         opcSchedule.setImage(new Image("/Images/calendar.png"));
+
     }
 
     @FXML
@@ -123,7 +137,9 @@ public class MainMenuFXMLController implements Initializable {
     @FXML
     private void opcReports(MouseEvent event) {
 
-        if (careersList.isEmpty()) {
+        if (!careersList.isEmpty()) {
+
+            loadPage("/main/reports/ReportsFXML");
 
         } else {
 
@@ -154,8 +170,8 @@ public class MainMenuFXMLController implements Initializable {
 
         careersList = util.Utility.getCareersList();
         courseList = util.Utility.getCoursesList();
-        studentList =util.Utility.getStudentsList();
-        
+        studentList = util.Utility.getStudentsList();
+
         if (careersList.isEmpty() || courseList.isEmpty() || studentList.isEmpty()) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -183,4 +199,5 @@ public class MainMenuFXMLController implements Initializable {
         this.bp.setRight(root);
     }
 
+    
 }

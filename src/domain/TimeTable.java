@@ -55,24 +55,6 @@ public class TimeTable {
     public void setSchedule2(String schedule2) {
         this.schedule2 = schedule2;
     }
-    private String getCodeCourse() {
-
-        CircularDoublyLinkedList list = util.Utility.getCoursesList();
-        int index;
-        String description = null;
-        try {
-            if (list.contains(new Course(courseID, "",0,0))) {
-
-                index = list.indexOf(new Course(courseID, "",0,0));
-                Course c = (Course) list.getNode(index).data;
-                description = c.getId();
-            }
-
-        } catch (ListException ex) {
-        }
-
-        return description;
-    }
 
     public void setCodeCourse(String codeCourse) {
         this.codeCourse = codeCourse;

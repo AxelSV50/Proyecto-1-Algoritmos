@@ -21,13 +21,14 @@ import java.io.IOException;
  * @author yeison
  */
 public class FileManagementCourses {
-     private static String nameFileCourses = "Courses.txt";
+
+    private static String nameFileCourses = "Courses.txt";
 
     public static String getNameFileCourses() {
         return nameFileCourses;
     }
-    
-    public static boolean add( String id, String name,int credits,int careerID, String fileName) {
+
+    public static boolean add(String id, String name, int credits, int careerID, String fileName) {
         try {
 
             File f1 = new File(fileName);
@@ -48,7 +49,7 @@ public class FileManagementCourses {
         return true;
     }
 
-public static boolean overwriteCourseFile(CircularDoublyLinkedList list) {
+    public static boolean overwriteCourseFile(CircularDoublyLinkedList list) {
         try {
 
             File f1 = new File(nameFileCourses);
@@ -65,9 +66,9 @@ public static boolean overwriteCourseFile(CircularDoublyLinkedList list) {
                 for (int i = 1; i <= list.size(); i++) {
 
                     if (list.getNode(i) != null) {
-                        
+
                         Course c = (Course) list.getNode(i).data;
-                        bw.write(c.getId() + "~" + c.getName() + "~" + c.getCredits()+ "~" +c.getCareerID()+ "\n");
+                        bw.write(c.getId() + "~" + c.getName() + "~" + c.getCredits() + "~" + c.getCareerID() + "\n");
                     }
                 }
                 bw.close();
@@ -80,15 +81,15 @@ public static boolean overwriteCourseFile(CircularDoublyLinkedList list) {
         }
         return true;
     }
- public static CircularDoublyLinkedList getCoursesList() {
 
-      CircularDoublyLinkedList list = new CircularDoublyLinkedList();
+    public static CircularDoublyLinkedList getCoursesList() {
+
+        CircularDoublyLinkedList list = new CircularDoublyLinkedList();
 
         try {
 
             File f1 = new File(nameFileCourses);
             String array[];
-  
 
             if (f1.exists()) {
                 BufferedReader br = new BufferedReader(new FileReader(f1));
@@ -96,7 +97,7 @@ public static boolean overwriteCourseFile(CircularDoublyLinkedList list) {
                 while ((line = br.readLine()) != null) {
 
                     array = line.split("~");//la '~' se designó para separar los elementos del fichero
-                    
+
                     list.add(new Course(array[0], array[1], Integer.parseInt(array[2]), Integer.parseInt(array[3])));
                 }
                 br.close();
@@ -107,6 +108,6 @@ public static boolean overwriteCourseFile(CircularDoublyLinkedList list) {
         return list;
 
     }
+
+    
 }
-
-

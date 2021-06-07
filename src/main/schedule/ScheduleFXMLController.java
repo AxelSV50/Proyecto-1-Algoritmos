@@ -124,6 +124,8 @@ public class ScheduleFXMLController implements Initializable {
     @FXML
     private TableColumn<List<String>, String> timeTableSchedule2Col;
     @FXML
+    private TableColumn<List<String>, String> timeTableCareerCol;
+    @FXML
     private Pane panelDeleteTimeTable;
     @FXML
     private TextField tfRemoveId;
@@ -169,6 +171,8 @@ public class ScheduleFXMLController implements Initializable {
         panelDeleteTimeTable.setVisible(false);
         tfRemoveId.setText("");
         txtCourseSchedule.setText("");
+        txtError.setText("");
+        txtSuccess.setText("");
         cbDay1Schedule1.setValue(null);
         cbDay2Schedule1.setValue(null);
         cbDay1Schedule2.setValue(null);
@@ -214,6 +218,12 @@ public class ScheduleFXMLController implements Initializable {
                 return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
             }
         });
+        timeTableCareerCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(4)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
         ObservableList<List<String>> tableContent = FXCollections.observableArrayList();
 
         if (!timeTablelList.isEmpty()) {
@@ -225,12 +235,17 @@ public class ScheduleFXMLController implements Initializable {
 
                     TimeTable t = (TimeTable) timeTablelList.getNode(i).data;
 
+                    int c = courseList.indexOf(new Course(t.getCourseID(), "", 0, 0));
+                    Course c1 = (Course) courseList.getNode(c).data;
+                    int c2 = careersList.indexOf(new Career(c1.getCareerID(), ""));
+                    Career c3 = (Career) careersList.getNode(c2).data;
+                    
                     //Agregamos todos los datos al arrayList
                     arrayList.add(t.getCourseID());
                     arrayList.add(t.getPeriod());
                     arrayList.add(t.getSchedule1());
                     arrayList.add(t.getSchedule2());
-
+                    arrayList.add(c3.getDescription());
                     tableContent.add(arrayList);
                 }
             } catch (ListException ex) {
@@ -582,11 +597,12 @@ public class ScheduleFXMLController implements Initializable {
 
     @FXML
     private void eliminatechedule(ActionEvent event) {
-   cleanAll();
+        cleanAll();
         panelDeleteTimeTable.setVisible(true);
         txtTitle.setText("Elimina horario");
     }
- @FXML
+
+    @FXML
     private void btnDelete(ActionEvent event) {
         if (!tfRemoveId.textProperty().getValue().equals("")) {
 
@@ -656,7 +672,5 @@ public class ScheduleFXMLController implements Initializable {
     @FXML
     private void tfRemoveId(KeyEvent event) {
     }
-
-   
 
 }

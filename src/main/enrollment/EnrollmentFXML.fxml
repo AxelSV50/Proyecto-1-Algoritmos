@@ -42,44 +42,47 @@
                   <Font name="Calibri Light Italic" size="12.0" />
                </font>
             </Text>
-            <Pane fx:id="paneSelectStudent" layoutX="56.0" layoutY="128.0" prefHeight="373.0" prefWidth="670.0" style="-fx-background-color: #EDEDED;">
+            <Pane fx:id="paneSelectStudent" layoutX="23.0" layoutY="128.0" prefHeight="373.0" prefWidth="749.0" style="-fx-background-color: #EDEDED;">
                <children>
-                  <TableView fx:id="studentsTable" layoutX="18.0" layoutY="24.0" prefHeight="232.0" prefWidth="638.0">
+                  <TableView fx:id="studentsTable" layoutX="25.0" layoutY="21.0" prefHeight="232.0" prefWidth="698.0">
                     <columns>
-                      <TableColumn fx:id="idStudentCol" prefWidth="149.0" text="Cédula" />
-                      <TableColumn fx:id="idCarneStudentCol" prefWidth="115.0" text="Carné" />
-                        <TableColumn fx:id="nameStudentCol" prefWidth="162.0" text="Nombre" />
-                        <TableColumn fx:id="lastnameStudentCol" prefWidth="211.0" text="Apellido" />
+                      <TableColumn fx:id="idStudentCol" editable="false" prefWidth="149.0" text="Cédula" />
+                      <TableColumn fx:id="idCarneStudentCol" editable="false" prefWidth="115.0" text="Carné" />
+                        <TableColumn fx:id="nameStudentCol" editable="false" prefWidth="126.0" text="Nombre" />
+                        <TableColumn fx:id="lastnameStudentCol" editable="false" prefWidth="141.0" text="Apellido" />
+                        <TableColumn fx:id="careerStudentCol" editable="false" prefWidth="166.0" text="Carrera" />
                     </columns>
                   </TableView>
-                  <Button fx:id="btnInitErollment" layoutX="272.0" layoutY="288.0" mnemonicParsing="false" onAction="#btnInitErollment" prefHeight="25.0" prefWidth="127.0" text="Matrícula" />
+                  <Button fx:id="btnInitErollment" layoutX="311.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnInitErollment" prefHeight="25.0" prefWidth="127.0" text="Matrícula" />
                </children>
             </Pane>
-            <Pane fx:id="paneEnrollCourses" layoutX="25.0" layoutY="31.0" prefHeight="495.0" prefWidth="737.0" style="-fx-background-color: #EDEDED;" visible="false">
+            <Pane fx:id="paneEnrollCourses" layoutX="25.0" layoutY="31.0" prefHeight="495.0" prefWidth="737.0" style="-fx-background-color: #EDEDED;">
                <children>
-                  <TableView fx:id="tableCoursesEnrollment" layoutX="54.0" layoutY="118.0" prefHeight="116.0" prefWidth="629.0">
+                  <TableView fx:id="tableCoursesEnrollment" layoutX="20.0" layoutY="123.0" prefHeight="116.0" prefWidth="709.0">
                     <columns>
-                      <TableColumn prefWidth="121.0" text="Sigla" />
-                      <TableColumn prefWidth="147.0" text="Descripción" />
-                        <TableColumn prefWidth="56.0" text="Créditos" />
-                        <TableColumn prefWidth="158.0" text="Horario 1" />
-                        <TableColumn prefWidth="146.0" text="Horario 2" />
+                      <TableColumn fx:id="courseIDEnrollmentCol" editable="false" prefWidth="74.0" text="Sigla" />
+                      <TableColumn fx:id="courseNameErollmentCol" editable="false" prefWidth="167.0" text="Nombre" />
+                        <TableColumn fx:id="courseCreditsEnrollmentCol" editable="false" prefWidth="51.0" text="Créditos" />
+                        <TableColumn fx:id="courseScheduleEnrollmentCol" editable="false" prefWidth="189.0" text="Horario 1" />
+                        <TableColumn fx:id="courseEnrollemntSchedule2Col" editable="false" prefWidth="175.0" text="Horario 2" />
+                        <TableColumn fx:id="coursePeriodEnrollmentCol" editable="false" prefWidth="52.0" text="Periodo" />
                     </columns>
                   </TableView>
-                  <TableView fx:id="tableAddedCoursesEnrollment" layoutX="54.0" layoutY="313.0" prefHeight="101.0" prefWidth="629.0">
+                  <TableView fx:id="tableAddedCoursesEnrollment" layoutX="20.0" layoutY="315.0" prefHeight="101.0" prefWidth="705.0">
                      <columns>
-                        <TableColumn prefWidth="170.0" text="Sigla" />
-                        <TableColumn prefWidth="204.0" text="Descripción" />
-                        <TableColumn prefWidth="67.0" text="Créditos" />
-                        <TableColumn prefWidth="187.0" text="Horario " />
+                        <TableColumn fx:id="courseIDAddedEnrollmentCol" editable="false" prefWidth="144.0" text="Sigla" />
+                        <TableColumn fx:id="nameCourseAddedEnrollementCol" editable="false" prefWidth="209.0" text="Nombre" />
+                        <TableColumn fx:id="creditsAddedEnrollmentCol" editable="false" prefWidth="61.0" text="Créditos" />
+                        <TableColumn fx:id="scheduleAddedEnrollmentCol" editable="false" prefWidth="194.0" text="Horario " />
+                        <TableColumn fx:id="periodAddedEnrollmentCol" editable="false" prefWidth="96.0" text="Periodo" />
                      </columns>
                   </TableView>
-                  <Text layoutX="296.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cursos matriculables" textAlignment="CENTER">
+                  <Text layoutX="302.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cursos matriculables" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="17.0" />
                      </font>
                   </Text>
-                  <Text layoutX="308.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cursos agregados" textAlignment="CENTER">
+                  <Text layoutX="314.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cursos agregados" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="17.0" />
                      </font>
@@ -130,10 +133,9 @@
                      </font>
                   </Text>
                   <ComboBox fx:id="cbScheduleCourse" layoutX="299.0" layoutY="245.0" prefWidth="150.0" />
-                  <Button fx:id="btnAddCourse" layoutX="458.0" layoutY="245.0" mnemonicParsing="false" text="✚" />
-                  <Button fx:id="btnSaveEnrollemnt" layoutX="225.0" layoutY="424.0" mnemonicParsing="false" onAction="#btnSaveEnrollemnt" prefHeight="25.0" prefWidth="65.0" text="Guardar" />
-                  <Button fx:id="btnCancelEnrollemnt" layoutX="455.0" layoutY="424.0" mnemonicParsing="false" onAction="#btnCancelEnrollemnt" text="Cancelar" />
-                  <Button fx:id="btnRemoveSelectedEnroll" layoutX="304.0" layoutY="424.0" mnemonicParsing="false" text="Remover seleccionado" />
+                  <Button fx:id="btnAddCourse" layoutX="458.0" layoutY="245.0" mnemonicParsing="false" onAction="#btnAddCourse" text="✚" />
+                  <Button fx:id="btnSaveEnrollemnt" layoutX="299.0" layoutY="430.0" mnemonicParsing="false" onAction="#btnSaveEnrollemnt" prefHeight="25.0" prefWidth="65.0" text="Guardar" />
+                  <Button fx:id="btnCancelEnrollemnt" layoutX="386.0" layoutY="430.0" mnemonicParsing="false" onAction="#btnCancelEnrollemnt" text="Cancelar" />
                   <Line endX="643.0" layoutX="102.0" layoutY="82.0" startX="-102.0" />
                   <Text fill="#8a8a8a" layoutX="635.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sistema de">
                      <font>
@@ -145,12 +147,12 @@
                         <Font name="Candara Italic" size="23.0" />
                      </font>
                   </Text>
-                  <Text layoutX="49.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Curso:" textAlignment="CENTER" wrappingWidth="57.84619140625">
+                  <Text layoutX="9.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Curso seleccionado:" textAlignment="CENTER" wrappingWidth="134.84619140625">
                      <font>
                         <Font name="Candara Light" size="13.0" />
                      </font>
                   </Text>
-                  <Text fx:id="txtIDcourseEnroll" fill="#005e05" layoutX="94.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="57.84619140625">
+                  <Text fx:id="txtIDcourseEnroll" fill="#005e05" layoutX="134.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="68.84619140625">
                      <font>
                         <Font name="Cambria" size="13.0" />
                      </font>
