@@ -5,10 +5,8 @@
  */
 package data;
 
-import domain.CircularDoublyLinkedList;
-import domain.CircularLinkedList;
+import domain.list.CircularDoublyLinkedList;
 import domain.Course;
-import domain.Security;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,7 +20,7 @@ import java.io.IOException;
  */
 public class FileManagementCourses {
 
-    private static String nameFileCourses = "Courses.txt";
+    private static final String nameFileCourses = "Courses.txt";
 
     public static String getNameFileCourses() {
         return nameFileCourses;

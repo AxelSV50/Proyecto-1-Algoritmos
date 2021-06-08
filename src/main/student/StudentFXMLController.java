@@ -7,9 +7,9 @@ package main.student;
 
 import data.FileManagementUsers;
 import domain.Career;
-import domain.DoublyLinkedList;
-import domain.ListException;
-import domain.SinglyLinkedList;
+import domain.list.DoublyLinkedList;
+import domain.list.ListException;
+import domain.list.SinglyLinkedList;
 import domain.Student;
 import java.io.IOException;
 import java.net.URL;

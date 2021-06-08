@@ -3,19 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain;
+package domain.list;
+
+import domain.*;
 
 /**
  *
  * @author Profesor Gilberth Chaves A <gchavesav@ucr.ac.cr>
  */
-public class DoublyLinkedList implements List {
+public class CircularDoublyLinkedList implements List {
 
     private Node first; //apunta al inicio de la lista dinamica
+    private Node last; //apunta al ult nodo de la lista
 
     //Constructor
-    public DoublyLinkedList() {
-        this.first = null; //la lista todavia no existe
+    public CircularDoublyLinkedList() {
+        this.first = this.last = null; //la lista todavia no existe
     }
 
     @Override
@@ -25,16 +28,17 @@ public class DoublyLinkedList implements List {
         }
         Node aux = first;
         int count = 0;
-        while (aux != null) {
+        while (aux != last) {
             count++;
             aux = aux.next;
         }
-        return count;
+        //se sale cuando esta en el ult nodo
+        return count + 1; //+1 para que cuente el ult nodo
     }
 
     @Override
     public void clear() {
-        this.first = null;
+        this.first = this.last = null;
     }
 
     @Override
@@ -48,43 +52,51 @@ public class DoublyLinkedList implements List {
             throw new ListException("SinglyLinkedList is empty");
         }
         Node aux = first;
-        while (aux != null) {
+        while (aux != last) {
             if (util.Utility.equals(aux.data, element)) {
                 return true;
             }
             aux = aux.next;
         }
-        return false; //indica q el elemento no existe
+        //se sale cuando aux == last
+        //en este caso, solo resta verificar si el elem a buscar
+        //esta en ese nodo
+        return util.Utility.equals(aux.data, element);
     }
 
     @Override
     public void add(Object element) {
         Node newNode = new Node(element);
         if (isEmpty()) {
-            this.first = newNode;
+            this.first = this.last = newNode;
         } else {
-            Node aux = first;
-            //el aux es para moverme por la lista hasta el ult elemento
-            while (aux.next != null) {
-                aux = aux.next;
-            }
-            //cuando se sale del while quiere decir q aux.next == null
-            aux.next = newNode;
+            last.next = newNode;
+            //hago en doble enlace
+            newNode.prev = last;
+            last = newNode; //muevo last a q apunte al ult nodo
+
+            //hago el enlace circular
+            last.next = first;
             //hago el doble enlace
-            newNode.prev = aux;
+            first.prev = last;
         }
+
     }
 
     @Override
     public void addFirst(Object element) {
         Node newNode = new Node(element);
         if (isEmpty()) {
-            this.first = newNode;
+            this.first = this.last = newNode;
         }
         newNode.next = first;
         //hago el doble enlace
         first.prev = newNode;
         first = newNode;
+
+        //hago el enlace circular y doble
+        last.next = first;
+        first.prev = last;
     }
 
     @Override
@@ -97,7 +109,7 @@ public class DoublyLinkedList implements List {
         Node newNode = new Node(element);
         //CASO 1. LA LISTA ESTA VACIA
         if (isEmpty()) {
-            first = newNode;
+            first = last = newNode;
         } else {
             //CASO 2. first.next es nulo, o no es nulo
             //y el elemento a insertar es menor al del inicio
@@ -111,7 +123,7 @@ public class DoublyLinkedList implements List {
                 Node prev = first;
                 Node aux = first.next;
                 boolean added = false;
-                while (aux != null && !added) {
+                while (aux != last && !added) {
                     if (util.Utility.lessT(element, aux.data)) {
                         prev.next = newNode;
                         //hago el doble enlace
@@ -125,14 +137,29 @@ public class DoublyLinkedList implements List {
                     prev = aux;
                     aux = aux.next;
                 }
-                //si llega aqui, el elemento se agrega al final de la lista
-                if (!added) {
+                //si llega aqui, se enlaza cuando aux==last
+                if (util.Utility.lessT(element, aux.data) && !added) {
                     prev.next = newNode;
                     //hago el doble enlace
                     newNode.prev = prev;
+
+                    newNode.next = aux;
+                    //hago el doble enlace
+                    aux.prev = newNode;
+                } else //en este caso, se enlaza al final
+                if (!added) {
+                    aux.next = newNode;
+                    //hago el doble enlace
+                    newNode.prev = aux;
+
+                    //muevo last al ult nodo
+                    last = newNode;
                 }
             }
         }
+        //hago el enlace circular y doble
+        last.next = first;
+        first.prev = last;
     }
 
     @Override
@@ -147,31 +174,32 @@ public class DoublyLinkedList implements List {
             //CASO 2. EL ELEMENTO A SUPRIMIR ESTA EN CUALQUIER OTRO NODO
             Node prev = first; //para dejar rastro, apunta al anterior de aux
             Node aux = first.next;
-            while (aux != null && !util.Utility.equals(aux.data, element)) {
+            while (aux != last && !util.Utility.equals(aux.data, element)) {
                 prev = aux; //un nodo atras de aux
                 aux = aux.next;
             }
-            //se sale del while cuando alcanza nulo
-            //o cuando encuentra el elemento a suprimir
-            if (aux != null && util.Utility.equals(aux.data, element)) {
+            //se sale cuando aux==last, o cuando encuentra el elemento
+            //a suprimir
+            if (util.Utility.equals(aux.data, element)) {
                 //desenlazo o desconecto el nodo
-                prev.next = aux.next;
+                Node w = aux.next;
+                prev.next = w;
+                //mantengo el doble enlace
+                w.prev = prev;
             }
+            //debo asegurarme q last apunte al ult nodo
+            if (aux == last && util.Utility.equals(aux.data, element)) { //estamos en el ult nodo
+                last = prev;
+            }
+            last.next = first;
+            first.prev = last;
         }
-    }
+        //mantengo el enlace circular y doble
 
-    public void modify(int index, Object element) throws ListException {
-
-        if (isEmpty()) {
-            throw new ListException("SinglyLinkedList is empty");
+        //Que pasa si solo queda un nodo y es el que quiero eliminar?
+        if (first == last && util.Utility.equals(first.data, element)) {
+            clear(); //en este caso anulamos la lista
         }
-
-        Node aux = getNode(index);
-
-        if (aux != null) {
-            aux.data = element;
-        }
-
     }
 
     @Override
@@ -181,6 +209,9 @@ public class DoublyLinkedList implements List {
         }
         Object element = first.data;
         first = first.next; //muevo el apuntador al sgte nodo
+        //mantengo el enlace circular y doble
+        first.prev = last;
+        last.next = first;
         return element;
     }
 
@@ -191,57 +222,103 @@ public class DoublyLinkedList implements List {
         }
         Node aux = first;
         Node prev = first; //para dejar rastro, apunta al anterior de aux
-        while (aux.next != null) {
+        while (aux.next != last) {
             prev = aux; //un nodo atras de aux
             aux = aux.next;
         }
         //se sale del while cuando esta en el ultimo nodo
         Object element = aux.data;
-        prev.next = null; //desconecto el ultimo nodo
+        //prev.next = first; //desconecto el ultimo nodo
+        last = prev;
+        //mantengo el enlace circular y doble
+        last.next = first;
+        first.prev = last;
         return element;
     }
 
     @Override
     public void sort() throws ListException {
+
         if (isEmpty()) {
-            throw new ListException("SinglyLinkedList is empty");
+            throw new ListException("CircularDoublyLinkedList is empty");
         }
-        boolean cambio;
-        do {
-            Node aux = first;
-            Node prev = null;
-            Node nextSort = first.next;
-            cambio = false;
-            while (nextSort != null) {
-                if (util.Utility.greaterT(aux.data, nextSort.data)) {
-                    cambio = true;
-                    if (prev != null) {
-                        Node temp = nextSort.next;
-                        prev.next = nextSort;
-                        nextSort.next = aux;
-                        aux.next = temp;
-                    } else {
-                        Node temp = nextSort.next;
-                        first = nextSort;
-                        nextSort.next = aux;
-                        aux.next = temp;
-                    }
-                    prev = nextSort;
-                    nextSort = aux.next;
-                } else {
-                    prev = aux;
-                    aux = nextSort;
-                    nextSort = nextSort.next;
+        if (size() > 1) {
+
+            Node current = first;
+            Node previous = null;
+            Node nextE = first.next;
+
+            boolean exchange;
+
+            if (size() == 2) {
+
+                if (util.Utility.greaterT(current.data, nextE.data)) {
+
+                    first = nextE;
+                    last = current;
                 }
+
+            } else {
+
+                do {
+
+                    current = first;
+                    previous = null;
+                    nextE = first.next;
+                    exchange = false;
+
+                    while (nextE != last) {
+
+                        if (util.Utility.greaterT(current.data, nextE.data)) {
+
+                            exchange = true;
+
+                            if (previous != null) {
+
+                                Node aux = nextE.next;
+                                previous.next = nextE;
+                                nextE.next = current;
+                                current.next = aux;
+
+                            } else {
+
+                                Node aux = nextE.next;
+                                first = nextE;
+                                nextE.next = current;
+                                current.next = aux;
+                            }
+                            previous = nextE;
+                            nextE = current.next;
+                        } else {
+                            previous = current;
+                            current = nextE;
+                            nextE = nextE.next;
+                        }
+                    }
+                    if (util.Utility.greaterT(current.data, nextE.data)) {
+
+                        Node aux = first;
+                        previous.next = nextE;
+                        nextE.next = current;
+                        current.next = aux;
+                        last = current;
+                    }
+
+                } while (exchange);
+
+                last.next = first;
             }
-        } while (cambio);
+            //Colocamos correctamente los enlaces dobles
+            Node aux = first;
+            while (aux != last) {
 
-        //Colocamos correctamente los enlaces dobles
-        Node aux = first;
-        while (aux.next != null) {
+                if (aux == first) {
 
-            aux.next.prev = aux;
-            aux = aux.next;
+                    first.prev = last;
+                }
+                aux.next.prev = aux;
+                aux = aux.next;
+            }
         }
     }
 
@@ -252,12 +329,16 @@ public class DoublyLinkedList implements List {
         }
         Node aux = first;
         int index = 1; //el primer nodo estara en el indice 1
-        while (aux != null) {
+        while (aux != last) {
             if (util.Utility.equals(aux.data, element)) {
                 return index; //ya lo encontro
             }
             index++;
             aux = aux.next;
+        }
+        //se sale cuando aux == last
+        if (util.Utility.equals(aux.data, element)) {
+            return index;
         }
         return -1; //significa q el elemento no existe
     }
@@ -275,11 +356,7 @@ public class DoublyLinkedList implements List {
         if (isEmpty()) {
             throw new ListException("SinglyLinkedList is empty");
         }
-        Node aux = first;
-        while (aux.next != null) {
-            aux = aux.next;
-        }
-        return aux.data;
+        return last.data;
     }
 
     @Override
@@ -288,20 +365,20 @@ public class DoublyLinkedList implements List {
             throw new ListException("SinglyLinkedList is empty");
         }
         if (util.Utility.equals(first.data, element)) {
-            return null;
+            return last.data;
         } else {
 
             //CASO 2. EL ELEMENTO A SUPRIMIR ESTA EN CUALQUIER OTRO NODO
             Node prev = first; //para dejar rastro, apunta al anterior de aux
             Node aux = first.next;
-            while (aux != null && !util.Utility.equals(aux.data, element)) {
+            while (aux != last && !util.Utility.equals(aux.data, element)) {
                 prev = aux; //un nodo atras de aux
                 aux = aux.next;
+                if (util.Utility.equals(aux.data, element)) {
+                    return prev.data;
+                }
             }
-            //se sale del while cuando alcanza nulo
-            //o cuando encuentra el elemento a suprimir
-
-            return prev.data;
+            return null;
 
         }
     }
@@ -317,17 +394,18 @@ public class DoublyLinkedList implements List {
 
             //CASO 2. EL ELEMENTO A SUPRIMIR ESTA EN CUALQUIER OTRO NODO
             Node aux = first.next;
-            Node getnext = null;
-            while (aux != null && !util.Utility.equals(aux.data, element)) {
-
+            while (aux != last && !util.Utility.equals(aux.data, element)) {
                 aux = aux.next;
+                if (util.Utility.equals(aux.data, element)) {
+                    return (aux.next).data;
+                }
             }
             //se sale del while cuando alcanza nulo
             //o cuando encuentra el elemento a suprimir
-            if (aux.next != null) {
-                return (aux.next).data;
+            if (aux == last && util.Utility.equals(aux.data, element)) {
+                return first.data;
             } else {
-                throw new ListException("SinglyLinkedList Next null");
+                return null;
             }
         }
     }
@@ -339,26 +417,46 @@ public class DoublyLinkedList implements List {
         }
         Node aux = first;
         int i = 1; //el indice del primer elemento de la lista
-        while (aux != null) {
+        while (aux != last) {
             if (util.Utility.equals(i, index)) {
                 return aux; //ya lo encontro
             }
             i++;
             aux = aux.next;
         }
+        //se sale cuando aux == last
+        if (util.Utility.equals(i, index)) {
+            return aux;
+        }
         return null; //si llega aqui, no encontro el nodo
     }
 
     @Override
     public String toString() {
-        String result = "DOUBLY LINKED LIST\n";
+        String result = "CIRCULAR DOUBLY LINKED LIST\n";
         Node aux = first;
         //el aux es para moverme por la lista hasta el ult elemento
-        while (aux != null) {
+        while (aux != last) {
             result += aux.data + " ";
             aux = aux.next;
         }
-        return result;
+        //se sale cuando aux == last
+        return result + aux.data;
+    }
+
+    public void modify(int index, Object element) throws ListException {
+        if (isEmpty()) {
+            throw new ListException("CircularDoublyLinkedList is empty");
+        }
+
+        Node aux = getNode(index);
+        Course a = (Course)aux.data;
+                
+        if (aux != null) {
+            aux.data = element;
+        }
+        a = (Course)aux.data;
+        
     }
 
 }

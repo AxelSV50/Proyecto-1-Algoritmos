@@ -5,6 +5,9 @@
  */
 package domain;
 
+import domain.list.DoublyLinkedList;
+import domain.list.ListException;
+
 /**
  *
  * @author yeison

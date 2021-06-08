@@ -6,7 +6,7 @@
 package data;
 
 import domain.Career;
-import domain.DoublyLinkedList;
+import domain.list.DoublyLinkedList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;

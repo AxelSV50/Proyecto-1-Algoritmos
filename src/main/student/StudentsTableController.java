@@ -6,9 +6,9 @@
 package main.student;
 
 import domain.Career;
-import domain.DoublyLinkedList;
-import domain.ListException;
-import domain.SinglyLinkedList;
+import domain.list.DoublyLinkedList;
+import domain.list.ListException;
+import domain.list.SinglyLinkedList;
 import domain.Student;
 import java.net.URL;
 import java.util.ArrayList;

@@ -6,8 +6,8 @@
 package util;
 
 import domain.Career;
-import domain.DoublyLinkedList;
-import domain.ListException;
+import domain.list.DoublyLinkedList;
+import domain.list.ListException;
 import domain.Student;
 import java.util.Properties;
 import javax.activation.DataHandler;

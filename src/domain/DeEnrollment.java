@@ -7,12 +7,8 @@ package domain;
 
 /**
  *
- * @author Profesor Gilberth Chaves A <gchavesav@ucr.ac.cr>
+ * @author Usuario
  */
-public class ListException extends Exception {
-
-    public ListException(String message) {
-        super(message);
-    }
+public class DeEnrollment {
     
 }

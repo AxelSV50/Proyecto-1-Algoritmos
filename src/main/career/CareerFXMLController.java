@@ -5,14 +5,10 @@
  */
 package main.career;
 
-import main.*;
 import data.FileManagementCareers;
 import domain.Career;
-import domain.CircularDoublyLinkedList;
 import domain.Course;
-import domain.DoublyLinkedList;
-import domain.ListException;
-import domain.SinglyLinkedList;
+import domain.list.*;
 import domain.Student;
 import java.io.IOException;
 import java.net.URL;

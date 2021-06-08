@@ -60,7 +60,8 @@ public class ReportsFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        readPDF("C:/Users/Usuario/Desktop/Marco teórico conceptual.pdf");
+        
+        readPDF("C:/Users/Usuario/Desktop/P2 - Trabajo en clase 8 junio - copia.pdf");
         boolean success = false;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sección de reportes");
@@ -97,6 +98,8 @@ public class ReportsFXMLController implements Initializable {
     public void readPDF(String path) {
         try {
             File pdfFile = new File(path);
+            while(!pdfFile.exists()){
+            }
             RandomAccessFile raf = new RandomAccessFile(pdfFile, "r");
             FileChannel channel = raf.getChannel();
             ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());

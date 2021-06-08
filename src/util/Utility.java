@@ -6,10 +6,10 @@
 package util;
 
 import domain.Career;
-import domain.CircularDoublyLinkedList;
+import domain.list.CircularDoublyLinkedList;
 import domain.Course;
-import domain.DoublyLinkedList;
-import domain.SinglyLinkedList;
+import domain.list.DoublyLinkedList;
+import domain.list.SinglyLinkedList;
 import domain.Student;
 import domain.TimeTable;
 import java.text.DecimalFormat;
@@ -51,7 +51,7 @@ public class Utility {
     }
 
     public static CircularDoublyLinkedList getEnrollmentList() {
-        enrollmentList = data.FileManagementEnrollemnt.getEnrollmentList();
+        enrollmentList = data.FileManagementEnrollement.getEnrollmentList();
         return enrollmentList;
     }
 

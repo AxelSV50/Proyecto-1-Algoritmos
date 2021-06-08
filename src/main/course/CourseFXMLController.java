@@ -7,10 +7,10 @@ package main.course;
 
 import data.FileManagementCourses;
 import domain.Career;
-import domain.CircularDoublyLinkedList;
+import domain.list.CircularDoublyLinkedList;
 import domain.Course;
-import domain.DoublyLinkedList;
-import domain.ListException;
+import domain.list.DoublyLinkedList;
+import domain.list.ListException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;

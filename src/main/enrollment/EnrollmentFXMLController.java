@@ -5,16 +5,15 @@
  */
 package main.enrollment;
 
-import domain.Career;
-import domain.CircularDoublyLinkedList;
+import domain.*;
+import domain.list.*;
 import domain.Course;
-import domain.DoublyLinkedList;
-import domain.ListException;
-import domain.SinglyLinkedList;
-import domain.Student;
 import domain.TimeTable;
+import java.io.File;
 import java.net.URL;
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -33,7 +32,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -41,7 +39,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import main.career.CareerFXMLController;
-import main.student.StudentFXMLController;
 
 /**
  * FXML Controller class
@@ -100,7 +97,6 @@ public class EnrollmentFXMLController implements Initializable {
     private TableColumn<List<String>, String> courseEnrollemntSchedule2Col;
     @FXML
     private TableColumn<List<String>, String> coursePeriodEnrollmentCol;
-
     @FXML
     private TableView<List<String>> tableAddedCoursesEnrollment;
     @FXML
@@ -451,12 +447,25 @@ public class EnrollmentFXMLController implements Initializable {
         txtTitle.setVisible(false);
         txtTitle2.setVisible(false);
 
+        courseToEnroll = null;
+        for (int i = 0; i < coursesAddedData.size(); i++) {
+            coursesAddedData.remove(i);
+        }
+        if (!coursesAddedData.isEmpty()) {
+            coursesAddedData.remove(0);
+        }
+
     }
 
     @FXML
     private void btnInitErollment(ActionEvent event) {
 
         if (studentEnrollment != null) {
+
+            cleanAll();
+            txtTitle.setVisible(true);
+            paneSelectStudent.setVisible(true);
+            paneEnrollCourses.setVisible(true);
 
             Career c = null;
             boolean canEroll = false;
@@ -511,8 +520,44 @@ public class EnrollmentFXMLController implements Initializable {
         }
     }
 
+    private static int nextID;
+
     @FXML
     private void btnSaveEnrollemnt(ActionEvent event) {
+
+        if (!coursesAddedData.isEmpty()) {
+
+            enrollmentList = util.Utility.getEnrollmentList();
+            
+            for (int i = 0; i < coursesAddedData.size(); i++) {
+
+                int id = 1;
+                if(!enrollmentList.isEmpty()){
+                    
+                    try {
+                        Enrollment aux = (Enrollment) enrollmentList.getLast();
+                        id = aux.getId()+1;
+                    } catch (ListException ex) {
+                    }
+                }
+                Enrollment e = new Enrollment(new Date(), studentEnrollment.get(1), coursesAddedData.get(i).get(0), coursesAddedData.get(i).get(4), id);
+                enrollmentList.add(e);
+                data.FileManagementEnrollement.add(e);
+            }
+
+            paneEnrollCourses.setVisible(false);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Matrícula");
+            alert.setHeaderText("La matrícula se ha realizado satisfatoriamente  ✓");
+            alert.showAndWait();
+
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Matrícula");
+            alert.setHeaderText("Debe agregar al menos un curso para guardar.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -523,7 +568,9 @@ public class EnrollmentFXMLController implements Initializable {
         for (int i = 0; i < coursesAddedData.size(); i++) {
             coursesAddedData.remove(i);
         }
-        coursesAddedData.remove(0);
+        if (!coursesAddedData.isEmpty()) {
+            coursesAddedData.remove(0);
+        }
 
     }
 
@@ -555,10 +602,24 @@ public class EnrollmentFXMLController implements Initializable {
     private void btnAddCourse(ActionEvent event) {
 
         if (courseToEnroll != null) {
-            
-            coursesAddedData.add(courseToEnroll);
+
+            List<String> aux = new ArrayList<>();
+
+            aux.add(courseToEnroll.get(0));
+            aux.add(courseToEnroll.get(1));
+            aux.add(courseToEnroll.get(2));
+            aux.add(courseToEnroll.get(5));
+
+            if (cbScheduleCourse.getValue().equals("Horario 1")) {
+
+                aux.add(courseToEnroll.get(3));
+            } else {
+
+                aux.add(courseToEnroll.get(4));
+            }
+            coursesAddedData.add(aux);
             initTableAddedCourses();
-            
+
             if (courseEnrollmentPosition >= 0) {
                 coursesEnrollmentData.remove(courseEnrollmentPosition);
 
@@ -605,13 +666,14 @@ public class EnrollmentFXMLController implements Initializable {
         scheduleAddedEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
-                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+                return new ReadOnlyStringWrapper(data.getValue().get(4)); //To change body of generated methods, choose Tools | Templates.
             }
         });
+
         periodAddedEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
-                return new ReadOnlyStringWrapper(data.getValue().get(4)); //To change body of generated methods, choose Tools | Templates.
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
             }
         });
 

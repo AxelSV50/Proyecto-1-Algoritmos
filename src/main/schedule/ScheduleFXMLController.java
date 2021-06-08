@@ -5,14 +5,13 @@
  */
 package main.schedule;
 
-import data.FileManagementCourses;
 import data.FileManagementTimeTable;
 import domain.Career;
-import domain.CircularDoublyLinkedList;
+import domain.list.CircularDoublyLinkedList;
 import domain.Course;
-import domain.DoublyLinkedList;
-import domain.ListException;
-import domain.SinglyLinkedList;
+import domain.list.DoublyLinkedList;
+import domain.list.ListException;
+import domain.list.SinglyLinkedList;
 import domain.TimeTable;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;

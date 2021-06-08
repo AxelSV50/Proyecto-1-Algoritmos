@@ -5,21 +5,11 @@
  */
 package main.menu;
 
-import com.sun.pdfview.PDFFile;
-import com.sun.pdfview.PDFPage;
-import domain.CircularDoublyLinkedList;
-import domain.DoublyLinkedList;
-import domain.SinglyLinkedList;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
+import domain.list.CircularDoublyLinkedList;
+import domain.list.DoublyLinkedList;
+import domain.list.SinglyLinkedList;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,8 +25,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javax.imageio.ImageIO;
-import main.reports.ReportsFXMLController;
 import main.security.SecurityFXMLController;
 
 /**
@@ -139,6 +127,7 @@ public class MainMenuFXMLController implements Initializable {
 
         if (!careersList.isEmpty()) {
 
+            //Aquí se genera el pdf
             loadPage("/main/reports/ReportsFXML");
 
         } else {

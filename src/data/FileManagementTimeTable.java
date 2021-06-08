@@ -5,7 +5,7 @@
  */
 package data;
 
-import domain.SinglyLinkedList;
+import domain.list.SinglyLinkedList;
 import domain.TimeTable;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

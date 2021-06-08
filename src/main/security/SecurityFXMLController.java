@@ -5,7 +5,7 @@
  */
 package main.security;
 
-import domain.CircularLinkedList;
+import domain.list.CircularLinkedList;
 import domain.Security;
 import data.FileManagementUsers;
 import java.io.IOException;
