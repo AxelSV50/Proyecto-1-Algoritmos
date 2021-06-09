@@ -53,10 +53,10 @@
                         <TableColumn fx:id="careerStudentCol" editable="false" prefWidth="166.0" text="Carrera" />
                     </columns>
                   </TableView>
-                  <Button fx:id="btnInitErollment" layoutX="311.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnInitErollment" prefHeight="25.0" prefWidth="127.0" text="Matrícula" />
+                  <Button fx:id="btnInitEnrollment" layoutX="311.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnInitEnrollment" prefHeight="25.0" prefWidth="127.0" text="Matrícula" />
                </children>
             </Pane>
-            <Pane fx:id="paneEnrollCourses" layoutX="25.0" layoutY="31.0" prefHeight="495.0" prefWidth="737.0" style="-fx-background-color: #EDEDED;">
+            <Pane fx:id="paneEnrollCourses" layoutX="25.0" layoutY="31.0" prefHeight="495.0" prefWidth="737.0" style="-fx-background-color: #EDEDED;" visible="false">
                <children>
                   <TableView fx:id="tableCoursesEnrollment" layoutX="20.0" layoutY="123.0" prefHeight="116.0" prefWidth="709.0">
                     <columns>
@@ -161,15 +161,16 @@
             </Pane>
             <Pane fx:id="paneEnrolledCourses" layoutX="25.0" layoutY="31.0" prefHeight="495.0" prefWidth="737.0" style="-fx-background-color: #EDEDED;" visible="false">
                <children>
-                  <TableView fx:id="tableErolledCourses" layoutX="54.0" layoutY="140.0" prefHeight="167.0" prefWidth="629.0">
+                  <TableView fx:id="tableEnrolledCourses" layoutX="54.0" layoutY="140.0" prefHeight="167.0" prefWidth="629.0">
                      <columns>
-                        <TableColumn prefWidth="170.0" text="Sigla" />
-                        <TableColumn prefWidth="204.0" text="Descripción" />
-                        <TableColumn prefWidth="67.0" text="Créditos" />
-                        <TableColumn prefWidth="187.0" text="Horario " />
+                        <TableColumn fx:id="courseIDEnrolledCoursesCol" prefWidth="117.0" text="Sigla" />
+                        <TableColumn fx:id="nameEnrolledCoursesCol" prefWidth="203.0" text="Nombre" />
+                        <TableColumn fx:id="creditsEnrolledCoursesCol" prefWidth="59.0" text="Créditos" />
+                        <TableColumn fx:id="scheduleEnrolledCoursesCol" prefWidth="193.0" text="Horario " />
+                        <TableColumn fx:id="periodEnrolledCoursesCol1" prefWidth="56.0" text="Periodo" />
                      </columns>
                   </TableView>
-                  <Text layoutX="308.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cursos matriculados" textAlignment="CENTER">
+                  <Text layoutX="257.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informe de cursos matriculados" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="17.0" />
                      </font>
@@ -199,17 +200,17 @@
                         <Font name="Cambria" size="13.0" />
                      </font>
                   </Text>
-                  <Text fx:id="idStudetEnrolled" layoutX="113.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                  <Text fx:id="txtidStudetEnrolled" layoutX="113.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                      <font>
                         <Font name="Cambria" size="13.0" />
                      </font>
                   </Text>
-                  <Text fx:id="carneStudentEnrolled" layoutX="113.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                  <Text fx:id="txtCarneStudentEnrolled" layoutX="113.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                      <font>
                         <Font name="Cambria" size="13.0" />
                      </font>
                   </Text>
-                  <Text fx:id="careerStudentEnrolled" layoutX="113.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                  <Text fx:id="txtCareerStudentEnrolled" layoutX="113.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                      <font>
                         <Font name="Cambria" size="13.0" />
                      </font>
@@ -226,24 +227,34 @@
                         <Font name="Candara Italic" size="23.0" />
                      </font>
                   </Text>
-                  <Text layoutX="55.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total de cursos matrículados:" textAlignment="CENTER">
+                  <Text layoutX="56.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total de cursos matrículados:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="13.0" />
                      </font>
                   </Text>
-                  <Text layoutX="54.0" layoutY="416.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total de carga asignada:" textAlignment="CENTER">
+                  <Text layoutX="55.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total de carga asignada:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="13.0" />
                      </font>
                   </Text>
-                  <Text layoutX="55.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número de comprobante:" textAlignment="CENTER">
+                  <Text layoutX="56.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de matrícula:" textAlignment="CENTER">
                      <font>
                         <Font name="Candara Light" size="13.0" />
                      </font>
                   </Text>
-                  <Text layoutX="55.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de matrícula:" textAlignment="CENTER">
+                  <Text fx:id="txtDateEnrollment" layoutX="172.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                      <font>
-                        <Font name="Candara Light" size="13.0" />
+                        <Font name="Cambria" size="13.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtTotalCoursesEnrollment" layoutX="225.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="13.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtCreditsCoursesEnrollment" layoutX="195.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                     <font>
+                        <Font name="Cambria" size="13.0" />
                      </font>
                   </Text>
                </children>

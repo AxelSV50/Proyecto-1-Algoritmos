@@ -62,7 +62,7 @@ public class FileManagementEnrollement {
                     array = line.split("~");//la '~' se designó para separar los elementos del fichero
 
                     String[] array2 = array[3].split("/");
-                    Calendar c = new GregorianCalendar(Integer.parseInt(array2[2]), Integer.parseInt(array2[1]), Integer.parseInt(array2[0]));
+                    Calendar c = new GregorianCalendar(Integer.parseInt(array2[2]), Integer.parseInt(array2[1])-1, Integer.parseInt(array2[0]));
                     list.add(new Enrollment(c.getTime(), array[0], array[1], array[2], Integer.parseInt(array[4])));
                 }
                 br.close();

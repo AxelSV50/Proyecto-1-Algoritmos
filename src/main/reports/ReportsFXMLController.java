@@ -23,14 +23,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Pagination;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 /**
  * FXML Controller class
@@ -93,6 +90,7 @@ public class ReportsFXMLController implements Initializable {
                 images[i].delete();
             }
         }
+        
     }
 
     public void readPDF(String path) {

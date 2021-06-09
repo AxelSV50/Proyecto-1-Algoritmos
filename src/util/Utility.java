@@ -8,6 +8,7 @@ package util;
 import domain.Career;
 import domain.list.CircularDoublyLinkedList;
 import domain.Course;
+import domain.Enrollment;
 import domain.list.DoublyLinkedList;
 import domain.list.SinglyLinkedList;
 import domain.Student;
@@ -113,11 +114,14 @@ public class Utility {
                 Course co2 = (Course) b;
                 //return s1.compareTo(s2)==0; //OPCION 1
                 return co1.getId().equalsIgnoreCase(co2.getId()); //OPCION 2
-
             case "timeTable":
                 TimeTable t1 = (TimeTable) a;
                 TimeTable t2 = (TimeTable) b;
                 return t1.getCourseID().equalsIgnoreCase(t2.getCourseID());
+            case "enrollment":
+                Enrollment en1 = (Enrollment) a;
+                Enrollment en2 = (Enrollment) b;
+                return en1.getStudentID().equalsIgnoreCase(en2.getStudentID());
         }//revisar esta condicion
         return false; //en cualquier otro caso
     }
@@ -140,6 +144,9 @@ public class Utility {
         }
         if (a instanceof TimeTable && b instanceof TimeTable) {
             return "timeTable";
+        }
+        if (a instanceof Enrollment && b instanceof Enrollment) {
+            return "enrollment";
         }
         return "unknown"; //desconocido
     }

@@ -237,7 +237,7 @@ public class ScheduleFXMLController implements Initializable {
                     Course c1 = (Course) courseList.getNode(c).data;
                     int c2 = careersList.indexOf(new Career(c1.getCareerID(), ""));
                     Career c3 = (Career) careersList.getNode(c2).data;
-                    
+
                     //Agregamos todos los datos al arrayList
                     arrayList.add(t.getCourseID());
                     arrayList.add(t.getPeriod());
@@ -452,6 +452,7 @@ public class ScheduleFXMLController implements Initializable {
 
                 boolean validSchedules = true;
 
+                //Comparación de horas día 1 y 2 horario 1
                 if (cbDay1Schedule1.getValue().equals(cbDay2Schedule1.getValue())) {
 
                     String[] array1 = cbHour1Schedule1.getValue().split(":");
@@ -471,11 +472,12 @@ public class ScheduleFXMLController implements Initializable {
                         validSchedules = false;
                     } else if (final1 >= init2 && final1 <= final2) {
                         validSchedules = false;
-                    } else if (final2 >= init2 && final2 <= final1) {
+                    } else if (final2 >= init1 && final2 <= final1) {
                         validSchedules = false;
                     }
 
                 }
+                //Comparación de horas día 1 y 2 horario 2
                 if (cbDay2Schedule2.getValue().equals(cbDay1Schedule2.getValue())) {
 
                     String[] array1 = cbHour1Schedule2.getValue().split(":");
@@ -494,11 +496,103 @@ public class ScheduleFXMLController implements Initializable {
                         validSchedules = false;
                     } else if (final1 >= init2 && final1 <= final2) {
                         validSchedules = false;
-                    } else if (final2 >= init2 && final2 <= final1) {
+                    } else if (final2 >= init1 && final2 <= final1) {
                         validSchedules = false;
                     }
                 }
+                //Comparación de horas día 1 horario 1 y día 1 horario 2
 
+                if (cbDay1Schedule1.getValue().equals(cbDay1Schedule2.getValue())) {
+
+                    String[] array1 = cbHour1Schedule2.getValue().split(":");
+                    String[] array2 = cbFinalHour1Schedule2.getValue().split(":");
+                    String[] array3 = cbHour1Schedule1.getValue().split(":");
+                    String[] array4 = cbFinalHour1Schedule1.getValue().split(":");
+
+                    int init1 = Integer.parseInt(array1[0]);
+                    int final1 = Integer.parseInt(array2[0]);
+                    int init2 = Integer.parseInt(array3[0]);
+                    int final2 = Integer.parseInt(array4[0]);
+
+                    if (init1 >= init2 && init1 <= final2) {
+                        validSchedules = false;
+                    } else if (init2 >= init1 && init2 <= final1) {
+                        validSchedules = false;
+                    } else if (final1 >= init2 && final1 <= final2) {
+                        validSchedules = false;
+                    } else if (final2 >= init1 && final2 <= final1) {
+                        validSchedules = false;
+                    }
+                }
+                //Comparación de horas día 1 horario 1 y día 2 horario 2
+                if (cbDay1Schedule1.getValue().equals(cbDay2Schedule2.getValue())) {
+
+                    String[] array1 = cbHour2Schedule2.getValue().split(":");
+                    String[] array2 = cbFinalHour2Schedule2.getValue().split(":");
+                    String[] array3 = cbHour1Schedule1.getValue().split(":");
+                    String[] array4 = cbFinalHour1Schedule1.getValue().split(":");
+
+                    int init1 = Integer.parseInt(array1[0]);
+                    int final1 = Integer.parseInt(array2[0]);
+                    int init2 = Integer.parseInt(array3[0]);
+                    int final2 = Integer.parseInt(array4[0]);
+
+                    if (init1 >= init2 && init1 <= final2) {
+                        validSchedules = false;
+                    } else if (init2 >= init1 && init2 <= final1) {
+                        validSchedules = false;
+                    } else if (final1 >= init2 && final1 <= final2) {
+                        validSchedules = false;
+                    } else if (final2 >= init1 && final2 <= final1) {
+                        validSchedules = false;
+                    }
+                }
+                //Comparación de horas día 2 horario 1 y día 1 horario 2
+                 if (cbDay2Schedule1.getValue().equals(cbDay1Schedule2.getValue())) {
+
+                    String[] array1 = cbHour1Schedule2.getValue().split(":");
+                    String[] array2 = cbFinalHour1Schedule2.getValue().split(":");
+                    String[] array3 = cbHour2Schedule1.getValue().split(":");
+                    String[] array4 = cbFinalHour2Schedule1.getValue().split(":");
+
+                    int init1 = Integer.parseInt(array1[0]);
+                    int final1 = Integer.parseInt(array2[0]);
+                    int init2 = Integer.parseInt(array3[0]);
+                    int final2 = Integer.parseInt(array4[0]);
+
+                    if (init1 >= init2 && init1 <= final2) {
+                        validSchedules = false;
+                    } else if (init2 >= init1 && init2 <= final1) {
+                        validSchedules = false;
+                    } else if (final1 >= init2 && final1 <= final2) {
+                        validSchedules = false;
+                    } else if (final2 >= init1 && final2 <= final1) {
+                        validSchedules = false;
+                    }
+                }
+                //Comparación de horas día 2 horario 1 y día 2 horario 2
+               if (cbDay2Schedule1.getValue().equals(cbDay2Schedule2.getValue())) {
+
+                    String[] array1 = cbHour2Schedule2.getValue().split(":");
+                    String[] array2 = cbFinalHour2Schedule2.getValue().split(":");
+                    String[] array3 = cbHour2Schedule1.getValue().split(":");
+                    String[] array4 = cbFinalHour2Schedule1.getValue().split(":");
+
+                    int init1 = Integer.parseInt(array1[0]);
+                    int final1 = Integer.parseInt(array2[0]);
+                    int init2 = Integer.parseInt(array3[0]);
+                    int final2 = Integer.parseInt(array4[0]);
+
+                    if (init1 >= init2 && init1 <= final2) {
+                        validSchedules = false;
+                    } else if (init2 >= init1 && init2 <= final1) {
+                        validSchedules = false;
+                    } else if (final1 >= init2 && final1 <= final2) {
+                        validSchedules = false;
+                    } else if (final2 >= init1 && final2 <= final1) {
+                        validSchedules = false;
+                    }
+                }
                 if (validSchedules) {
 
                     //Aquí se crean los objetos TimeTable que se van a agregar a la lista y archivos
@@ -506,9 +600,9 @@ public class ScheduleFXMLController implements Initializable {
 
                         //Si el usuario no selecciona nada, el combo devuelve null
                         txtError.setText("");
-                        //Agrega la carrera al archivo 
-                        FileManagementTimeTable.add(txtCourseSchedule.textProperty().getValue(), (String) cbPeriod.getValue(), (String) cbDay1Schedule1.getValue() + " " + (String) cbHour1Schedule1.getValue() + "-" + (String) cbFinalHour1Schedule1.getValue() + " & " + (String) cbDay2Schedule1.getValue() + " " + (String) cbHour2Schedule1.getValue() + "-" + (String) cbFinalHour2Schedule1.getValue(),
-                                (String) cbDay1Schedule2.getValue() + " " + (String) cbHour1Schedule2.getValue() + "-" + (String) cbFinalHour1Schedule2.getValue() + " & " + (String) cbDay2Schedule2.getValue() + " " + (String) cbHour2Schedule2.getValue() + "-" + (String) cbFinalHour2Schedule2.getValue(), FileManagementTimeTable.getNameFileTime());
+                        //Agrega el horario al archivo 
+                        FileManagementTimeTable.add(txtCourseSchedule.textProperty().getValue(), (String) cbPeriod.getValue(), (String) cbDay1Schedule1.getValue() + "-" + (String) cbHour1Schedule1.getValue() + "-" + (String) cbFinalHour1Schedule1.getValue() + "-" + (String) cbDay2Schedule1.getValue() + "-" + (String) cbHour2Schedule1.getValue() + "-" + (String) cbFinalHour2Schedule1.getValue(),
+                                (String) cbDay1Schedule2.getValue() + "-" + (String) cbHour1Schedule2.getValue() + "-" + (String) cbFinalHour1Schedule2.getValue() + "-" + (String) cbDay2Schedule2.getValue() + "-" + (String) cbHour2Schedule2.getValue() + "-" + (String) cbFinalHour2Schedule2.getValue(), FileManagementTimeTable.getNameFileTime());
                         //Actualiza la lista para que salga la carrera nueva
                         timeTablelList = util.Utility.getTimeTableList();
 
@@ -669,6 +763,9 @@ public class ScheduleFXMLController implements Initializable {
 
     @FXML
     private void tfRemoveId(KeyEvent event) {
+        
+        txtSuccess.setText("");
+        txtSuccessDelete.setText("");
     }
 
 }

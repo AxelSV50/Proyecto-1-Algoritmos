@@ -9,9 +9,7 @@ import domain.*;
 import domain.list.*;
 import domain.Course;
 import domain.TimeTable;
-import java.io.File;
 import java.net.URL;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,9 +78,8 @@ public class EnrollmentFXMLController implements Initializable {
     @FXML
     private Button derollment;
     @FXML
-    private Button btnInitErollment;
-    @FXML
     private Pane paneEnrollCourses;
+
     @FXML
     private TableView<List<String>> tableCoursesEnrollment;
     @FXML
@@ -97,6 +94,7 @@ public class EnrollmentFXMLController implements Initializable {
     private TableColumn<List<String>, String> courseEnrollemntSchedule2Col;
     @FXML
     private TableColumn<List<String>, String> coursePeriodEnrollmentCol;
+
     @FXML
     private TableView<List<String>> tableAddedCoursesEnrollment;
     @FXML
@@ -109,6 +107,19 @@ public class EnrollmentFXMLController implements Initializable {
     private TableColumn<List<String>, String> scheduleAddedEnrollmentCol;
     @FXML
     private TableColumn<List<String>, String> periodAddedEnrollmentCol;
+
+    @FXML
+    private TableView<List<String>> tableEnrolledCourses;
+    @FXML
+    private TableColumn<List<String>, String> courseIDEnrolledCoursesCol;
+    @FXML
+    private TableColumn<List<String>, String> nameEnrolledCoursesCol;
+    @FXML
+    private TableColumn<List<String>, String> creditsEnrolledCoursesCol;
+    @FXML
+    private TableColumn<List<String>, String> scheduleEnrolledCoursesCol;
+    @FXML
+    private TableColumn<List<String>, String> periodEnrolledCoursesCol1;
 
     @FXML
     private Text txtNameStudentEnroll;
@@ -129,15 +140,7 @@ public class EnrollmentFXMLController implements Initializable {
     @FXML
     private Pane paneEnrolledCourses;
     @FXML
-    private TableView<?> tableErolledCourses;
-    @FXML
     private Text txtNameStudentEnrolled;
-    @FXML
-    private Text idStudetEnrolled;
-    @FXML
-    private Text carneStudentEnrolled;
-    @FXML
-    private Text careerStudentEnrolled;
     @FXML
     private Button btnBackEnrolledCourses;
     @FXML
@@ -170,21 +173,39 @@ public class EnrollmentFXMLController implements Initializable {
     private Text txtIDcourseEnroll;
     @FXML
     private Text txtTitle2;
+    @FXML
+    private Button btnInitEnrollment;
 
+    //Contenido de las tablas
     private ObservableList<List<String>> studentsData;
     private ObservableList<List<String>> coursesEnrollmentData;
     private ObservableList<List<String>> coursesAddedData = FXCollections.observableArrayList();
-    ;
 
+    //Listas con los datos de estudiantes, carreras, cursos, horarios, matrículas y retiro de cursos.
     private SinglyLinkedList studentList = util.Utility.getStudentsList();
     private DoublyLinkedList careersList = util.Utility.getCareersList();
     private SinglyLinkedList timeTableList = util.Utility.getTimeTableList();
     private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
     private CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
 
+    //Estas listas se utilizan para obtener los datos de un elemento específico en las tablas
     private List<String> studentEnrollment;
     private List<String> courseToEnroll;
+    //Posición de un elemento en la tabla de cursos a matricular
     private int courseEnrollmentPosition;
+    @FXML
+    private Text txtidStudetEnrolled;
+    @FXML
+    private Text txtCarneStudentEnrolled;
+    @FXML
+    private Text txtCareerStudentEnrolled;
+    private Text txtIdEnrollment;
+    @FXML
+    private Text txtDateEnrollment;
+    @FXML
+    private Text txtTotalCoursesEnrollment;
+    @FXML
+    private Text txtCreditsCoursesEnrollment;
 
     /**
      * Initializes the controller class.
@@ -444,6 +465,7 @@ public class EnrollmentFXMLController implements Initializable {
         paneSelectStudent.setVisible(false);
         panelSearchStudentDeroll.setVisible(false);
         paneEnrollCourses.setVisible(false);
+        paneEnrolledCourses.setVisible(false);
         txtTitle.setVisible(false);
         txtTitle2.setVisible(false);
 
@@ -458,63 +480,78 @@ public class EnrollmentFXMLController implements Initializable {
     }
 
     @FXML
-    private void btnInitErollment(ActionEvent event) {
+    private void btnInitEnrollment(ActionEvent event) {
 
         if (studentEnrollment != null) {
 
             cleanAll();
             txtTitle.setVisible(true);
             paneSelectStudent.setVisible(true);
-            paneEnrollCourses.setVisible(true);
 
             Career c = null;
             boolean canEroll = false;
+
             try {
-                for (int i = 1; i <= careersList.size(); i++) {
 
-                    c = (Career) careersList.getNode(i).data;
+                if (enrollmentList.isEmpty() || !enrollmentList.contains(new Enrollment(new Date(), studentEnrollment.get(1), "", "", 0))) {
 
-                    int idCareer = Integer.parseInt(studentEnrollment.get(5));
-                    if (idCareer == c.getId()) {
+                    paneEnrollCourses.setVisible(true);
 
-                        for (int j = 1; j <= timeTableList.size(); j++) {
+                    for (int i = 1; i <= careersList.size(); i++) {
 
-                            TimeTable t = (TimeTable) timeTableList.getNode(j).data;
-                            int indexCourse = courseList.indexOf(new Course(t.getCourseID(), "", 0, 0));
-                            Course c1 = (Course) courseList.getNode(indexCourse).data;
+                        c = (Career) careersList.getNode(i).data;
 
-                            if (c.getId() == c1.getCareerID()) {
-                                canEroll = true;
-                                j = timeTableList.size() + 1;
+                        int idCareer = Integer.parseInt(studentEnrollment.get(5));
+                        if (idCareer == c.getId()) {
+
+                            for (int j = 1; j <= timeTableList.size(); j++) {
+
+                                TimeTable t = (TimeTable) timeTableList.getNode(j).data;
+                                int indexCourse = courseList.indexOf(new Course(t.getCourseID(), "", 0, 0));
+                                Course c1 = (Course) courseList.getNode(indexCourse).data;
+
+                                if (c.getId() == c1.getCareerID()) {
+                                    canEroll = true;
+                                    j = timeTableList.size() + 1;
+                                }
                             }
+                            i = careersList.size() + 1;
                         }
-                        i = careersList.size() + 1;
                     }
+                    if (canEroll) {
+
+                        txtIDcourseEnroll.setText("");
+                        initComboBox(cbScheduleCourse);
+                        initCoursesEnrollmentTable();
+                        paneEnrollCourses.setVisible(true);
+                        careerStudentEnroll.setText(c.getDescription());
+                        txtNameStudentEnroll.setText(studentEnrollment.get(2) + " " + studentEnrollment.get(3));
+                        idStudetEnroll.setText(studentEnrollment.get(0) + "");
+                        carneStudentEnroll.setText(studentEnrollment.get(1) + "");
+
+                    } else {
+
+                        paneEnrollCourses.setVisible(false);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Matrícula");
+                        alert.setHeaderText("El estudiante no puede realizar la matrícula \n"
+                                + "debido a que la carrera " + c.getDescription() + " no tiene \n"
+                                + "cursos con horarios asignados.");
+                        alert.showAndWait();
+                    }
+
+                } else {
+
+                    paneEnrolledCourses.setVisible(true);
+                    txtNameStudentEnrolled.setText(studentEnrollment.get(2) + " " + studentEnrollment.get(3));
+                    txtidStudetEnrolled.setText(studentEnrollment.get(0));
+                    txtCarneStudentEnrolled.setText(studentEnrollment.get(1));
+                    txtCareerStudentEnrolled.setText(studentEnrollment.get(4));
+                    initTableEnrolledCourses();
                 }
 
             } catch (ListException ex) {
 
-            }
-
-            if (canEroll) {
-
-                txtIDcourseEnroll.setText("");
-                initComboBox(cbScheduleCourse);
-                initCoursesEnrollmentTable();
-                paneEnrollCourses.setVisible(true);
-                careerStudentEnroll.setText(c.getDescription());
-                txtNameStudentEnroll.setText(studentEnrollment.get(2) + " " + studentEnrollment.get(3));
-                idStudetEnroll.setText(studentEnrollment.get(0) + "");
-                carneStudentEnroll.setText(studentEnrollment.get(1) + "");
-
-            } else {
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Matrícula");
-                alert.setHeaderText("El estudiante no puede realizar la matrícula \n"
-                        + "debido a que la carrera " + c.getDescription() + " no tiene \n"
-                        + "cursos con horarios asignados.");
-                alert.showAndWait();
             }
 
         }
@@ -528,15 +565,15 @@ public class EnrollmentFXMLController implements Initializable {
         if (!coursesAddedData.isEmpty()) {
 
             enrollmentList = util.Utility.getEnrollmentList();
-            
+
             for (int i = 0; i < coursesAddedData.size(); i++) {
 
                 int id = 1;
-                if(!enrollmentList.isEmpty()){
-                    
+                if (!enrollmentList.isEmpty()) {
+
                     try {
                         Enrollment aux = (Enrollment) enrollmentList.getLast();
-                        id = aux.getId()+1;
+                        id = aux.getId() + 1;
                     } catch (ListException ex) {
                     }
                 }
@@ -576,6 +613,8 @@ public class EnrollmentFXMLController implements Initializable {
 
     @FXML
     private void btnBackEnrolledCourses(ActionEvent event) {
+        
+        paneEnrolledCourses.setVisible(false);
     }
 
     @FXML
@@ -603,6 +642,7 @@ public class EnrollmentFXMLController implements Initializable {
 
         if (courseToEnroll != null) {
 
+            //Esto es para agregar un elemento a la tabla
             List<String> aux = new ArrayList<>();
 
             aux.add(courseToEnroll.get(0));
@@ -617,16 +657,137 @@ public class EnrollmentFXMLController implements Initializable {
 
                 aux.add(courseToEnroll.get(4));
             }
-            coursesAddedData.add(aux);
-            initTableAddedCourses();
+            boolean validSchedule = true;
 
-            if (courseEnrollmentPosition >= 0) {
-                coursesEnrollmentData.remove(courseEnrollmentPosition);
+            if (!coursesAddedData.isEmpty()) {
+                //Validar que no hayan choques de horarios
+                for (int i = 0; i < coursesAddedData.size(); i++) {
 
-                if (courseEnrollmentPosition < 0) {
-                    txtIDcourseEnroll.setText("");
-                    courseToEnroll = null;
+                    //Hora y día de los cursos agregados
+                    String[] array = coursesAddedData.get(i).get(4).split("-");
+                    //Horas día 1
+                    String[] initHour1 = array[1].split(":");
+                    String[] finalHour1 = array[2].split(":");
+                    //Horas día2
+                    String[] initHour2 = array[4].split(":");
+                    String[] finalHour2 = array[5].split(":");
+                    //Hora y día del curso a agregar
+                    String[] array4 = aux.get(4).split("-");
+                    //Horas día 1
+                    String[] initHour3 = array4[1].split(":");
+                    String[] finalHour3 = array4[2].split(":");
+                    //Horas día 3
+                    String[] initHour4 = array4[4].split(":");
+                    String[] finalHour4 = array4[5].split(":");
+
+                    //Valida si el día 1 es igual
+                    if (array[0].equals(array4[0])) {
+
+                        //Horas del día 1
+                        int init1 = Integer.parseInt(initHour1[0]);
+                        int final1 = Integer.parseInt(finalHour1[0]);
+                        int init2 = Integer.parseInt(initHour3[0]);
+                        int final2 = Integer.parseInt(finalHour3[0]);
+
+                        //Si las horas chocan el horario no es válido
+                        if (init1 >= init2 && init1 <= final2) {
+                            validSchedule = false;
+                        } else if (init2 >= init1 && init2 <= final1) {
+                            validSchedule = false;
+                        } else if (final1 >= init2 && final1 <= final2) {
+                            validSchedule = false;
+                        } else if (final2 >= init1 && final2 <= final1) {
+                            validSchedule = false;
+                        }
+
+                    }
+                    //Valida si el día 2 es igual
+                    if (array[3].equals(array4[3])) {
+
+                        //Horas del día 2
+                        int init1 = Integer.parseInt(initHour2[0]);
+                        int final1 = Integer.parseInt(finalHour2[0]);
+                        int init2 = Integer.parseInt(initHour4[0]);
+                        int final2 = Integer.parseInt(finalHour4[0]);
+
+                        //Si las horas chocan el horario no es válido
+                        if (init1 >= init2 && init1 <= final2) {
+                            validSchedule = false;
+                        } else if (init2 >= init1 && init2 <= final1) {
+                            validSchedule = false;
+                        } else if (final1 >= init2 && final1 <= final2) {
+                            validSchedule = false;
+                        } else if (final2 >= init1 && final2 <= final1) {
+                            validSchedule = false;
+                        }
+                    }
+
+                    //Valida si el día 1 es igual al día 2 del otro horario
+                    if (array[0].equals(array4[3])) {
+
+                        //Horas del día 2
+                        int init1 = Integer.parseInt(initHour1[0]);
+                        int final1 = Integer.parseInt(finalHour1[0]);
+                        int init2 = Integer.parseInt(initHour4[0]);
+                        int final2 = Integer.parseInt(finalHour4[0]);
+
+                        //Si las horas chocan el horario no es válido
+                        if (init1 >= init2 && init1 <= final2) {
+                            validSchedule = false;
+                        } else if (init2 >= init1 && init2 <= final1) {
+                            validSchedule = false;
+                        } else if (final1 >= init2 && final1 <= final2) {
+                            validSchedule = false;
+                        } else if (final2 >= init1 && final2 <= final1) {
+                            validSchedule = false;
+                        }
+                    }
+                    //Valida si el día 2 es igual al día 1 del otro horario
+                    if (array[3].equals(array4[0])) {
+
+                        //Horas del día 2
+                        int init1 = Integer.parseInt(initHour2[0]);
+                        int final1 = Integer.parseInt(finalHour2[0]);
+                        int init2 = Integer.parseInt(initHour3[0]);
+                        int final2 = Integer.parseInt(finalHour3[0]);
+
+                        //Si las horas chocan el horario no es válido
+                        if (init1 >= init2 && init1 <= final2) {
+                            validSchedule = false;
+                        } else if (init2 >= init1 && init2 <= final1) {
+                            validSchedule = false;
+                        } else if (final1 >= init2 && final1 <= final2) {
+                            validSchedule = false;
+                        } else if (final2 >= init1 && final2 <= final1) {
+                            validSchedule = false;
+                        }
+                    }
+                    //Se sale del for una vez encuentra un choque de horarios
+                    if (!validSchedule) {
+
+                        i = coursesAddedData.size();
+                    }
+
                 }
+            }
+            if (validSchedule) {
+                coursesAddedData.add(aux);
+                initTableAddedCourses();
+
+                if (courseEnrollmentPosition >= 0) {
+                    coursesEnrollmentData.remove(courseEnrollmentPosition);
+
+                    if (courseEnrollmentPosition < 0) {
+                        txtIDcourseEnroll.setText("");
+                        courseToEnroll = null;
+                    }
+                }
+            } else {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Matrícula");
+                alert.setHeaderText("Existe un choque de horarios, imposible agregar.");
+                alert.showAndWait();
             }
 
         } else if (!coursesEnrollmentData.isEmpty()) {
@@ -635,6 +796,7 @@ public class EnrollmentFXMLController implements Initializable {
             alert.setTitle("Matrícula");
             alert.setHeaderText("Debe Selecionar un curso para agregar.");
             alert.showAndWait();
+
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Matrícula");
@@ -678,6 +840,86 @@ public class EnrollmentFXMLController implements Initializable {
         });
 
         tableAddedCoursesEnrollment.setItems(coursesAddedData);
+    }
+
+    private void initTableEnrolledCourses() {
+
+        courseIDEnrolledCoursesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(0)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        nameEnrolledCoursesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(1)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        creditsEnrolledCoursesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(2)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        scheduleEnrolledCoursesCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        periodEnrolledCoursesCol1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(4)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
+        ObservableList<List<String>> aux = FXCollections.observableArrayList();
+
+        int totalCourses = 0, credits = 0;
+        if (!enrollmentList.isEmpty()) {
+
+            try {
+                for (int i = 1; i <= enrollmentList.size(); i++) {
+
+                    //Matrícula actual
+                    Enrollment e1 = (Enrollment) enrollmentList.getNode(i).data;
+                    //Matrícula a buscar
+                    Enrollment e2 = new Enrollment(new Date(), studentEnrollment.get(1), "", "", 0);
+
+                    if (util.Utility.equals(e1, e2)) {
+
+                        //Obtengo todos los datos del curso matriculado
+                        Course c = (Course) courseList.getNode(courseList.indexOf(new Course(e1.getCourseID(), "", 0, 0))).data;
+                        //Obtengo los datos del horario asignado
+                        TimeTable t = (TimeTable) timeTableList.getNode(timeTableList.indexOf(new TimeTable(c.getId(), "", "", ""))).data;
+                        List<String> list = new ArrayList<>();
+
+                        //Agrego a la tabla
+                        list.add(c.getId());
+                        list.add(c.getName());
+                        list.add(c.getCredits() + "");
+                        list.add(e1.getSchedule());
+                        list.add(t.getPeriod());
+                        aux.add(list);
+                        
+                        credits+=c.getCredits();
+                        totalCourses++;
+                        txtDateEnrollment.setText(util.Utility.dateFormat(e1.getDate()));
+                        
+                    }
+                    
+
+                }
+                txtTotalCoursesEnrollment.setText(totalCourses+"");
+                txtCreditsCoursesEnrollment.setText(credits+"");
+
+            } catch (ListException ex) {
+                Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        tableEnrolledCourses.setItems(aux);
     }
 
 }

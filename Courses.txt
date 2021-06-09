@@ -1,3 +1,5 @@
 IF3000~Programación~4~1
 IF3001~Algoritmos~4~1
 MA045~Cálculo~4~2
+IF3002~Bases de Datos~4~1
+AG01~Álgebra Lineal~3~1
