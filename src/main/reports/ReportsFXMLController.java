@@ -7,6 +7,7 @@ package main.reports;
 
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
+import data.FileManagementReports;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -57,8 +58,13 @@ public class ReportsFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        
-        readPDF("C:/Users/Usuario/Desktop/P2 - Trabajo en clase 8 junio - copia.pdf");
+        try {
+            FileManagementReports.addReportEnrollement();
+            FileManagementReports.convertTextToPDF("Reports.txt");
+
+        } catch (Exception ex) {
+        }
+        readPDF("Reports.pdf");
         boolean success = false;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sección de reportes");
@@ -77,27 +83,32 @@ public class ReportsFXMLController implements Initializable {
 
             }
         }
-        txtNavegation.setText(numPage+"/"+totalPages);
+        txtNavegation.setText(numPage + "/" + totalPages);
 
     }
 
     @FXML
     private void btnBack(ActionEvent event) {
         bp.setVisible(false);
+        File f1 = new File("Reports.pdf");
+        f1.delete();  
+        File f2 = new File("Reports.txt");
+        f2.delete();
         for (int i = 0; i < images.length; i++) {
 
             if (images[i].exists()) {
                 images[i].delete();
             }
         }
-        
+
     }
 
     public void readPDF(String path) {
         try {
             File pdfFile = new File(path);
-            while(!pdfFile.exists()){
+            while (!pdfFile.exists()) {
             }
+            pdfFile.deleteOnExit();
             RandomAccessFile raf = new RandomAccessFile(pdfFile, "r");
             FileChannel channel = raf.getChannel();
             ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
@@ -105,7 +116,7 @@ public class ReportsFXMLController implements Initializable {
 
             images = new File[pdf.getNumPages()];
             numPage = 1;
-            
+
             totalPages = pdf.getNumPages();
             for (int i = 0; i < pdf.getNumPages(); i++) {
                 createImage(pdf.getPage(i + 1), "src/data/reports/TEMP_REPORT_" + (i + 1) + ".png");
@@ -153,8 +164,8 @@ public class ReportsFXMLController implements Initializable {
     @FXML
     private void btnBackPage(ActionEvent event) {
 
-        if (numPage <= totalPages && numPage>1) {
-            
+        if (numPage <= totalPages && numPage > 1) {
+
             numPage--;
             pages.setImage(new Image("/data/reports/TEMP_REPORT_" + numPage + ".png"));
             txtNavegation.setText(numPage + "/" + totalPages);

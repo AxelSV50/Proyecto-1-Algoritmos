@@ -52,7 +52,7 @@ public class MainMenuFXMLController implements Initializable {
     private DoublyLinkedList careersList = util.Utility.getCareersList();
     private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
     private SinglyLinkedList studentList = util.Utility.getStudentsList();
-    private CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
+    private CircularDoublyLinkedList enrollmentList;
     private CircularDoublyLinkedList deEnrollmentList = util.Utility.getDeEnrollmentList();
     @FXML
     private AnchorPane anchorPaneMainMenu;
