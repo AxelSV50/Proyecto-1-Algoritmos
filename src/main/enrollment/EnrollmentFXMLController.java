@@ -5,6 +5,7 @@
  */
 package main.enrollment;
 
+import data.FileManagementEnrollement;
 import domain.*;
 import domain.list.*;
 import domain.Course;
@@ -13,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +28,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -36,6 +40,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+import javax.mail.MessagingException;
 import main.career.CareerFXMLController;
 
 /**
@@ -122,6 +127,41 @@ public class EnrollmentFXMLController implements Initializable {
     private TableColumn<List<String>, String> periodEnrolledCoursesCol1;
 
     @FXML
+    private Text txtidStudetEnrolled;
+    @FXML
+    private Text txtCarneStudentEnrolled;
+    @FXML
+    private Text txtCareerStudentEnrolled;
+    @FXML
+    private Text txtDateEnrollment;
+    @FXML
+    private Text txtTotalCoursesEnrollment;
+    @FXML
+    private Text txtCreditsCoursesEnrollment;
+    @FXML
+    private Pane paneDeEnnrollCourses;
+    @FXML
+    private Text txtIdStudetDeroll;
+    @FXML
+    private Text txtCarneStudentDeroll;
+    @FXML
+    private Text txtCareerStudentDeroll;
+
+    @FXML
+    private TableView<List<String>> tableCoursesToDeroll;
+    @FXML
+    private TableColumn<List<String>, String> nameCourseDeEnrollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> creditsDeEnrollmentCol;
+    @FXML
+    private TableColumn<List<String>, String> courseIdDenrollmentCol;
+
+    @FXML
+    private TableColumn<List<String>, String> scheduleDeEnrollmentCol;
+    @FXML
+    private Text txtSelectedDeEnrollemnt;
+
+    @FXML
     private Text txtNameStudentEnroll;
     @FXML
     private Text idStudetEnroll;
@@ -144,17 +184,7 @@ public class EnrollmentFXMLController implements Initializable {
     @FXML
     private Button btnBackEnrolledCourses;
     @FXML
-    private Pane paneDenrolledCourses;
-    @FXML
-    private TableView<?> tableCoursesToDeroll;
-    @FXML
     private Text txtNameStudentDeroll;
-    @FXML
-    private Text idStudetDeroll;
-    @FXML
-    private Text carneStudentDeroll;
-    @FXML
-    private Text careerStudentDeroll;
     @FXML
     private Button btnDerollSelected;
     @FXML
@@ -175,11 +205,14 @@ public class EnrollmentFXMLController implements Initializable {
     private Text txtTitle2;
     @FXML
     private Button btnInitEnrollment;
+    @FXML
+    private TextArea taObservation;
 
     //Contenido de las tablas
     private ObservableList<List<String>> studentsData;
     private ObservableList<List<String>> coursesEnrollmentData;
     private ObservableList<List<String>> coursesAddedData = FXCollections.observableArrayList();
+    private ObservableList<List<String>> deEnrollCoursesData = FXCollections.observableArrayList();
 
     //Listas con los datos de estudiantes, carreras, cursos, horarios, matrículas y retiro de cursos.
     private SinglyLinkedList studentList = util.Utility.getStudentsList();
@@ -187,25 +220,16 @@ public class EnrollmentFXMLController implements Initializable {
     private SinglyLinkedList timeTableList = util.Utility.getTimeTableList();
     private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
     private CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
+    private CircularDoublyLinkedList deEnrollmentList = util.Utility.getDeEnrollmentList();
+    private CircularDoublyLinkedList deEnrollmentListAux = new CircularDoublyLinkedList();
 
     //Estas listas se utilizan para obtener los datos de un elemento específico en las tablas
     private List<String> studentEnrollment;
     private List<String> courseToEnroll;
+    private List<String> courseToDeEnroll;
     //Posición de un elemento en la tabla de cursos a matricular
     private int courseEnrollmentPosition;
-    @FXML
-    private Text txtidStudetEnrolled;
-    @FXML
-    private Text txtCarneStudentEnrolled;
-    @FXML
-    private Text txtCareerStudentEnrolled;
-    private Text txtIdEnrollment;
-    @FXML
-    private Text txtDateEnrollment;
-    @FXML
-    private Text txtTotalCoursesEnrollment;
-    @FXML
-    private Text txtCreditsCoursesEnrollment;
+    private int courseDeEnrollmentPosition;
 
     /**
      * Initializes the controller class.
@@ -223,7 +247,6 @@ public class EnrollmentFXMLController implements Initializable {
 
         ObservableList opc = FXCollections.observableArrayList();
         opc.addAll("Horario 1", "Horario 2");
-
         cb.setItems(opc);
         cb.setValue("Horario 1");
     }
@@ -389,6 +412,13 @@ public class EnrollmentFXMLController implements Initializable {
             setSelectedCourseEnrollment();
         }
     };
+    private final ListChangeListener<List<String>> selectTableCoursesToDeEnroll
+            = new ListChangeListener<List<String>>() {
+        @Override
+        public void onChanged(ListChangeListener.Change<? extends List<String>> c) {
+            setSelectedCourseDeEnrollment();
+        }
+    };
 
     /**
      * PARA SELECCIONAR UNA CELDA DE LA TABLA "tablaPersonas"
@@ -407,6 +437,17 @@ public class EnrollmentFXMLController implements Initializable {
     public List<String> getSelectedCoursesEnrollmentTable() {
         if (tableCoursesEnrollment != null) {
             List<List<String>> table = tableCoursesEnrollment.getSelectionModel().getSelectedItems();
+            if (table.size() == 1) {
+                final List<String> competicionSeleccionada = table.get(0);
+                return competicionSeleccionada;
+            }
+        }
+        return null;
+    }
+
+    public List<String> getSelectedCoursesDeEnrollmentTable() {
+        if (tableCoursesToDeroll != null) {
+            List<List<String>> table = tableCoursesToDeroll.getSelectionModel().getSelectedItems();
             if (table.size() == 1) {
                 final List<String> competicionSeleccionada = table.get(0);
                 return competicionSeleccionada;
@@ -441,6 +482,18 @@ public class EnrollmentFXMLController implements Initializable {
 
     }
 
+    private void setSelectedCourseDeEnrollment() {
+        final List<String> course = getSelectedCoursesDeEnrollmentTable();
+        courseDeEnrollmentPosition = deEnrollCoursesData.indexOf(course);
+        if (course != null) {
+
+            courseToDeEnroll = course;
+            txtSelectedDeEnrollemnt.setText(courseToDeEnroll.get(0));
+            taObservation.setDisable(false);
+        }
+
+    }
+
     @FXML
     private void enrollment(ActionEvent event) {
 
@@ -448,6 +501,7 @@ public class EnrollmentFXMLController implements Initializable {
         paneSelectStudent.setVisible(true);
         studentEnrollment = null;
         courseToEnroll = null;
+        courseToDeEnroll = null;
         initStudentsTable();
         txtTitle.setVisible(true);
 
@@ -458,6 +512,8 @@ public class EnrollmentFXMLController implements Initializable {
 
         cleanAll();
         panelSearchStudentDeroll.setVisible(true);
+        courseToDeEnroll = null;
+        txtSelectedDeEnrollemnt.setText("");
         txtTitle2.setVisible(true);
     }
 
@@ -466,15 +522,26 @@ public class EnrollmentFXMLController implements Initializable {
         panelSearchStudentDeroll.setVisible(false);
         paneEnrollCourses.setVisible(false);
         paneEnrolledCourses.setVisible(false);
+        paneDeEnnrollCourses.setVisible(false);
+        tfSearchStudentDeroll.setText("");
+        txtError.setText("");
         txtTitle.setVisible(false);
         txtTitle2.setVisible(false);
-
+        txtSelectedDeEnrollemnt.setText("");
         courseToEnroll = null;
+        courseToDeEnroll = null;
+
         for (int i = 0; i < coursesAddedData.size(); i++) {
             coursesAddedData.remove(i);
         }
         if (!coursesAddedData.isEmpty()) {
             coursesAddedData.remove(0);
+        }
+        for (int i = 0; i < deEnrollCoursesData.size(); i++) {
+            deEnrollCoursesData.remove(i);
+        }
+        if (!deEnrollCoursesData.isEmpty()) {
+            deEnrollCoursesData.remove(0);
         }
 
     }
@@ -520,6 +587,15 @@ public class EnrollmentFXMLController implements Initializable {
                     }
                     if (canEroll) {
 
+                        for (int i = 0; i < coursesAddedData.size(); i++) {
+                            coursesAddedData.remove(i);
+                        }
+                        if (!coursesAddedData.isEmpty()) {
+                            coursesAddedData.remove(0);
+                        }
+                        if (!coursesAddedData.isEmpty()) {
+                            coursesAddedData.remove(0);
+                        }
                         txtIDcourseEnroll.setText("");
                         initComboBox(cbScheduleCourse);
                         initCoursesEnrollmentTable();
@@ -557,36 +633,54 @@ public class EnrollmentFXMLController implements Initializable {
         }
     }
 
-    private static int nextID;
-
     @FXML
     private void btnSaveEnrollemnt(ActionEvent event) {
 
         if (!coursesAddedData.isEmpty()) {
 
-            enrollmentList = util.Utility.getEnrollmentList();
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert2.setTitle("Retiro de cursos");
+            alert2.setHeaderText("\nSe realizará la matrícula con los cursos seleccionados.\n\n"
+                    + "Precione aceptar para continuar.");
+            Optional<ButtonType> action = alert2.showAndWait();
 
-            for (int i = 0; i < coursesAddedData.size(); i++) {
+            if (action.get() == ButtonType.OK) {
+                enrollmentList = util.Utility.getEnrollmentList();
 
-                int id = 1;
-                if (!enrollmentList.isEmpty()) {
+                for (int i = 0; i < coursesAddedData.size(); i++) {
 
-                    try {
-                        Enrollment aux = (Enrollment) enrollmentList.getLast();
-                        id = aux.getId() + 1;
-                    } catch (ListException ex) {
+                    int id = 1;
+                    if (!enrollmentList.isEmpty()) {
+
+                        try {
+                            Enrollment aux = (Enrollment) enrollmentList.getLast();
+                            id = aux.getId() + 1;
+                        } catch (ListException ex) {
+                        }
                     }
+                    Enrollment e = new Enrollment(new Date(), studentEnrollment.get(1), coursesAddedData.get(i).get(0), coursesAddedData.get(i).get(4), id);
+                    enrollmentList.add(e);
+                    data.FileManagementEnrollement.add(e);
                 }
-                Enrollment e = new Enrollment(new Date(), studentEnrollment.get(1), coursesAddedData.get(i).get(0), coursesAddedData.get(i).get(4), id);
-                enrollmentList.add(e);
-                data.FileManagementEnrollement.add(e);
-            }
 
-            paneEnrollCourses.setVisible(false);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Matrícula");
-            alert.setHeaderText("La matrícula se ha realizado satisfatoriamente  ✓");
-            alert.showAndWait();
+                paneEnrollCourses.setVisible(false);
+                paneEnrolledCourses.setVisible(true);
+                txtNameStudentEnrolled.setText(studentEnrollment.get(2) + " " + studentEnrollment.get(3));
+                txtidStudetEnrolled.setText(studentEnrollment.get(0));
+                txtCarneStudentEnrolled.setText(studentEnrollment.get(1));
+                txtCareerStudentEnrolled.setText(studentEnrollment.get(4));
+                try {
+                    util.Mail.sendEnrollmentMessage((Student) studentList.getNode(studentList.indexOf(new Student(Integer.parseInt(studentEnrollment.get(0)), studentEnrollment.get(1), "", "", new Date(), "", "", "", 0))).data);
+                } catch (Exception ex) {
+                    Logger.getLogger(EnrollmentFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                initTableEnrolledCourses();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Matrícula");
+                alert.setHeaderText("La matrícula se ha realizado satisfatoriamente  ✓");
+                alert.showAndWait();
+
+            }
 
         } else {
 
@@ -601,44 +695,221 @@ public class EnrollmentFXMLController implements Initializable {
     private void btnCancelEnrollemnt(ActionEvent event) {
 
         paneEnrollCourses.setVisible(false);
-        courseToEnroll = null;
+        courseToDeEnroll = null;
         for (int i = 0; i < coursesAddedData.size(); i++) {
             coursesAddedData.remove(i);
         }
         if (!coursesAddedData.isEmpty()) {
             coursesAddedData.remove(0);
         }
-
+        txtSelectedDeEnrollemnt.setText("");
+        System.out.println();
     }
 
     @FXML
     private void btnBackEnrolledCourses(ActionEvent event) {
-        
+
         paneEnrolledCourses.setVisible(false);
     }
 
     @FXML
     private void btnDerollSelected(ActionEvent event) {
+
+        if (courseToDeEnroll != null) {
+
+            if (!(taObservation.getText().isBlank())) {
+                int id = 1;
+                if (!deEnrollmentList.isEmpty()) {
+
+                    try {
+                        DeEnrollment aux = (DeEnrollment) deEnrollmentList.getLast();
+                        id = aux.getId() + 1;
+                    } catch (ListException ex) {
+                    }
+                }
+                if (!deEnrollmentListAux.isEmpty() && deEnrollmentList.isEmpty()) {
+
+                    try {
+                        DeEnrollment aux = (DeEnrollment) deEnrollmentListAux.getLast();
+                        id = aux.getId() + 1;
+                    } catch (ListException ex) {
+                    }
+                }
+                if (courseDeEnrollmentPosition >= 0) {
+                    deEnrollmentListAux.add(new DeEnrollment(new Date(), txtCarneStudentDeroll.getText(), courseToDeEnroll.get(0), courseToDeEnroll.get(3), id, taObservation.getText().replace('\n', ' ')));
+                    deEnrollCoursesData.remove(courseDeEnrollmentPosition);
+                    taObservation.setText("");
+                } else {
+                    taObservation.setText("");
+                    taObservation.setDisable(false);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Retiro de cursos");
+                    alert.setHeaderText("No hay cursos para retirar.");
+                    alert.showAndWait();
+                }
+
+            } else {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Retiro de cursos");
+                alert.setHeaderText("Debe agregar una observación al retiro.");
+                alert.showAndWait();
+            }
+
+        } else {
+
+            if (deEnrollCoursesData.isEmpty()) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Retiro de cursos");
+                alert.setHeaderText("Debe selecionar un curso para remover.");
+                alert.showAndWait();
+            }
+
+        }
     }
 
     @FXML
-    private void btnCancelDeroll(ActionEvent event) {
+    private void btnCancelDeroll(ActionEvent event
+    ) {
+
+        cleanAll();
+        panelSearchStudentDeroll.setVisible(true);
+        txtTitle2.setVisible(true);
+        courseToDeEnroll = null;
+
+        for (int i = 0; i < deEnrollCoursesData.size(); i++) {
+            deEnrollCoursesData.remove(i);
+        }
+        if (!deEnrollCoursesData.isEmpty()) {
+            deEnrollCoursesData.remove(0);
+        }
+        txtSelectedDeEnrollemnt.setText("");
+
     }
 
     @FXML
-    private void btnSaveDeroll(ActionEvent event) {
+    private void btnSaveDeroll(ActionEvent event
+    ) {
+
+        if (!deEnrollmentListAux.isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Retiro de cursos");
+            alert.setHeaderText("\nLa siguiente acción retirará los cursos seleccionados.\n\n"
+                    + "Precione aceptar para continuar.");
+            Optional<ButtonType> action = alert.showAndWait();
+
+            if (action.get() == ButtonType.OK) {
+
+                try {
+
+                    enrollmentList = FileManagementEnrollement.getEnrollmentList();
+                    deEnrollmentList = FileManagementEnrollement.getDeEnrollmentList();
+
+                    for (int i = 1; i <= deEnrollmentListAux.size(); i++) {
+
+                        deEnrollmentList.add((DeEnrollment) deEnrollmentListAux.getNode(i).data);
+                        FileManagementEnrollement.add((DeEnrollment) deEnrollmentListAux.getNode(i).data);
+                    }
+
+                    for (int i = 1; i <= deEnrollmentListAux.size(); i++) {
+
+                        DeEnrollment d = (DeEnrollment) deEnrollmentListAux.getNode(i).data;
+
+                        for (int j = 1; j <= enrollmentList.size(); j++) {
+
+                            Enrollment e = (Enrollment) enrollmentList.getNode(j).data;
+
+                            if (e.getCourseID().equalsIgnoreCase(d.getCourseID()) && e.getStudentID().equalsIgnoreCase(d.getStudentID())) {
+                                System.out.print("");
+                                enrollmentList.remove(j);
+                                if (enrollmentList.isEmpty()) {
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+
+                    util.Mail.sendDeEnrollmentMessage((Student) studentList.getNode(studentList.indexOf(new Student(0, txtCarneStudentDeroll.getText(), "", "", new Date(), "", "", "", 0))).data, deEnrollmentListAux);
+                    deEnrollmentListAux = new CircularDoublyLinkedList();
+                    FileManagementEnrollement.overwriteEnrollmentFile(enrollmentList);
+                    paneDeEnnrollCourses.setVisible(false);
+                    Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                    alert2.setTitle("Retiro de cursos");
+                    alert2.setHeaderText("El retiro de cursos se ha realizado satisfatoriamente  ✓");
+                    alert2.showAndWait();
+
+                } catch (MessagingException ex) {
+
+                } catch (ListException ex) {
+                }
+
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Retiro de cursos");
+            alert.setHeaderText("\nDebe retirar al menos un curso para continuar.");
+            alert.showAndWait();
+        }
+
     }
 
     @FXML
-    private void tfSearchCarrerUpdate(KeyEvent event) {
+    private void tfSearchCarrerUpdate(KeyEvent event
+    ) {
     }
 
     @FXML
-    private void btnSearchStudentDeroll(ActionEvent event) {
+    private void btnSearchStudentDeroll(ActionEvent event
+    ) {
+
+        if (!tfSearchStudentDeroll.getText().equals("")) {
+
+            enrollmentList = util.Utility.getEnrollmentList();
+            Enrollment e = new Enrollment(new Date(), tfSearchStudentDeroll.getText(), "", "", 0);
+            for (int i = 0; i < deEnrollCoursesData.size(); i++) {
+                deEnrollCoursesData.remove(i);
+            }
+            if (!deEnrollCoursesData.isEmpty()) {
+                deEnrollCoursesData.remove(0);
+            }
+            if (!deEnrollCoursesData.isEmpty()) {
+                deEnrollCoursesData.remove(0);
+            }
+            taObservation.setText("");
+            try {
+                if (enrollmentList.contains(e)) {
+
+                    e = (Enrollment) enrollmentList.getNode(enrollmentList.indexOf(e)).data;
+                    Student s = (Student) studentList.getNode(studentList.indexOf(new Student(0, e.getStudentID(), "", "", new Date(), "", "", "", 0))).data;
+                    Career c = (Career) careersList.getNode(careersList.indexOf(new Career(s.getCareerID(), ""))).data;
+                    txtNameStudentDeroll.setText(s.getFirstname() + " " + s.getLastname());
+                    txtIdStudetDeroll.setText(s.getId() + "");
+                    txtCarneStudentDeroll.setText(s.getStudentID());
+                    txtCareerStudentDeroll.setText(c.getDescription());
+                    txtError.setText("");
+                    paneDeEnnrollCourses.setVisible(true);
+                    initTableDeEnrollCourses();
+                    taObservation.setDisable(true);
+                } else if (studentList.contains(new Student(0, e.getStudentID(), "", "", new Date(), "", "", "", 0))) {
+
+                    txtError.setText("El estudiante no tiene cursos matriculados.");
+                } else {
+                    txtError.setText("El estudiante no está registrado en el sistema.");
+                }
+            } catch (ListException ex) {
+                txtError.setText("No hay estudiantes con matrícula.");
+            }
+        } else {
+            txtError.setText("Debe rellenar lo se le solicita.");
+        }
     }
 
     @FXML
-    private void btnAddCourse(ActionEvent event) {
+    private void btnAddCourse(ActionEvent event
+    ) {
 
         if (courseToEnroll != null) {
 
@@ -903,23 +1174,85 @@ public class EnrollmentFXMLController implements Initializable {
                         list.add(e1.getSchedule());
                         list.add(t.getPeriod());
                         aux.add(list);
-                        
-                        credits+=c.getCredits();
+
+                        credits += c.getCredits();
                         totalCourses++;
                         txtDateEnrollment.setText(util.Utility.dateFormat(e1.getDate()));
-                        
+
                     }
-                    
 
                 }
-                txtTotalCoursesEnrollment.setText(totalCourses+"");
-                txtCreditsCoursesEnrollment.setText(credits+"");
+                txtTotalCoursesEnrollment.setText(totalCourses + "");
+                txtCreditsCoursesEnrollment.setText(credits + "");
 
             } catch (ListException ex) {
                 Logger.getLogger(CareerFXMLController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         tableEnrolledCourses.setItems(aux);
+    }
+
+    private void initTableDeEnrollCourses() {
+
+        nameCourseDeEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(1)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        courseIdDenrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(0)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        creditsDeEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(2)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        scheduleDeEnrollmentCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<List<String>, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<List<String>, String> data) {
+                return new ReadOnlyStringWrapper(data.getValue().get(3)); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        final ObservableList<List<String>> coursesDeEnrollmentCell = tableCoursesToDeroll.getSelectionModel().getSelectedItems();
+        coursesDeEnrollmentCell.addListener(selectTableCoursesToDeEnroll);
+
+        if (!enrollmentList.isEmpty()) {
+
+            try {
+                Enrollment e2 = new Enrollment(new Date(), tfSearchStudentDeroll.getText(), "", "", 0);
+                e2 = (Enrollment) enrollmentList.getNode(enrollmentList.indexOf(e2)).data;
+                tfSearchStudentDeroll.setText("");
+                for (int i = 1; i <= enrollmentList.size(); i++) {
+
+                    //Matrícula actual
+                    Enrollment e1 = (Enrollment) enrollmentList.getNode(i).data;
+
+                    if (util.Utility.equals(e1, e2)) {
+
+                        //Obtengo todos los datos del curso matriculado
+                        Course c = (Course) courseList.getNode(courseList.indexOf(new Course(e1.getCourseID(), "", 0, 0))).data;
+
+                        List<String> list = new ArrayList<>();
+
+                        //Agrego a la tabla
+                        list.add(c.getId());
+                        list.add(c.getName());
+                        list.add(c.getCredits() + "");
+                        list.add(e1.getSchedule());
+                        deEnrollCoursesData.add(list);
+                    }
+
+                }
+
+            } catch (ListException ex) {
+            }
+        }
+        tableCoursesToDeroll.setItems(deEnrollCoursesData);
     }
 
 }

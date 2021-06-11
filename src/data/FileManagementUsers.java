@@ -99,7 +99,7 @@ public class FileManagementUsers {
                 BufferedReader br = new BufferedReader(new FileReader(f1));
                 String line;
                 while ((line = br.readLine()) != null) {
-                    array = line.split("~");//la '/' se designó para separar los elementos del fichero
+                    array = line.split("~");//la '~' se designó para separar los elementos del fichero
 
                     if (fileName.equals(nameFileAdmin)) {
 

@@ -9,8 +9,12 @@ import data.FileManagementCourses;
 import domain.Career;
 import domain.list.CircularDoublyLinkedList;
 import domain.Course;
+import domain.Enrollment;
+import domain.Student;
+import domain.TimeTable;
 import domain.list.DoublyLinkedList;
 import domain.list.ListException;
+import domain.list.SinglyLinkedList;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -113,13 +118,15 @@ public class CourseFXMLController implements Initializable {
 
     private DoublyLinkedList careersList = util.Utility.getCareersList();
     private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
+    private CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
+    private SinglyLinkedList timeTablelList = util.Utility.getTimeTableList();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         courseList = util.Utility.getCoursesList();
         initComboBox(comboBoxCourseAdd);
         initComboBox(comboBoxCourseModify);
@@ -157,7 +164,7 @@ public class CourseFXMLController implements Initializable {
     }
 
     private void initTable() {
-        
+
         ObservableList<List<String>> tableContent = FXCollections.observableArrayList();
 
         if (!courseList.isEmpty()) {
@@ -188,7 +195,7 @@ public class CourseFXMLController implements Initializable {
     }
 
     private void initComboBox(ComboBox<String> comboBox) {
-        
+
         ObservableList tableContent = FXCollections.observableArrayList();
 
         try {
@@ -258,7 +265,7 @@ public class CourseFXMLController implements Initializable {
                 if (courseList.isEmpty() || !courseList.contains(new Course(tfAddCourseId.textProperty().getValue(), "", 0, 0))) {
                     String idCareer = comboBoxCourseAdd.getValue();
                     //Si el usuario no selecciona nada, el combo devuelve null
-                    
+
                     String[] array = idCareer.split("-");
                     txtError.setText("");
                     //Agrega la carrera al archivo 
@@ -304,16 +311,54 @@ public class CourseFXMLController implements Initializable {
             try {
 
                 //Busca si el elemento está
-                Object element = new Course(tfRemoveId.textProperty().getValue(), "", 0, 0);
+                Course element = new Course(tfRemoveId.textProperty().getValue(), "", 0, 0);
 
                 if (courseList.contains(element)) {
 
-                    courseList.remove(element);
-                    //Reescribe el archivo
-                    FileManagementCourses.overwriteCourseFile(courseList);
-                    tfRemoveId.setText("");
-                    txtError.setText("");
-                    txtAdded.setText("Curso eliminado correctamente");
+                    boolean delete = true;
+                    //Busca si el curso ya tiene matrícula o horario
+
+                    try {
+                        for (int i = 1; i <= enrollmentList.size(); i++) {
+
+                            Enrollment aux = (Enrollment) enrollmentList.getNode(i).data;
+
+                            if (aux.getCourseID().equalsIgnoreCase(element.getId())) {
+
+                                delete = false;
+                                i = enrollmentList.size();
+                            }
+                        }
+                    } catch (ListException e) {
+                    }
+
+                    try {
+                        for (int i = 1; i <= timeTablelList.size(); i++) {
+
+                            TimeTable aux = (TimeTable) timeTablelList.getNode(i).data;
+
+                            if (aux.getCourseID().equalsIgnoreCase(element.getId())) {
+
+                                delete = false;
+                                i = timeTablelList.size();
+                            }
+                        }
+                    } catch (ListException e) {
+                    }
+
+                    if (delete) {
+                        courseList.remove(element);
+                        //Reescribe el archivo
+                        FileManagementCourses.overwriteCourseFile(courseList);
+                        tfRemoveId.setText("");
+                        txtError.setText("");
+                        txtAdded.setText("Curso eliminado correctamente");
+
+                    } else {
+
+                        txtError.setText("Imposible eliminar, el curso ya posee horario y/o matrícula.");
+                        txtAdded.setText("");
+                    }
 
                 } else {
 
@@ -510,24 +555,68 @@ public class CourseFXMLController implements Initializable {
 
                 if (courseList.contains(element)) {
 
-                    Course c = (Course) courseList.getNode(courseList.indexOf(element)).data;
-                    int index = careersList.indexOf(new Career(c.getCareerID(), ""));
-                    Career c2 = (Career) careersList.getNode(index).data;
+                    boolean delete = true;
+                    //Busca si el curso ya tiene matrícula o horario
 
-                    tfSiglaModify.setText(c.getId());
-                    tfNameCourseModify.setText(c.getName());
-                    tfModifyCreditsCourse.setText(c.getCredits() + "");
-                    comboBoxCourseModify.setValue(c.getCareerID() + "-" + c2.getDescription());
-                    txtError.setText("");
-                    txtAdded.setText("");
-                    tfSiglaModify.setDisable(true);
-                    tfNameCourseModify.setDisable(false);
-                    btnUpdate.setDisable(false);
-                    tfSearchCourserUpdate.setText("");
-                    tfModifyCreditsCourse.setDisable(false);
-                    btnCancelModify.setDisable(false);
-                    btnSearchCourseUpdate.setDisable(true);
-                    comboBoxCourseModify.setDisable(false);
+                    try {
+                        for (int i = 1; i <= enrollmentList.size(); i++) {
+
+                            Enrollment aux = (Enrollment) enrollmentList.getNode(i).data;
+
+                            if (aux.getCourseID().equalsIgnoreCase(element.getId())) {
+
+                                delete = false;
+                                i = enrollmentList.size();
+                            }
+                        }
+                    } catch (ListException e) {
+                    }
+
+                    try {
+                        for (int i = 1; i <= timeTablelList.size(); i++) {
+
+                            TimeTable aux = (TimeTable) timeTablelList.getNode(i).data;
+
+                            if (aux.getCourseID().equalsIgnoreCase(element.getId())) {
+
+                                delete = false;
+                                i = timeTablelList.size();
+                            }
+                        }
+                    } catch (ListException e) {
+                    }
+                    if (delete) {
+
+                        Course c = (Course) courseList.getNode(courseList.indexOf(element)).data;
+
+                        int index = careersList.indexOf(new Career(c.getCareerID(), ""));
+                        Career c2 = (Career) careersList.getNode(index).data;
+
+                        tfSiglaModify.setText(c.getId());
+                        tfNameCourseModify.setText(c.getName());
+                        tfModifyCreditsCourse.setText(c.getCredits() + "");
+                        comboBoxCourseModify.setValue(c.getCareerID() + "-" + c2.getDescription());
+                        txtError.setText("");
+                        txtAdded.setText("");
+                        tfSiglaModify.setDisable(true);
+                        tfNameCourseModify.setDisable(false);
+                        btnUpdate.setDisable(false);
+                        tfSearchCourserUpdate.setText("");
+                        tfModifyCreditsCourse.setDisable(false);
+                        btnCancelModify.setDisable(false);
+                        btnSearchCourseUpdate.setDisable(true);
+                        comboBoxCourseModify.setDisable(false);
+                    } else {
+
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Cursos");
+                        alert.setHeaderText("\nEl curso "+element.getId().toUpperCase()+" no puede modificarse \n"
+                                + "\npuesto que ya tiene horario y/o matrícula asignada.");
+                        alert.showAndWait();
+                        txtError.setText("");
+                        txtAdded.setText("");
+                    }
+
                 } else {
 
                     txtError.setText("Curso no encontrado");
@@ -569,7 +658,6 @@ public class CourseFXMLController implements Initializable {
 
             txtError.setText("Debe rellenar todos los recuadros");
             txtAdded.setText("");
-
         }
     }
 

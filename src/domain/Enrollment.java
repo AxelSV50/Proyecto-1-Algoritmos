@@ -29,6 +29,7 @@ public class Enrollment {
     }
 
 
+
     public int getId() {
         return id;
     }
@@ -51,7 +52,7 @@ public class Enrollment {
 
     @Override
     public String toString() {
-        return studentID+"~"+courseID+"~"+schedule+"~"+util.Utility.dateFormat(date)+"~"+id;
+        return studentID+"~"+courseID+"~"+schedule+"~"+util.Utility.dateFormat(date)+"~"+id+"\n";
     }
     
 }

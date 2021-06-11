@@ -9,6 +9,7 @@ import data.FileManagementTimeTable;
 import domain.Career;
 import domain.list.CircularDoublyLinkedList;
 import domain.Course;
+import domain.Enrollment;
 import domain.list.DoublyLinkedList;
 import domain.list.ListException;
 import domain.list.SinglyLinkedList;
@@ -141,6 +142,7 @@ public class ScheduleFXMLController implements Initializable {
     private DoublyLinkedList careersList = util.Utility.getCareersList();
     private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
     private SinglyLinkedList timeTablelList = util.Utility.getTimeTableList();
+    private CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
 
     /**
      * Initializes the controller class.
@@ -548,7 +550,7 @@ public class ScheduleFXMLController implements Initializable {
                     }
                 }
                 //Comparación de horas día 2 horario 1 y día 1 horario 2
-                 if (cbDay2Schedule1.getValue().equals(cbDay1Schedule2.getValue())) {
+                if (cbDay2Schedule1.getValue().equals(cbDay1Schedule2.getValue())) {
 
                     String[] array1 = cbHour1Schedule2.getValue().split(":");
                     String[] array2 = cbFinalHour1Schedule2.getValue().split(":");
@@ -571,7 +573,7 @@ public class ScheduleFXMLController implements Initializable {
                     }
                 }
                 //Comparación de horas día 2 horario 1 y día 2 horario 2
-               if (cbDay2Schedule1.getValue().equals(cbDay2Schedule2.getValue())) {
+                if (cbDay2Schedule1.getValue().equals(cbDay2Schedule2.getValue())) {
 
                     String[] array1 = cbHour2Schedule2.getValue().split(":");
                     String[] array2 = cbFinalHour2Schedule2.getValue().split(":");
@@ -701,16 +703,41 @@ public class ScheduleFXMLController implements Initializable {
             try {
 
                 //Busca si el elemento está
-                Object element = new TimeTable(tfRemoveId.textProperty().getValue(), "", "", "");
+                TimeTable element = new TimeTable(tfRemoveId.textProperty().getValue(), "", "", "");
 
                 if (timeTablelList.contains(element)) {
 
-                    timeTablelList.remove(element);
-                    //Reescribe el archivo
-                    FileManagementTimeTable.overwriteTimetableFile(timeTablelList);
-                    tfRemoveId.setText("");
-                    txtErrorDelete.setText("");
-                    txtSuccessDelete.setText("Horario eliminado correctamente");
+                    boolean delete = true;
+                    //Busca si el curso ya tiene matrícula
+
+                    try {
+                        for (int i = 1; i <= enrollmentList.size(); i++) {
+
+                            Enrollment aux = (Enrollment) enrollmentList.getNode(i).data;
+
+                            if (aux.getCourseID().equalsIgnoreCase(element.getCourseID())) {
+
+                                delete = false;
+                                i = enrollmentList.size();
+                            }
+                        }
+                    } catch (ListException e) {
+                    }
+
+                    if (delete) {
+
+                        timeTablelList.remove(element);
+                        //Reescribe el archivo
+                        FileManagementTimeTable.overwriteTimetableFile(timeTablelList);
+                        tfRemoveId.setText("");
+                        txtErrorDelete.setText("");
+                        txtSuccessDelete.setText("Horario eliminado correctamente");
+
+                    } else {
+                        txtErrorDelete.setText("Imposible eliminar horario, ya tiene una matrícula asociada.");
+                        txtSuccessDelete.setText("");
+
+                    }
 
                 } else {
 
@@ -763,7 +790,7 @@ public class ScheduleFXMLController implements Initializable {
 
     @FXML
     private void tfRemoveId(KeyEvent event) {
-        
+
         txtSuccess.setText("");
         txtSuccessDelete.setText("");
     }

@@ -24,7 +24,7 @@ public class FXMain extends Application {
     public void start(Stage primaryStage) {
       
 
-        try {
+        try {   
             
             Parent root = FXMLLoader.load(getClass().getResource("/main/menu/MainMenuFXML.fxml"));
             Scene scene = new Scene(root);

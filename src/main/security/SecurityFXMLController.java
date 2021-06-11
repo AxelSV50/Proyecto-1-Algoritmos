@@ -98,6 +98,7 @@ public class SecurityFXMLController implements Initializable {
                     || tfPasswordAdmin.textProperty().getValue().equals("")) && tfPasswordAdmin.isVisible()) {
 
                 infoUsers = FileManagementUsers.getDataLogin(FileManagementUsers.getNameFileAdmin());
+                
                 Security s = new Security(tfUserAdmin.textProperty().getValue(), tfPasswordAdmin.textProperty().getValue());
 
                 if (s.getAccess(null, infoUsers).equals("ADMIN")) {

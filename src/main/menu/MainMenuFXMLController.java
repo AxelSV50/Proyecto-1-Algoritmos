@@ -52,6 +52,8 @@ public class MainMenuFXMLController implements Initializable {
     private DoublyLinkedList careersList = util.Utility.getCareersList();
     private CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
     private SinglyLinkedList studentList = util.Utility.getStudentsList();
+    private CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
+    private CircularDoublyLinkedList deEnrollmentList = util.Utility.getDeEnrollmentList();
     @FXML
     private AnchorPane anchorPaneMainMenu;
     @FXML
@@ -125,13 +127,20 @@ public class MainMenuFXMLController implements Initializable {
     @FXML
     private void opcReports(MouseEvent event) {
 
-        if (!careersList.isEmpty()) {
+        enrollmentList = util.Utility.getEnrollmentList();
+        deEnrollmentList = util.Utility.getDeEnrollmentList();
+
+        if (!(enrollmentList.isEmpty() && deEnrollmentList.isEmpty())) {
 
             //Aquí se genera el pdf
             loadPage("/main/reports/ReportsFXML");
 
         } else {
 
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sección de reportes");
+            alert.setHeaderText("No se pueden generar los reportes actualmente");
+            alert.showAndWait();
         }
     }
 
@@ -188,5 +197,4 @@ public class MainMenuFXMLController implements Initializable {
         this.bp.setRight(root);
     }
 
-    
 }

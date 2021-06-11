@@ -27,6 +27,7 @@ public class Utility {
     private static SinglyLinkedList studentsList;
     private static CircularDoublyLinkedList coursesList;
     private static CircularDoublyLinkedList enrollmentList;
+    private static CircularDoublyLinkedList deEnrollmentList;
     private static SinglyLinkedList timeTableList;
 
     //Tiene las carreras agregadas
@@ -54,6 +55,11 @@ public class Utility {
     public static CircularDoublyLinkedList getEnrollmentList() {
         enrollmentList = data.FileManagementEnrollement.getEnrollmentList();
         return enrollmentList;
+    }
+
+    public static CircularDoublyLinkedList getDeEnrollmentList() {
+        deEnrollmentList = data.FileManagementEnrollement.getDeEnrollmentList();
+        return deEnrollmentList;
     }
 
     public static int random() {
@@ -189,21 +195,11 @@ public class Utility {
 
         switch (instanceOf(a, b)) {
 
-            case "integer":
-                Integer x = (Integer) a;
-                Integer y = (Integer) b;
-                return x.equals(y);
-            case "string":
-                String s1 = (String) a;
-                String s2 = (String) b;
-                //return s1.compareTo(s2)==0; //OPCION 1
-                return s1.equalsIgnoreCase(s2); //OPCION 2
-            case "student":
-                Student st1 = (Student) a;
-                Student st2 = (Student) b;
-                //return s1.compareTo(s2)==0; //OPCION 1
-                return st2.getId() == st1.getId(); //OPCION 2
-        }
+            case "enrollment":
+                Enrollment en1 = (Enrollment) a;
+                Enrollment en2 = (Enrollment) b;
+                return en1.getStudentID().equalsIgnoreCase(en2.getStudentID()) && en2.getCourseID().equalsIgnoreCase(en2.getCourseID());
+        }//revisar esta condicion
 
         return false; //en cualquier otro caso
     }

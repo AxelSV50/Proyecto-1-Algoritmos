@@ -165,22 +165,22 @@ public class CircularDoublyLinkedList implements List {
     @Override
     public void remove(Object element) throws ListException {
         if (isEmpty()) {
-            throw new ListException("SinglyLinkedList is empty");
+            throw new ListException("CircularDoubliyLinkedList is empty");
         }
         //CASO 1. EL ELEMENTO A SUPRIMIR ES EL PRIMERO DE LA LISTA
-        if (util.Utility.equals(first.data, element)) {
+        if (util.Utility.equals2(first.data, element)) {
             first = first.next;
         } else {
             //CASO 2. EL ELEMENTO A SUPRIMIR ESTA EN CUALQUIER OTRO NODO
             Node prev = first; //para dejar rastro, apunta al anterior de aux
             Node aux = first.next;
-            while (aux != last && !util.Utility.equals(aux.data, element)) {
+            while (aux != last && !util.Utility.equals2(aux.data, element)) {
                 prev = aux; //un nodo atras de aux
                 aux = aux.next;
             }
             //se sale cuando aux==last, o cuando encuentra el elemento
             //a suprimir
-            if (util.Utility.equals(aux.data, element)) {
+            if (util.Utility.equals2(aux.data, element)) {
                 //desenlazo o desconecto el nodo
                 Node w = aux.next;
                 prev.next = w;
@@ -188,7 +188,7 @@ public class CircularDoublyLinkedList implements List {
                 w.prev = prev;
             }
             //debo asegurarme q last apunte al ult nodo
-            if (aux == last && util.Utility.equals(aux.data, element)) { //estamos en el ult nodo
+            if (aux == last && util.Utility.equals2(aux.data, element)) { //estamos en el ult nodo
                 last = prev;
             }
             last.next = first;
@@ -197,7 +197,7 @@ public class CircularDoublyLinkedList implements List {
         //mantengo el enlace circular y doble
 
         //Que pasa si solo queda un nodo y es el que quiero eliminar?
-        if (first == last && util.Utility.equals(first.data, element)) {
+        if (first == last && util.Utility.equals2(first.data, element)) {
             clear(); //en este caso anulamos la lista
         }
     }
@@ -437,7 +437,7 @@ public class CircularDoublyLinkedList implements List {
         Node aux = first;
         //el aux es para moverme por la lista hasta el ult elemento
         while (aux != last) {
-            result += aux.data + " ";
+            result += aux.data + "";
             aux = aux.next;
         }
         //se sale cuando aux == last
@@ -450,13 +450,58 @@ public class CircularDoublyLinkedList implements List {
         }
 
         Node aux = getNode(index);
-        Course a = (Course)aux.data;
-                
+        Course a = (Course) aux.data;
+
         if (aux != null) {
             aux.data = element;
         }
-        a = (Course)aux.data;
-        
+        a = (Course) aux.data;
+
+    }
+
+    public void remove(int index) throws ListException {
+        if (isEmpty()) {
+            throw new ListException("CircularDoublyLinkedList is empty");
+        }
+        Node aux = getNode(index);
+
+        if (aux != null) {
+            if (size() == 1 && index == 1) {
+
+                clear();
+
+            } else if (size() == 2) {
+
+                if (index == 1) {
+
+                    this.first = last;
+
+                } else {
+                    last = first;
+                }
+                first.next = null;
+                last.next = null;
+                first.prev = null;
+                last.prev = null;
+            } else if (index == 1 && size() > 2) {
+
+                first = first.next;
+                first.prev = last;
+                first.next.prev = first;
+
+            } else if(aux==last){
+                
+                first.prev = aux.prev;
+                last = aux.prev;
+                last.next = first;
+            }else {
+                  aux.prev.next = aux.next;
+                aux.next.prev = aux.prev;
+                aux.prev = null;
+                aux.next = null;  
+                    }
+        }
+
     }
 
 }
