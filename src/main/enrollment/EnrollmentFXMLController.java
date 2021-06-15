@@ -672,7 +672,6 @@ public class EnrollmentFXMLController implements Initializable {
                 try {
                     util.Mail.sendEnrollmentMessage((Student) studentList.getNode(studentList.indexOf(new Student(Integer.parseInt(studentEnrollment.get(0)), studentEnrollment.get(1), "", "", new Date(), "", "", "", 0))).data);
                 } catch (Exception ex) {
-                    Logger.getLogger(EnrollmentFXMLController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 initTableEnrolledCourses();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -832,7 +831,10 @@ public class EnrollmentFXMLController implements Initializable {
 
                     }
 
-                    util.Mail.sendDeEnrollmentMessage((Student) studentList.getNode(studentList.indexOf(new Student(0, txtCarneStudentDeroll.getText(), "", "", new Date(), "", "", "", 0))).data, deEnrollmentListAux);
+                    try {
+                        util.Mail.sendDeEnrollmentMessage((Student) studentList.getNode(studentList.indexOf(new Student(0, txtCarneStudentDeroll.getText(), "", "", new Date(), "", "", "", 0))).data, deEnrollmentListAux);
+                    } catch (MessagingException ex) {
+                    }
                     deEnrollmentListAux = new CircularDoublyLinkedList();
                     FileManagementEnrollement.overwriteEnrollmentFile(enrollmentList);
                     paneDeEnnrollCourses.setVisible(false);
@@ -841,10 +843,9 @@ public class EnrollmentFXMLController implements Initializable {
                     alert2.setHeaderText("El retiro de cursos se ha realizado satisfatoriamente  ✓");
                     alert2.showAndWait();
 
-                } catch (MessagingException ex) {
-
+              
                 } catch (ListException ex) {
-                }
+                } 
 
             }
         } else {

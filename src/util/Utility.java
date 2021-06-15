@@ -8,6 +8,7 @@ package util;
 import domain.Career;
 import domain.list.CircularDoublyLinkedList;
 import domain.Course;
+import domain.DeEnrollment;
 import domain.Enrollment;
 import domain.list.DoublyLinkedList;
 import domain.list.SinglyLinkedList;
@@ -128,6 +129,11 @@ public class Utility {
                 Enrollment en1 = (Enrollment) a;
                 Enrollment en2 = (Enrollment) b;
                 return en1.getStudentID().equalsIgnoreCase(en2.getStudentID());
+
+            case "deEnrollment":
+                DeEnrollment den1 = (DeEnrollment) a;
+                DeEnrollment den2 = (DeEnrollment) b;
+                return den1.getStudentID().equalsIgnoreCase(den2.getStudentID());
         }//revisar esta condicion
         return false; //en cualquier otro caso
     }
@@ -153,6 +159,9 @@ public class Utility {
         }
         if (a instanceof Enrollment && b instanceof Enrollment) {
             return "enrollment";
+        }
+        if (a instanceof DeEnrollment && b instanceof DeEnrollment) {
+            return "deEnrollment";
         }
         return "unknown"; //desconocido
     }
@@ -199,6 +208,11 @@ public class Utility {
                 Enrollment en1 = (Enrollment) a;
                 Enrollment en2 = (Enrollment) b;
                 return en1.getStudentID().equalsIgnoreCase(en2.getStudentID()) && en2.getCourseID().equalsIgnoreCase(en2.getCourseID());
+            case "course":
+                Course co1 = (Course) a;
+                Course co2 = (Course) b;
+                //return s1.compareTo(s2)==0; //OPCION 1
+                return co1.getId().equalsIgnoreCase(co2.getId()); //OPCION 2
         }//revisar esta condicion
 
         return false; //en cualquier otro caso

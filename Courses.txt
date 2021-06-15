@@ -1,5 +1,12 @@
-IF3000~Programación~4~1
-IF3001~Algoritmos~4~1
-MA045~Cálculo~4~2
-IF3002~Bases de Datos~4~1
-AG01~Álgebra Lineal~3~1
+IF3001~Algoritmos y estructuras de Datos~4~600002
+IF1400~Lógica para Informáticos~4~600002
+IF3100 ~Introducción a los Sistemas de Información~4~600002
+AP6001~Diseño I~4~110214
+AP6005~Taller en Pigmentos~1~110214
+AP6019~Introducción al arte I~3~110214
+DE1004~Historia del derecho I~2~310101
+DE2002~Teoría del Estado I~2~310101
+SO1134~Sociología Básica II~3~310101
+AM1007~Ritmo Auditivo I~2~320246
+AM1008~Ritmo Auditivo II~2~320246
+AM1024~Técnica de la voz~1~320246

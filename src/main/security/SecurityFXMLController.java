@@ -98,7 +98,7 @@ public class SecurityFXMLController implements Initializable {
                     || tfPasswordAdmin.textProperty().getValue().equals("")) && tfPasswordAdmin.isVisible()) {
 
                 infoUsers = FileManagementUsers.getDataLogin(FileManagementUsers.getNameFileAdmin());
-                
+
                 Security s = new Security(tfUserAdmin.textProperty().getValue(), tfPasswordAdmin.textProperty().getValue());
 
                 if (s.getAccess(null, infoUsers).equals("ADMIN")) {
@@ -111,7 +111,7 @@ public class SecurityFXMLController implements Initializable {
                     tfPasswordStudent.setText("");
                     tfShowPasswordStudent.setText("");
                     txtErrorLogin.setVisible(false);
-                    loadPage("MainMenuFXML");
+                    loadPage("/main/menu/MainMenuFXML");
                 } else {
 
                     txtErrorLogin.setVisible(true);
@@ -133,7 +133,7 @@ public class SecurityFXMLController implements Initializable {
                     tfPasswordStudent.setText("");
                     tfShowPasswordStudent.setText("");
                     txtErrorLogin.setVisible(false);
-                    loadPage("MainMenuFXML");
+                    loadPage("/main/menu/MainMenuFXML");
                 } else {
 
                     txtErrorLogin.setVisible(true);
@@ -155,7 +155,15 @@ public class SecurityFXMLController implements Initializable {
 
                 if (s.getAccess(infoUsers, null).equals("STUDENT")) {
 
-                    //Aquí se carga el módulo 7
+                    tfUserAdmin.setText("");
+                    tfPasswordAdmin.setText("");
+                    tfShowPasswordAdmin.setText("");
+                    tfStudentID.setText("");
+                    tfPasswordStudent.setText("");
+                    tfShowPasswordStudent.setText("");
+                    txtErrorLogin.setVisible(false);
+                    loadPage("/main/reports/ReportsFXML");
+
                 } else {
 
                     txtErrorLogin.setVisible(true);
@@ -169,8 +177,15 @@ public class SecurityFXMLController implements Initializable {
                 Security s = new Security(tfStudentID.textProperty().getValue(), tfShowPasswordStudent.textProperty().getValue());
 
                 if (s.getAccess(infoUsers, null).equals("STUDENT")) {
+                    tfUserAdmin.setText("");
+                    tfPasswordAdmin.setText("");
+                    tfShowPasswordAdmin.setText("");
+                    tfStudentID.setText("");
+                    tfPasswordStudent.setText("");
+                    tfShowPasswordStudent.setText("");
+                    txtErrorLogin.setVisible(false);
+                    loadPage("/main/reports/ReportsFXML");
 
-                    //Aquí se carga el módulo 7
                 } else {
 
                     txtErrorLogin.setVisible(true);
@@ -245,7 +260,7 @@ public class SecurityFXMLController implements Initializable {
 
         try {
 
-            root = FXMLLoader.load(getClass().getResource("/main/menu/"+page+".fxml"));
+            root = FXMLLoader.load(getClass().getResource(page + ".fxml"));
 
         } catch (IOException ex) {
             Logger.getLogger(SecurityFXMLController.class.getName()).log(Level.SEVERE, null, ex);

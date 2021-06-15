@@ -1,2 +1,4 @@
-1,Informática Empresarial
-2,Turismo
+600002,Informática Empresarial
+110214,Diseño Grafico
+310101,Derecho
+320246,Enseñanza de la Musica

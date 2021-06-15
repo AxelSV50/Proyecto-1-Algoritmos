@@ -39,10 +39,10 @@ public class Mail {
     private static CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
     private static CircularDoublyLinkedList courseList = util.Utility.getCoursesList();
 
-    public static void sendWelcomeMessage(Student student) throws MessagingException, ListException {
+  public static void sendWelcomeMessage(Student student) throws MessagingException, ListException {
 
-        // se obtiene el objeto Session. La configuración es para
-        // una cuenta de gmail.
+        // se obtiene el objeto Session
+        // y se rellena la variable Properties.
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.setProperty("mail.smtp.starttls.enable", "true");
@@ -52,10 +52,12 @@ public class Mail {
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         Session session = Session.getDefaultInstance(props, null);
 
-        // Se compone la parte del texto
+        // Se accede a careersList
         int index = careersList.indexOf(new Career(student.getCareerID(), ""));
         Career c = (Career) careersList.getNode(index).data;
+       //Para construir el cuerpo del mensaje se debe tener dos partes el texto y la imagen a agregar.
 
+        //Se compone el texto del correo 
         BodyPart texto = new MimeBodyPart();
         texto.setText("La Universidad de Costa Rica le desea la más cordial bienvenida. \n\n"
                 + "Sus datos personales son: \n" + "\nNombre completo: " + student.getFirstname() + " " + student.getLastname()
@@ -64,18 +66,19 @@ public class Mail {
                 + "\nCorreo electrónico: " + student.getEmail() + "\nCarrera: " + c.getDescription()
                 + "\n\n© 2021 Sistema de Matrícula");
 
-        // Se compone el adjunto con la imagen
+        // Se compone  la imagen
         BodyPart adjunto = new MimeBodyPart();
         adjunto.setDataHandler(
                 new DataHandler(new FileDataSource("firma-ucr-ico.png")));
         adjunto.setFileName("firma-ucr-ico.png");
 
-        // Una MultiParte para agrupar texto e imagen.
+        // Una MultiParte para agrupar el texto e imagen.
         MimeMultipart multiParte = new MimeMultipart();
         multiParte.addBodyPart(adjunto);
         multiParte.addBodyPart(texto);
-        // Se compone el correo, dando to, from, subject y el
-        // contenido.
+        // se debe pasarle el objeto Session 
+        // se debe rellenar los campos de destinatario 
+        //el contenido de MineMultipart, todo esto se pasa a MimeMessage.
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress("yo@yo.com"));
         message.addRecipient(
@@ -84,13 +87,16 @@ public class Mail {
         message.setSubject("Bienvenido(a) a la Universidad de Costa Rica");
         message.setContent(multiParte);
 
-        // Se envia el correo.
+        //  Transport se encarga del envío del correo 
+        //para esto requiere  los datos y contraseña del correo del remitente
         Transport t = session.getTransport("smtp");
         t.connect(SYSTEM_MAIL, PASSWORD);
         t.sendMessage(message, message.getAllRecipients());
         t.close();
 
     }
+
+  // para los demas metodos no cambia la estrutura.
 
     public static void sendModifyMessage(Student student) throws MessagingException, ListException {
 

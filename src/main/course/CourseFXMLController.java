@@ -347,6 +347,7 @@ public class CourseFXMLController implements Initializable {
                     }
 
                     if (delete) {
+                        
                         courseList.remove(element);
                         //Reescribe el archivo
                         FileManagementCourses.overwriteCourseFile(courseList);

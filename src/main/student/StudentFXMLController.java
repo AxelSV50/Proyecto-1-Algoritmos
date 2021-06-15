@@ -7,10 +7,12 @@ package main.student;
 
 import data.FileManagementUsers;
 import domain.Career;
+import domain.Enrollment;
 import domain.list.DoublyLinkedList;
 import domain.list.ListException;
 import domain.list.SinglyLinkedList;
 import domain.Student;
+import domain.list.CircularDoublyLinkedList;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
@@ -136,6 +138,7 @@ public class StudentFXMLController implements Initializable {
     //Copiar esto
     private DoublyLinkedList careersList = util.Utility.getCareersList();
     private SinglyLinkedList studentList = util.Utility.getStudentsList();
+    private CircularDoublyLinkedList enrollmentList = util.Utility.getEnrollmentList();
 
     @FXML
     private Button btnModify;
@@ -306,12 +309,17 @@ public class StudentFXMLController implements Initializable {
 
                 if (studentList.contains(a)) {
 
-                    studentList.remove(a);
-                    FileManagementUsers.overwriteStudentsFile(studentList);
-                    studentList = util.Utility.getStudentsList();
-                    txtSuccess.setText("Eliminado correctamente");
-                    txtError.setText("");
-                    tfDeleteStudent.setText("");
+                    if (!enrollmentList.contains(new Enrollment(null, a.getStudentID(), "", "", 0))) {
+                        studentList.remove(a);
+                        FileManagementUsers.overwriteStudentsFile(studentList);
+                        studentList = util.Utility.getStudentsList();
+                        txtSuccess.setText("Eliminado correctamente");
+                        txtError.setText("");
+                        tfDeleteStudent.setText("");
+                    } else {
+                        txtSuccess.setText("");
+                        txtError.setText("Imposible eliminar, el estudiante cuenta con matrícula");
+                    }
 
                 } else {
                     txtSuccess.setText("");
@@ -599,7 +607,7 @@ public class StudentFXMLController implements Initializable {
                 if (tfEmailModify.getText().equals(a.getEmail())) {
                     count--;
                 }
-                
+
                 if (count == 0) {
 
                     util.Mail.sendModifyMessage(newElement);
@@ -634,10 +642,10 @@ public class StudentFXMLController implements Initializable {
 
                     txtSuccess.setText("Estudiante modificado correctamente");
 
-                }else{
-                    
+                } else {
+
                     txtError.setText("El nuevo correo ya está en uso");
-                txtSuccess.setText("");
+                    txtSuccess.setText("");
                 }
 
             } catch (ListException ex) {
@@ -666,8 +674,8 @@ public class StudentFXMLController implements Initializable {
 
     @FXML
     private void tfAddEmail(KeyEvent event) {
-        
-         txtSuccess.setText("");
+
+        txtSuccess.setText("");
 
         try {
 
@@ -692,7 +700,7 @@ public class StudentFXMLController implements Initializable {
 
     @FXML
     private void tfEmailModify(KeyEvent event) {
-        
+
         txtSuccess.setText("");
 
         try {
